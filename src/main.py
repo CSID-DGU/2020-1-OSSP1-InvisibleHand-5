@@ -1,3 +1,5 @@
+import sys
+
 # 전처리 모듈
 import preprocessing
 # 형태소 분석 모듈
@@ -5,7 +7,7 @@ import preprocessing
 # 구문 분석 모듈
 # import module.syntax
 from konlpy.tag import Komoran
-from matplotlib import pyplot as plt
+from matplotlib import pyplot as plt # graph #python -m pip install matplotlib
 import numpy as np
 
 numOfPage = 200
@@ -30,8 +32,6 @@ for n in range(0, numOfCharacter):
     name = input()
     userDic.write(f"{name} nnp\n")
     listOfCharacter.append(name)
-
-
 userDic.close()
 
 # ---------- 2. 전처리 ----------
