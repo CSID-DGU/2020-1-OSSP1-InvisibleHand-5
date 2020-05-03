@@ -79,6 +79,3 @@ def analyze_speaker(df,listOfCharacter):
       #for word in chunks.label:
        # print(word)
       #print(chunks.pprint())
-
-
-
