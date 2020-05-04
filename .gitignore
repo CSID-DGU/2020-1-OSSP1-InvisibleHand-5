@@ -11,6 +11,11 @@
 venv/*
 
 >>>>>>> af87f5d17ecd241948ae69d858abcdc5eb1f7037
+=======
+.idea/*
+venv/*
+
+>>>>>>> af87f5d17ecd241948ae69d858abcdc5eb1f7037
 # User-specific stuff
 .idea/**/workspace.xml
 .idea/**/tasks.xml
