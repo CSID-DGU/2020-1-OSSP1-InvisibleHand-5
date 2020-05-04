@@ -5,6 +5,12 @@
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio and WebStorm
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
 
+<<<<<<< HEAD
+=======
+.idea/*
+venv/*
+
+>>>>>>> af87f5d17ecd241948ae69d858abcdc5eb1f7037
 # User-specific stuff
 .idea/**/workspace.xml
 .idea/**/tasks.xml
@@ -99,8 +105,6 @@ __pycache__/
 *.so
 
 # Distribution / packaging
-venv/
-.idea/
 .Python
 build/
 develop-eggs/
