@@ -44,10 +44,11 @@ grammar = '''
 '''
 
 def analyze_speaker(df,listOfCharacter):
+listOfCharacter = ["김첨지","치삼이","개똥이"] # test
+
 
     for line in df["문장"]:
       token_list = kom.pos(line)
-
       for token in token_list:
         if 'SW' in token[1]:  # 기타 기호 삭제
                 token_list.remove(token)
@@ -79,3 +80,4 @@ def analyze_speaker(df,listOfCharacter):
       #for word in chunks.label:
        # print(word)
       #print(chunks.pprint())
+
