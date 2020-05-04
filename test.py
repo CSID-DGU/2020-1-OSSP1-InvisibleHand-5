@@ -4,8 +4,8 @@ from konlpy.tag import Komoran
 
 komoran = Komoran(userdic='user_dic.txt')
 
-print(komoran.nouns('최윤호가 김우용, 박종근이랑'))
-print(komoran.pos('최윤호가 김우용, 박종근이랑'))
+print(komoran.pos('철수와 '))
+print(komoran.morphs('철수는 행복하지 않다'))
 
 '''f = open('res/book/test.txt', 'r', encoding='UTF8')
 

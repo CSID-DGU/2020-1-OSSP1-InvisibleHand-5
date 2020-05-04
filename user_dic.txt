@@ -1,2 +1,4 @@
 김우용	NNP
 알파실	NNP
+치삼	NNP
+김첨지	NNP
