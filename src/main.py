@@ -10,7 +10,7 @@ import numpy as np
 
 numOfPage = 200
 numOfEmotion = 6
-
+listOfEmotion = ['기쁨', '슬픔', '분노', '공포', '혐오', '놀람']
 # -------------------- 1. 입력 데이터 설정 --------------------
 # 파일 입력
 fileName = input() + ".txt"
@@ -40,7 +40,7 @@ for n in range(0, numOfCharacter):
 userDic.close()
 
 # -------------------- 2. 전처리 --------------------
-# 개행 문자 제거 , 꺽쇠 -> 따옴표 변환 ,
+# 개행 문자 제거 , 꺽쇠 -> 따옴표 변환 , 한자 제거
 context = preprocessing.del_new_lines(book)
 
 # 단위  1p? = 전체 글자수 / 200
@@ -50,12 +50,14 @@ unit = int(len(context) / numOfPage)
 
 
 # -------------------- 4. 감정 분석 --------------------
+for page in range():
 
 
 # -------------------- 5. 결과 추출 --------------------
 
 fontprop = fm.FontProperties(fname="../res/fonts/malgun.ttf", size=24).get_name()
 plt.rc('font', family=fontprop)
+plt.rcParams['figure.figsize'] = (10, 6)
 plt.rcParams['axes.unicode_minus'] = False
 
 # 결과 1. 각 등장인물의 페이지별 감정 수준
@@ -64,17 +66,23 @@ x = np.arange(1, numOfPage)
 
 for num in range(0, numOfCharacter):
     plt.figure(num)
+    plt.title(f'{listOfCharacter[num]}')
     plt.xlabel('페이지')
     plt.ylabel('감정 레벨')
     for emo in range(0, numOfEmotion):
-        plt.plot(x, vector1[num][emo][x])
+        plt.plot(x, vector1[num][emo][x], label=listOfEmotion[emo])
+    plt.legend()
 
 # 결과 2. 모든 등장인물의 페이지별 감정 흐름
 # 그래프 생성 및 등장인물 별 감정 흐름 값 대입
 plt.figure(numOfCharacter)
-plt.plot(x, vector2[num][x])
+plt.title("등장인물 별 감정 흐름")
 plt.xlabel('페이지')
 plt.ylabel('감정 레벨')
+for num in range(0, numOfCharacter):
+    plt.plot(x, vector2[num][x], label=listOfCharacter[num])
+
+plt.legend()
 
 # 그래프 출력
 plt.show()
