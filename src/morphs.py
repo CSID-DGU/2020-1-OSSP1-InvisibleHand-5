@@ -80,4 +80,3 @@ listOfCharacter = ["김첨지","치삼이","개똥이"] # test
       #for word in chunks.label:
        # print(word)
       #print(chunks.pprint())
-
