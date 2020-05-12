@@ -1,7 +1,7 @@
 import re
 import csv
 import sys
-lex_file = open('../res/book/Korean_Lexicon.txt','rt', encoding='UTF8')
+lex_file = open('../res/dic/Korean_Lexicon.txt','rt', encoding='UTF8')
 lex_file.seek(0)
 stab = re.compile("[^\t]+")
 
