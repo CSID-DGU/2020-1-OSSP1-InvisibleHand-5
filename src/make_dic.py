@@ -7,7 +7,6 @@ stab = re.compile("[^\t]+")
 
 sentiments = ['anger', 'anticipation', 'disgust', 'fear', 'joy','sadness', 'surprise', 'trust']
 
-sents = {}
 anger = {}
 anticipation = {}
 disgust = {}
@@ -27,30 +26,24 @@ while line_data:
        
     if val1==sentiments[0]:
         anger[key] = [val1,val2]
-        sents[key] = [val1,val2]
         line_data = lex_file.readline()
     elif val1 == sentiments[1]:
         anticipation[key] = [val1,val2]
         line_data = lex_file.readline()
     elif val1 == sentiments[2]:
         disgust[key] = [val1,val2]
-        sents[key] = [val1,val2]
         line_data = lex_file.readline()
     elif val1 == sentiments[3]:
         fear[key] = [val1,val2]
-        sents[key] = [val1,val2]
         line_data = lex_file.readline()
     elif val1 == sentiments[4]:
         joy[key] = [val1,val2]
-        sents[key] = [val1,val2]
         line_data = lex_file.readline()
     elif val1 == sentiments[5]:
         sadness[key] =[val1,val2]
-        sents[key] = [val1,val2]
         line_data = lex_file.readline()
     elif val1 == sentiments[6]:
         surprise[key] = [val1,val2]
-        sents[key] = [val1,val2]
         line_data = lex_file.readline()
     elif val1 == sentiments[7]:
         trust[key] =[val1,val2]
@@ -58,5 +51,4 @@ while line_data:
     else :
         print('끝')
 
-print(sys.getsizeof(sents))
 lex_file.close()
