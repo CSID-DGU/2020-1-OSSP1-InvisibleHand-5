@@ -18,6 +18,7 @@ def create_userdic(numOfCharacter, listOfCharacter):
         userdic.write(f"{name}\tNNP\n")
         listOfCharacter.append(name)
 
+
     userdic.close()
 
 

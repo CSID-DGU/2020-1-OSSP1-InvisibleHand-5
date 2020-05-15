@@ -66,8 +66,6 @@ def analyze_speaker(df,listOfCharacter):
           for word in sub_tree.leaves(): # 임시 테스트
               if word[0] == "김 첨지":
                   character += word[0] + ", "
-
-
       print("주어: "+subject)
       print("목적어: "+object)
       print("등장인물: "+character)
