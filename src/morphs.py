@@ -44,9 +44,6 @@ grammar = '''
 '''
 
 def analyze_speaker(df,listOfCharacter):
-listOfCharacter = ["김첨지","치삼이","개똥이"] # test
-
-
     for line in df["문장"]:
       token_list = kom.pos(line)
       for token in token_list:
@@ -70,6 +67,7 @@ listOfCharacter = ["김첨지","치삼이","개똥이"] # test
           for word in sub_tree.leaves(): # 임시 테스트
               if word[0] == "김 첨지":
                   character += word[0] + ", "
+
 
       print("주어: "+subject)
       print("목적어: "+object)
