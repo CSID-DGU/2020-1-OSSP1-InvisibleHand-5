@@ -53,7 +53,6 @@ def analyze_speaker(df,listOfCharacter):
              token_list.remove(token)
         if 'SH' in token[1]:  # 한자 삭제
                 token_list.remove(token)
-
       parser = nltk.RegexpParser(grammar)
       chunks = parser.parse(token_list)
       subject = ""
