@@ -58,7 +58,27 @@ def analyze_speaker(df,listOfCharacter):
 
       parser = nltk.RegexpParser(grammar)
       chunks = parser.parse(token_list)
-      print(chunks.pprint())
+      subject = ""
+      object = ""
+      character=""
+      for sub_tree in chunks.subtrees():
+          if sub_tree.label() == "주어":
+              subject += sub_tree[0][0] + ", "
+          elif sub_tree.label() == "목적어":
+              object += sub_tree[0][0] + ", "
+          for word in sub_tree.leaves(): # 임시 테스트
+              if word[0] == "김 첨지":
+                  character += word[0] + ", "
+
+      print("주어: "+subject)
+      print("목적어: "+object)
+      print("등장인물: "+character)
+      print("")
+      #df['주어'] = pd.Series(subject, index=df.index)
+      #df['목적어'] = pd.Series(temp, index=df.index)
+      #for word in chunks.label:
+       # print(word)
+      #print(chunks.pprint())
 
 
 
