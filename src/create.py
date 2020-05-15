@@ -1,11 +1,12 @@
 import numpy as np
+import pandas as pd
 import re
 
 
 # 소설 입력
-def open_book():
-    fileName = input("소설명 : ") + ".txt"
-    book = open(f'../res/book/{fileName}', "rt", encoding='UTF8')
+def open_book(fileName):
+    fileName = fileName + ".txt"
+    book = open(f'../res/book/{fileName}', "rt", encoding='UTF8', errors='ignore')
     return book
 
 
@@ -18,6 +19,39 @@ def create_userdic(numOfCharacter, listOfCharacter):
         listOfCharacter.append(name)
 
     userdic.close()
+
+
+# 문장 테이블 생성 [문장, 마치는 글자, 대화 여부, 다음 문장과 연결 여부]
+# 현재 한 줄 밀리는 버그 있음
+def create_sentence_table(context):
+    isConversation = False
+    sentence_table = {}
+    isCon = []
+    isNext = []
+    buffer = ""
+    for char in context:
+        buffer = buffer + char
+        if char == '\"':
+            isConversation = not isConversation
+            if not isConversation:  # 닫는 따옴표 -> 대화 여부 True
+                sentence_table[buffer] = buffer[-2]
+                isCon.append("대화문")
+                if context[context.index(char) + 1] != " ":  # 다음 문장이 띄어져있지않다면
+                    isNext.append("연결")  # 다음 문장 연결 여부 True
+                    buffer = ""
+                else:  # 다음 문장이
+                    isNext.append("미연결")  # 다음 문장 연결 여부 False
+                    buffer = ""
+        elif (char == '.' or char == '?' or char == '!') and (not isConversation):  # 서술 문장 마침
+            sentence_table[buffer] = char
+            isCon.append("서술문")
+            isNext.append(" ")
+            buffer = ""
+    sentence_table["test"] = "test"
+    df = pd.DataFrame(sentence_table.items(), columns=['문장', '구두 문자'])
+    df['문장 종류'] = pd.Series(isCon, index=df.index)
+    df['연결 여부'] = pd.Series(isNext, index=df.index)
+    return df
 
 
 # <결과 1. 각 등장인물의 페이지별 각 감정 수준> 을 표현할
@@ -92,3 +126,7 @@ def create_emotion_dictionary():
     lex_file.close()
 
     return emotion_dictionary_lists
+
+
+def save_df(df, fileName):
+    df.to_excel(f"../res/output/{fileName}.xlsx")
