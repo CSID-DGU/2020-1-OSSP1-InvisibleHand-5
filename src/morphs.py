@@ -2,6 +2,8 @@
 
 from konlpy.tag import Komoran
 import nltk
+import create
+import pandas as pd
 
 kom=Komoran(userdic = 'userDic.txt')
 
@@ -43,40 +45,22 @@ grammar = '''
 독립어: {<SF>+<MAJ>}
 '''
 
-f=open('../res/book/test1.txt', 'r', encoding='UTF8')
+def analyze_speaker(df):
+    line = df.문장
+    tokenList = kom.pos(line)
 
-for line in f:
-    if len(line) > 1: # 추후 엔터 제거 전처리 적용 예정
-        line = line.strip('\n')
-        tokenList=kom.pos(line)
+    for token in tokenList:
+        if 'SW' in token[1]:  # 기타 기호 삭제
+            tokenList.remove(token)
+        if 'NA' in token[1]:  # 분석불능범주 삭제
+            tokenList.remove(token)
+        if 'SH' in token[1]:  # 한자 삭제
+            tokenList.remove(token)
 
-        for token in tokenList:
-            if 'SW' in token[1]: #기타 기호 삭제
-                tokenList.remove(token)
-            if 'NA' in token[1]: # 분석불능범주 삭제
-                tokenList.remove(token)
-            if 'SH' in token[1]: # 한자 삭제
-                tokenList.remove(token)
+    words = tokenList
+    parser = nltk.RegexpParser(grammar)
+    chunks = parser.parse(words)
+    print(chunks.pprint())
 
-        words = tokenList
-        parser = nltk.RegexpParser(grammar)
-        chunks = parser.parse(words)
 
-        print(chunks.pprint())
-
-        """for i in tokenList:
-            for j in listOfCharacter:
-                if tokenList[i][0] == listOfCharacter[j]:
-        for i in tokenList:
-            if i[1] == 'NNP':  # 등장인물 선별 위해 고유명사 체크
-                tempList = i[0]
-        for i in tempList:
-            for j in listOfCharacter:
-                if i == j: # 등장인물이 있으면
-                    print(i)
-                    # 해당문장에 대한 감정분석
-                    """
-
-        print('\n')
-f.close()
 
