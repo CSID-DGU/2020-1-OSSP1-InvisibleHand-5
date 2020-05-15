@@ -66,7 +66,8 @@ def create_sentence_table(context, listOfEmotion):
     df['연결 여부'] = pd.Series(connect, index=df.index)
     df['주어'] = ""
     df['목적어'] = ""
-    df['단어'] = ""
+    df['감정 단어'] = ""
+    df['화자'] = ""
     for emo in listOfEmotion:
         df[f'{emo}'] = 0.0
     return df
