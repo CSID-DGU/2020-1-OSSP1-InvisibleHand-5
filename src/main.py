@@ -13,10 +13,6 @@ book = create.open_book(fileName)
 # 전처리
 context = preprocess.remove_etc(book)
 
-# 문장 테이블 생성
-df = create.create_sentence_table(context)
-create.save_df(df, fileName)
-
 # 변수 선언
 charOfPage = 700
 listOfEmotion = ['기쁨', '슬픔', '분노', '공포', '혐오', '놀람']
@@ -24,6 +20,10 @@ numOfEmotion = len(listOfEmotion)
 numOfPage = math.ceil(len(context) / charOfPage)
 numOfCharacter = int(input("등장인물 수 : "))
 listOfCharacter = []
+
+# 문장 테이블 생성
+df = create.create_sentence_table(context, listOfEmotion)
+create.save_df(df, fileName)
 
 # 사용자 사전 생성
 create.create_userdic(numOfCharacter, listOfCharacter)
