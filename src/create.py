@@ -2,7 +2,6 @@ import numpy as np
 import pandas as pd
 import re
 
-
 # 소설 입력
 def open_book(fileName):
     fileName = fileName + ".txt"
@@ -17,7 +16,6 @@ def create_userdic(numOfCharacter, listOfCharacter):
         name = input(f"등장인물 {n + 1} : ")
         userdic.write(f"{name}\tNNP\n")
         listOfCharacter.append(name)
-
 
     userdic.close()
 
@@ -71,6 +69,39 @@ def create_sentence_table(context, listOfEmotion):
     df['화자'] = ""
     for emo in listOfEmotion:
         df[f'{emo}'] = 0.0
+    userdic.close()
+
+
+# 문장 테이블 생성 [문장, 마치는 글자, 대화 여부, 다음 문장과 연결 여부]
+# 현재 한 줄 밀리는 버그 있음
+def create_sentence_table(context):
+    isConversation = False
+    sentence_table = {}
+    isCon = []
+    isNext = []
+    buffer = ""
+    for char in context:
+        buffer = buffer + char
+        if char == '\"':
+            isConversation = not isConversation
+            if not isConversation:  # 닫는 따옴표 -> 대화 여부 True
+                sentence_table[buffer] = buffer[-2]
+                isCon.append("대화문")
+                if context[context.index(char) + 1] != " ":  # 다음 문장이 띄어져있지않다면
+                    isNext.append("연결")  # 다음 문장 연결 여부 True
+                    buffer = ""
+                else:  # 다음 문장이
+                    isNext.append("미연결")  # 다음 문장 연결 여부 False
+                    buffer = ""
+        elif (char == '.' or char == '?' or char == '!') and (not isConversation):  # 서술 문장 마침
+            sentence_table[buffer] = char
+            isCon.append("서술문")
+            isNext.append(" ")
+            buffer = ""
+    sentence_table["test"] = "test"
+    df = pd.DataFrame(sentence_table.items(), columns=['문장', '구두 문자'])
+    df['문장 종류'] = pd.Series(isCon, index=df.index)
+    df['연결 여부'] = pd.Series(isNext, index=df.index)
     return df
 
 
