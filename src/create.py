@@ -21,36 +21,54 @@ def create_userdic(numOfCharacter, listOfCharacter):
     userdic.close()
 
 
-# 문장 테이블 생성 [문장, 마치는 글자, 대화 여부, 다음 문장과 연결 여부]
-# 현재 한 줄 밀리는 버그 있음
-def create_sentence_table(context):
-    isConversation = False
-    sentence_table = {}
-    isCon = []
-    isNext = []
+# 문장 리스트 생성
+def create_sentence_list(context):
+    conversation = False
+    conversation_end = False
+    sentence = []
+    punctuation = []
+    kind = []
+    connect = []
     buffer = ""
+
     for char in context:
         buffer = buffer + char
         if char == '\"':
-            isConversation = not isConversation
-            if not isConversation:  # 닫는 따옴표 -> 대화 여부 True
-                sentence_table[buffer] = buffer[-2]
-                isCon.append("대화문")
-                if context[context.index(char) + 1] != " ":  # 다음 문장이 띄어져있지않다면
-                    isNext.append("연결")  # 다음 문장 연결 여부 True
-                    buffer = ""
-                else:  # 다음 문장이
-                    isNext.append("미연결")  # 다음 문장 연결 여부 False
-                    buffer = ""
-        elif (char == '.' or char == '?' or char == '!') and (not isConversation):  # 서술 문장 마침
-            sentence_table[buffer] = char
-            isCon.append("서술문")
-            isNext.append(" ")
+            if conversation:  # 닫는 따옴표 -> 대화문
+                sentence.append(buffer)
+                punctuation.append(buffer[-2])
+                kind.append("대화문")
+                conversation_end = True
+                buffer = ""
+            conversation = not conversation
+        elif (char == '.' or char == '?' or char == '!') and (not conversation):  # 따옴표 밖의 구두 문자 -> 서술문
+            sentence.append(buffer)
+            punctuation.append(char)
+            kind.append("서술문")
+            connect.append("")
             buffer = ""
-    sentence_table["test"] = "test"
-    df = pd.DataFrame(sentence_table.items(), columns=['문장', '구두 문자'])
-    df['문장 종류'] = pd.Series(isCon, index=df.index)
-    df['연결 여부'] = pd.Series(isNext, index=df.index)
+        elif conversation_end:  # 대화문 다음 글자가
+            if char == " ":  # 공백이라면 미연결
+                connect.append("미연결")
+            else:
+                connect.append("연결")  # 글자라면 연결
+            conversation_end = False
+    connect.append("test")
+    return sentence, punctuation, kind, connect
+
+
+# 문장 테이블 생성 [문장, 구두문자, 문장 종류, 연결 여부, 주어, 목적어, 감정 별 점수]
+def create_sentence_table(context, listOfEmotion):
+    sentence, punctuation, kind, connect = create_sentence_list(context)
+    df = pd.DataFrame(sentence, columns=['문장'])
+    df['구두 문자'] = pd.Series(punctuation, index=df.index)
+    df['문장 종류'] = pd.Series(kind, index=df.index)
+    df['연결 여부'] = pd.Series(connect, index=df.index)
+    df['주어'] = ""
+    df['목적어'] = ""
+    df['단어'] = ""
+    for emo in listOfEmotion:
+        df[f'{emo}'] = 0.0
     return df
 
 
