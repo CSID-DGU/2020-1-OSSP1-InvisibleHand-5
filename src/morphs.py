@@ -5,9 +5,7 @@ import nltk
 import create
 import pandas as pd
 
-kom=Komoran(userdic = 'userDic.txt')
-
-listOfCharacter = ["김첨지", "치삼이", "개똥이"] # test
+kom=Komoran(userdic = 'userDic.txt') # 사용자 사 적용
 grammar = '''
 # 체언 = 명사/대명사/수사(NN*/NP/NR)
 # 주어 = 체언 + 주격 조사/보조사(JKS/JX)
@@ -45,22 +43,22 @@ grammar = '''
 독립어: {<SF>+<MAJ>}
 '''
 
-def analyze_speaker(df):
-    line = df.문장
-    tokenList = kom.pos(line)
+def analyze_speaker(df,listOfCharacter):
 
-    for token in tokenList:
+    for line in df["문장"]:
+      token_list = kom.pos(line)
+
+      for token in token_list:
         if 'SW' in token[1]:  # 기타 기호 삭제
-            tokenList.remove(token)
+                token_list.remove(token)
         if 'NA' in token[1]:  # 분석불능범주 삭제
-            tokenList.remove(token)
+             token_list.remove(token)
         if 'SH' in token[1]:  # 한자 삭제
-            tokenList.remove(token)
+                token_list.remove(token)
 
-    words = tokenList
-    parser = nltk.RegexpParser(grammar)
-    chunks = parser.parse(words)
-    print(chunks.pprint())
+      parser = nltk.RegexpParser(grammar)
+      chunks = parser.parse(token_list)
+      print(chunks.pprint())
 
 
 

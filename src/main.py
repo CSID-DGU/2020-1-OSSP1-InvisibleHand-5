@@ -26,11 +26,11 @@ listOfCharacter = []
 df = create.create_sentence_table(context, listOfEmotion)
 create.save_df(df, fileName)
 
-# 화자 분석
-morphs.analyze_speaker(df)
-
 # 사용자 사전 생성
 create.create_userdic(numOfCharacter, listOfCharacter)
+
+# 화자 분석
+morphs.analyze_speaker(df, listOfCharacter)
 
 # 감정 사전 생성
 emotion_dictionary_lists = create.create_emotion_dictionary()

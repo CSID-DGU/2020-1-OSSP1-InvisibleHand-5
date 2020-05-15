@@ -66,7 +66,6 @@ def analyze_text(numOfPage, charOfPage, emotion_dictionary_lists, emotionVector,
     context = u'그의 아내는 살인자이다.'
     words = komoran.pos(context)
 
-
     count = 0
     for page in range(0, numOfPage):  # 페이지 수 만큼
         count += len(context)  # 문장 길이 만큼 count 증가
