@@ -2,7 +2,7 @@ import re
 
 
 def del_new_lines(book):
-    context = book.read().replace("\n", "")
+    context = book.read().replace("\n", " ")
     return context
 
 
@@ -18,5 +18,17 @@ def remove_chinese(string):  # 매개변수 = 문자열.(한자 제거)
     return string
 
 
+def change_etc(string):
+    ch = '[\u201c-\u201d]'
+    string = re.sub(ch, '\"', string)
+    ch = '\u2014'
+    string = re.sub(ch, 'ㅡ', string)
+    return string
+
+
 def remove_etc(book):
-    return remove_chinese(change_to_qm(del_new_lines(book)))
+    context = del_new_lines(book)
+    context = change_to_qm(context)
+    context = remove_chinese(context)
+    context = change_etc(context)
+    return context
