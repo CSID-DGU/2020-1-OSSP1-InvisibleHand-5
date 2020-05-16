@@ -4,7 +4,7 @@ import nltk
 from konlpy.tag import Komoran
 komoran = Komoran()
 
-context = u'그의 아내가 기침으로 쿨럭거리기는 벌써 달포가 넘었다.'
+context = u'사흘 전부터 설렁탕 국물이 마시고 싶다고 남편을 졸랐다.'
 words = komoran.pos(context)
 
 # 구문 분석 규칙 정의
@@ -36,7 +36,7 @@ grammar = '''
 #         동사/형용사(VV/VA) + 부사형 어미(EC)
 #         -> komoran에 부사형 어미 존재X, 연결어미(EC)로 출력됨. 서술어와 구분 필요
 부사어: {<MA.*>}
-부사어: {<N.*>+<JKB>}
+부사어: {<N.*>+<JKB>+<JX>}
 부사어: {<V.*><EC>}
 
 # 관형어 = 관형사(MM)
@@ -53,7 +53,12 @@ grammar = '''
 독립어: {<N.*>+<JKV>}
 독립어: {<SF>+<MAJ>}
 '''
+
 parser = nltk.RegexpParser(grammar)
 chunks = parser.parse(words)
 
 print(chunks.pprint())
+
+for subTree in chunks.subtrees():
+    if subTree.label() == "주어":
+        print(subTree)
