@@ -5,7 +5,7 @@ import nltk
 import create
 import pandas as pd
 
-kom=Komoran(userdic = 'userDic.txt') # 사용자 사 적용
+kom=Komoran(userdic = '../user_dic.txt') # 사용자 사 적용
 grammar = '''
 # 체언 = 명사/대명사/수사(NN*/NP/NR)
 # 주어 = 체언 + 주격 조사/보조사(JKS/JX)
@@ -64,8 +64,11 @@ def analyze_speaker(df,listOfCharacter):
           elif sub_tree.label() == "목적어":
               object += sub_tree[0][0] + ", "
           for word in sub_tree.leaves(): # 임시 테스트
-              if word[0] == "김 첨지":
-                  character += word[0] + ", "
+              print(word[0])
+              #if word[0] in listOfCharacter:
+                  #print(word[0])
+                  #character += word[0] + ", "
+      #df['주어'] = pd.Series(subject, index=df.index)
       print("주어: "+subject)
       print("목적어: "+object)
       print("등장인물: "+character)
