@@ -70,7 +70,7 @@ def analyze_text(numOfPage, charOfPage, emotion_dictionary_lists, emotionVector,
     for page in range(0, numOfPage):  # 페이지 수 만큼
         count += len(context)  # 문장 길이 만큼 count 증가
         word_result = find_word(emotion_dictionary_lists, words)
-        print(word_result)
+        #print(word_result)
         if word_result != (-1, 0):  # 문장에서 단어 사전에 있는 단어가 있다면
             if word_result[0] == 'joy':
                 emotion = 0
@@ -85,7 +85,7 @@ def analyze_text(numOfPage, charOfPage, emotion_dictionary_lists, emotionVector,
             elif word_result[0] == 'surprise':
                 emotion = 5
             score = float(word_result[1])
-            print(score)
+            #print(score)
             # 주어가 등장인물일 경우
             num = find_character(words, listOfCharacter)
             if num != -1:
@@ -94,5 +94,5 @@ def analyze_text(numOfPage, charOfPage, emotion_dictionary_lists, emotionVector,
             page += 1
             count = 0
 
-    print(emotionVector)
+    #print(emotionVector)
     return emotionVector
