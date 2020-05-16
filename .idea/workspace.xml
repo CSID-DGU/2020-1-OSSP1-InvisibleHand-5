@@ -20,17 +20,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a1c9ac27-5680-47f4-ad88-d5ba0b8104ba" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/morphs.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/tagset.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/SWproject.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/SWproject.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/book/운수좋은날.txt" beforeDir="false" afterPath="$PROJECT_DIR$/res/book/운수좋은날.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/analyze.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/analyze.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/create.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/create.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/preprocess.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/preprocess.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/syntax.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/syntax.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
