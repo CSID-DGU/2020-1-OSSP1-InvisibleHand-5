@@ -55,6 +55,7 @@ def find_word(emotion_dictionary_lists, token):
     return -1, 0  # 단어사전에 없었다면
 
 
+
 def analyze_speaker(df, listOfCharacter, emotion_dictionary_lists, charOfPage):
     subject = []
     object = []
@@ -68,10 +69,10 @@ def analyze_speaker(df, listOfCharacter, emotion_dictionary_lists, charOfPage):
             length = 0
         length = length + len(line)
         token_list = kom.pos(line)
-        su = []
-        ob = []
-        ch = []
-        wo = []
+        su = [] # subject
+        ob = [] # object
+        ch = [] # character
+        wo = [] # word
         count = [0 for i in range(len(listOfCharacter))]  # 문장 당 등장인물의 출현 횟
         for token in token_list:
             if 'SW' in token[1]:  # 기타 기호 삭제
