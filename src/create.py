@@ -12,7 +12,7 @@ def open_book(fileName):
 
 # 사용자 입력받아서 사전에 등장인물 고유명사로 추가
 def create_userdic(numOfCharacter, listOfCharacter):
-    userdic = open("../user_dic.txt", "wt", encoding='UTF8')
+    userdic = open("user_dic.txt", "wt", encoding='UTF8')
     for n in range(0, numOfCharacter):
         name = input(f"등장인물 {n + 1} : ")
         userdic.write(f"{name}\tNNP\n")
@@ -52,14 +52,15 @@ def create_sentence_list(context):
             else:
                 connect.append("연결")  # 글자라면 연결
             conversation_end = False
-    connect.append("test")
+    connect.append("")
     return sentence, punctuation, kind, connect
 
 
-# 문장 테이블 생성 [문장, 구두문자, 문장 종류, 연결 여부, 주어, 목적어, 감정 별 점수]
-def create_sentence_table(context, listOfEmotion):
+# 문장 데이터프레임 생성 [문장, 구두문자, 문장 종류, 연결 여부, 주어, 목적어, 감정 별 점수]
+def create_sentence_dataframe(context, listOfEmotion):
     sentence, punctuation, kind, connect = create_sentence_list(context)
     df = pd.DataFrame(sentence, columns=['문장'])
+    df['페이지 번호'] = 0
     df['구두 문자'] = pd.Series(punctuation, index=df.index)
     df['문장 종류'] = pd.Series(kind, index=df.index)
     df['연결 여부'] = pd.Series(connect, index=df.index)
@@ -70,6 +71,18 @@ def create_sentence_table(context, listOfEmotion):
     for emo in listOfEmotion:
         df[f'{emo}'] = 0.0
     return df
+
+
+# 등장인물 데이터프레임 생성
+def create_character_dataframe(numOfPage, listOfCharacter, listOfEmotion):
+    writer = pd.ExcelWriter("../res/output/등장인물.xlsx")
+    df_list = []
+    for character in listOfCharacter:
+        df = pd.DataFrame(index=range(0, numOfPage), columns=[f"{emotion}" for emotion in listOfEmotion])
+        df_list.append(df)
+        df.to_excel(writer, sheet_name=f"{character}")
+    writer.save()
+    return df_list
 
 
 # <결과 1. 각 등장인물의 페이지별 각 감정 수준> 을 표현할
@@ -94,8 +107,7 @@ def create_emotion_dictionary():
     lex_file.seek(0)
     stab = re.compile("[^\t]+")
 
-    sentiments = ['anger', 'anticipation', 'disgust', 'fear', 'joy', 'sadness', 'surprise', 'trust']
-
+    sentiments = ['분노', '기대', '혐오', '공포', '기쁨', '슬픔', '놀람', '신뢰']
     anger = {}
     anticipation = {}
     disgust = {}
@@ -111,7 +123,22 @@ def create_emotion_dictionary():
 
     while line_data:
         key = stab.findall(line_data)[1]  # 단어 (키값)
-        val1 = stab.findall(line_data)[2]  # 감정의 종류 (ex. anger, joy)
+        if stab.findall(line_data)[2] == "anger": # 감정의 종류 (ex. anger, joy)
+            val1 = "분노"
+        if stab.findall(line_data)[2] == "anticipation": # 감정의 종류 (ex. anger, joy)
+            val1 = "기대"
+        if stab.findall(line_data)[2] == "disgust": # 감정의 종류 (ex. anger, joy)
+            val1 = "혐오"
+        if stab.findall(line_data)[2] == "fear": # 감정의 종류 (ex. anger, joy)
+            val1 = "공포"
+        if stab.findall(line_data)[2] == "joy": # 감정의 종류 (ex. anger, joy)
+            val1 = "기쁨"
+        if stab.findall(line_data)[2] == "sadness": # 감정의 종류 (ex. anger, joy)
+            val1 = "슬픔"
+        if stab.findall(line_data)[2] == "surprise": # 감정의 종류 (ex. anger, joy)
+            val1 = "놀람"
+        if stab.findall(line_data)[2] == "trust": # 감정의 종류 (ex. anger, joy)
+            val1 = "신뢰"
         val2 = stab.findall(line_data)[3].replace("\n", "")  # 감정의 정도
 
         if val1 == sentiments[0]:
