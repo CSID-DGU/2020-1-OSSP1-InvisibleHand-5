@@ -6,10 +6,10 @@
  NLTK 및 konlpy를 활용한 한글 소설 등장인물의 감정 분석 및 흐름 파악
 
 ## 사용 라이브러리
--konlpy
--NLTK 3.5
--numpy 1.18.3
--pandas 1.0.3
--openpyxl 3.0.3
--JPype 0.7.4
+- konlpy
+- NLTK 3.5
+- numpy 1.18.3
+- pandas 1.0.3
+- openpyxl 3.0.3
+- JPype 0.7.4
 
