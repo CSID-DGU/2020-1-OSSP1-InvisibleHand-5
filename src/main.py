@@ -4,6 +4,7 @@ import result
 import analyze
 import math
 import pandas as pd
+import morphs
 from matplotlib import pyplot as plt
 
 # 파일 입력
@@ -27,6 +28,9 @@ create.save_df(df, fileName)
 
 # 사용자 사전 생성
 create.create_userdic(numOfCharacter, listOfCharacter)
+
+# 화자 분석
+morphs.analyze_speaker(df, listOfCharacter)
 
 # 감정 사전 생성
 emotion_dictionary_lists = create.create_emotion_dictionary()
