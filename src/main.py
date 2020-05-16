@@ -2,9 +2,9 @@ import create
 import preprocess
 import result
 import analyze
+import morphs
 import math
 import pandas as pd
-import morphs
 from matplotlib import pyplot as plt
 
 # 파일 입력
@@ -22,18 +22,22 @@ numOfPage = math.ceil(len(context) / charOfPage)
 numOfCharacter = int(input("등장인물 수 : "))
 listOfCharacter = []
 
-# 문장 테이블 생성
-df = create.create_sentence_table(context, listOfEmotion)
-create.save_df(df, fileName)
-
 # 사용자 사전 생성
 create.create_userdic(numOfCharacter, listOfCharacter)
 
-# 화자 분석
-morphs.analyze_speaker(df, listOfCharacter)
+# 문장 데이터프레임 생성
+df_sentence = create.create_sentence_dataframe(context, listOfEmotion)
+
+
+# 등장인물 데이터프레임 생성
+df_list_character = create.create_character_dataframe(numOfPage, listOfCharacter, listOfEmotion)
 
 # 감정 사전 생성
 emotion_dictionary_lists = create.create_emotion_dictionary()
+
+# 화자 분석
+df_sentence = morphs.analyze_speaker(df_sentence, listOfCharacter, emotion_dictionary_lists, charOfPage)
+create.save_df(df_sentence, fileName)
 
 # 감정 벡터, 긍부정 벡터 생성
 emotionVector = create.create_emotion_vector(numOfCharacter, numOfEmotion, numOfPage)
