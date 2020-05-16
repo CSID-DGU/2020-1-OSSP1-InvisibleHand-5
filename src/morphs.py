@@ -5,7 +5,7 @@ import nltk
 import create
 import pandas as pd
 
-kom=Komoran(userdic = '../user_dic.txt') # 사용자 사 적용
+kom=Komoran(userdic = 'user_dic.txt') # 사용자 사전 적용
 grammar = '''
 # 체언 = 명사/대명사/수사(NN*/NP/NR)
 # 주어 = 체언 + 주격 조사/보조사(JKS/JX)
@@ -45,29 +45,35 @@ grammar = '''
 
 def analyze_speaker(df,listOfCharacter):
     for line in df["문장"]:
+      print(line)
       token_list = kom.pos(line)
-      for token in token_list:
-        if 'SW' in token[1]:  # 기타 기호 삭제
-                token_list.remove(token)
-        if 'NA' in token[1]:  # 분석불능범주 삭제
-             token_list.remove(token)
-        if 'SH' in token[1]:  # 한자 삭제
-                token_list.remove(token)
-      parser = nltk.RegexpParser(grammar)
-      chunks = parser.parse(token_list)
+      print(token_list)
       subject = ""
       object = ""
-      character=""
+      character = ""
+      count = [0 for i in range(len(listOfCharacter))] # 문장 당 등장인물의 출현 횟
+      for token in token_list:
+          if 'SW' in token[1]:  # 기타 기호 삭제
+              token_list.remove(token)
+          if 'NA' in token[1]:  # 분석불능범주 삭제
+              token_list.remove(token)
+          if 'SH' in token[1]:  # 한자 삭제
+              token_list.remove(token)
+          if token[0] in listOfCharacter:  # 문장에서의 등장인물 등장 체크
+              count[listOfCharacter.index(token[0])] += 1
+
+      for i, c in enumerate(count):
+          if c >= 1:
+              character += listOfCharacter[i] + "(" + str(c) + ")"
+
+      parser = nltk.RegexpParser(grammar)
+      chunks = parser.parse(token_list)
+
       for sub_tree in chunks.subtrees():
           if sub_tree.label() == "주어":
               subject += sub_tree[0][0] + ", "
           elif sub_tree.label() == "목적어":
               object += sub_tree[0][0] + ", "
-          for word in sub_tree.leaves(): # 임시 테스트
-              print(word[0])
-              #if word[0] in listOfCharacter:
-                  #print(word[0])
-                  #character += word[0] + ", "
       #df['주어'] = pd.Series(subject, index=df.index)
       print("주어: "+subject)
       print("목적어: "+object)
