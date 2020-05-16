@@ -4,7 +4,10 @@ from konlpy.tag import Komoran
 import nltk
 import create
 import pandas as pd
+import os
 
+if not os.path.isfile('user_dic.txt'):
+    open("user_dic.txt", "wt", encoding='UTF8')
 kom=Komoran(userdic = 'user_dic.txt') # 사용자 사전 적용
 grammar = '''
 # 체언 = 명사/대명사/수사(NN*/NP/NR)

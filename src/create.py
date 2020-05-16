@@ -12,9 +12,10 @@ def open_book(fileName):
 
 # 사용자 입력받아서 사전에 등장인물 고유명사로 추가
 def create_userdic(numOfCharacter, listOfCharacter):
-    userdic = open("../user_dic.txt", "wt", encoding='UTF8')
+    userdic = open("user_dic.txt", "wt", encoding='UTF8') # userdic 저장 경로 변경
     for n in range(0, numOfCharacter):
-        name = input(f"등장인물 {n + 1} : ")
+        #name = input(f"등장인물 {n + 1} : ")
+        name = "김첨지"# 테스트용 #########나중에 수정######################
         userdic.write(f"{name}\tNNP\n")
         listOfCharacter.append(name)
     userdic.close()
