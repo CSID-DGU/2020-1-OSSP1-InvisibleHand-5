@@ -38,23 +38,15 @@ create.save_df(df_sentence, fileName)
 # 등장인물 별 페이지 감정 점수 합산하여 등장인물 데이터프레임 생성
 df_list_character = morphs.merge_sentence(df_sentence, numOfPage, listOfEmotion, listOfCharacter)
 
-# 감정 벡터, 긍부정 벡터 생성
-emotionVector = create.create_emotion_vector(numOfCharacter, numOfEmotion, numOfPage)
-sentimentVector = create.create_sentiment_vector(numOfCharacter, numOfEmotion, numOfPage)
-
-# 값 입력
-analyzedEmotionVector = analyze.analyze_text(numOfPage, charOfPage, emotion_dictionary_lists, emotionVector,
-                                             listOfCharacter)
-
 # 그래프 설정
 result.config_graph()
 
 # 결과 1. 각 등장인물의 페이지별 감정 수준 그래프 생성 및 출력
-result.display_emotion_graph(numOfCharacter, listOfCharacter, numOfPage, numOfEmotion, listOfEmotion,
-                             analyzedEmotionVector)
+result.display_emotion_graph(df_list_character, numOfPage, listOfCharacter, numOfCharacter)
 
 # 결과 2. 모든 등장인물의 페이지별 감정 흐름 그래프 생성 및 출력
-result.display_sentiment_graph(numOfCharacter, listOfCharacter, numOfPage, sentimentVector)
+#result.display_sentiment_graph(numOfCharacter, listOfCharacter, numOfPage, sentimentVector)
+
 
 plt.show()
 book.close()
