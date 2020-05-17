@@ -22,5 +22,43 @@ def tokenizer(line):
                 del token_list[i]
                 del token_list[i]
                 token_list.insert(i,('근','MM'))
-
     return token_list
+
+def _tokenize(self, s, debug=False):
+    for name, pattern in self._patterns:
+
+        founds = pattern.findall(s)
+        if not founds:
+            continue
+
+        if debug:
+            print('\n%s' % name)
+            print(founds)
+
+        found = founds.pop(0)
+        len_found = len(found)
+
+        s_ = ''
+        b = 0
+        for i, c in enumerate(s):
+
+            if b > i:
+                continue
+
+            if s[i:i + len_found] == found:
+                s_ += ' %s ' % s[i:i + len_found]
+                b = i + len_found
+
+                if not founds:
+                    s_ += s[b:]
+                    break
+                else:
+                    found = founds.pop(0)
+                    len_found = len(found)
+
+                continue
+            s_ += c
+        s = s_
+
+    s = self.doublewhite_pattern.sub(' ', s).strip().split()
+    return s
