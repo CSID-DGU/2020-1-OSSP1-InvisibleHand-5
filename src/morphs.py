@@ -8,7 +8,7 @@ import os
 
 if not os.path.isfile('user_dic.txt'):
     open("user_dic.txt", "wt", encoding='UTF8')
-kom=Komoran(userdic = 'user_dic.txt') # 사용자 사전 적용
+kom = Komoran(userdic='user_dic.txt')  # 사용자 사전 적용
 
 grammar = '''
 # 체언 = 명사/대명사/수사(NN*/NP/NR)
@@ -47,6 +47,7 @@ grammar = '''
 독립어: {<SF>+<MAJ>}
 '''
 
+
 # 감정 사전에서 단어 찾기
 def find_word(emotion_dictionary_lists, token):
     for emo in emotion_dictionary_lists:
@@ -63,7 +64,7 @@ def analyze_speaker(df, listOfCharacter, emotion_dictionary_lists, charOfPage):
     length = 0
     index = 0
     for line in df["문장"]:
-        if(length > charOfPage):
+        if (length > charOfPage):
             page = page + 1
             length = 0
         length = length + len(line)
@@ -110,3 +111,23 @@ def analyze_speaker(df, listOfCharacter, emotion_dictionary_lists, charOfPage):
     df['화자'] = pd.Series(character, index=df.index)
 
     return df
+
+
+def merge_sentence(df_sentence, numOfPage, listOfEmotion, listOfCharacter):
+    writer = pd.ExcelWriter("../res/output/등장인물.xlsx", engine='openpyxl')
+
+    df_list_character = []
+    df_character = pd.DataFrame(index=range(0, numOfPage), columns=[f"{emotion}" for emotion in listOfEmotion])
+
+    for character in listOfCharacter:
+        for num in range(0, numOfPage):
+            page_filter = df_sentence['페이지 번호'].isin([num])
+            page_filtered_df = df_sentence[page_filter] # num 페이지 행들 추출
+            page_filtered_df = page_filtered_df.loc[:, ('기쁨', '슬픔', '분노', '공포', '혐오', '놀람')]  # 추출한 행들의 감정 열 추출
+            emotion_sum_df = page_filtered_df.sum(axis=0)  # 감정 별 합 추출
+            df_character.loc[num] = emotion_sum_df  # 등장인물 데이터프레임에 감정 별 합 대입
+        df_list_character.append(df_character)
+        df_character.to_excel(writer, sheet_name=f"{character}")
+
+    writer.save()
+    return df_list_character

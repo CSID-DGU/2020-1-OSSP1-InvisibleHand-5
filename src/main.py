@@ -28,16 +28,15 @@ create.create_userdic(numOfCharacter, listOfCharacter)
 # 문장 데이터프레임 생성
 df_sentence = create.create_sentence_dataframe(context, listOfEmotion)
 
-
-# 등장인물 데이터프레임 생성
-df_list_character = create.create_character_dataframe(numOfPage, listOfCharacter, listOfEmotion)
-
 # 감정 사전 생성
 emotion_dictionary_lists = create.create_emotion_dictionary()
 
 # 화자 분석
 df_sentence = morphs.analyze_speaker(df_sentence, listOfCharacter, emotion_dictionary_lists, charOfPage)
 create.save_df(df_sentence, fileName)
+
+# 등장인물 별 페이지 감정 점수 합산하여 등장인물 데이터프레임 생성
+df_list_character = morphs.merge_sentence(df_sentence, numOfPage, listOfEmotion, listOfCharacter)
 
 # 감정 벡터, 긍부정 벡터 생성
 emotionVector = create.create_emotion_vector(numOfCharacter, numOfEmotion, numOfPage)
