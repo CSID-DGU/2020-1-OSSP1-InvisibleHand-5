@@ -5,7 +5,7 @@ import os
 
 if not os.path.isfile('user_dic.txt'):
     open("user_dic.txt", "wt", encoding='UTF8')
-kom=Komoran(userdic = 'user_dic.txt') # 사용자 사전 적용
+kom = Komoran(userdic='user_dic.txt')  # 사용자 사전 적용
 
 # 형태소 분석
 def tokenizer(line):

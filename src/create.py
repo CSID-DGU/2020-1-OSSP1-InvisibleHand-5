@@ -74,18 +74,6 @@ def create_sentence_dataframe(context, listOfEmotion):
     return df
 
 
-# 등장인물 데이터프레임 생성
-def create_character_dataframe(numOfPage, listOfCharacter, listOfEmotion):
-    writer = pd.ExcelWriter("../res/output/등장인물.xlsx")
-    df_list = []
-    for character in listOfCharacter:
-        df = pd.DataFrame(index=range(0, numOfPage), columns=[f"{emotion}" for emotion in listOfEmotion])
-        df_list.append(df)
-        df.to_excel(writer, sheet_name=f"{character}")
-    writer.save()
-    return df_list
-
-
 # <결과 1. 각 등장인물의 페이지별 각 감정 수준> 을 표현할
 # [등장인물][감정][페이지] 구조의 3차원 벡터 생성
 def create_emotion_vector(numOfCharacter, numOfEmotion, numOfPage):
