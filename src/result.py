@@ -11,16 +11,15 @@ def config_graph():
 
 # 결과 1. 각 등장인물의 페이지별 감정 수준
 # 등장인물 별 그래프 생성 및 페이지별 감정 레벨 값 대입
-def display_emotion_graph(df_list_character, numOfPage, listOfCharacter, numOfCharacter):
-    x = np.arange(1, numOfPage)
+def display_emotion_graph(df_list_character, listOfCharacter, numOfCharacter):
 
     for num in range(0, numOfCharacter):
         df_list_character[0].plot()
         plt.title(f'{listOfCharacter[num]}')
         plt.xlabel('페이지')
         plt.ylabel('감정 값')
-        plt.show()
         plt.legend()
+        plt.show()
 
 
 # 결과 2. 모든 등장인물의 페이지별 감정 흐름
