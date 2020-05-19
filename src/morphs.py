@@ -22,43 +22,31 @@ def tokenizer(line):
                 del token_list[i]
                 del token_list[i]
                 token_list.insert(i,('근','MM'))
+
+    print(token_list)
     return token_list
 
-def _tokenize(self, s, debug=False):
-    for name, pattern in self._patterns:
-
-        founds = pattern.findall(s)
-        if not founds:
+def _add_inter_subtokens(self, token, result):
+    adds = []
+    for i, base in enumerate(result[:-1]):
+        if base[2] == result[i + 1][1]:
             continue
 
-        if debug:
-            print('\n%s' % name)
-            print(founds)
+        b = base[2]
+        e = result[i + 1][1]
+        subtoken = token[b:e]
+        adds.append((subtoken, b, e, self._ds, e - b))
 
-        found = founds.pop(0)
-        len_found = len(found)
+    return adds
 
-        s_ = ''
-        b = 0
-        for i, c in enumerate(s):
+def _add_first_subtoken(self, token, result):
+    e = result[0][1]
+    subtoken = token[0:e]
+    score = self._scores.get(subtoken, self._ds)
+    return [(subtoken, 0, e, score, e)]
 
-            if b > i:
-                continue
-
-            if s[i:i + len_found] == found:
-                s_ += ' %s ' % s[i:i + len_found]
-                b = i + len_found
-
-                if not founds:
-                    s_ += s[b:]
-                    break
-                else:
-                    found = founds.pop(0)
-                    len_found = len(found)
-
-                continue
-            s_ += c
-        s = s_
-
-    s = self.doublewhite_pattern.sub(' ', s).strip().split()
-    return s
+def _add_last_subtoken(self, token, result):
+    b = result[-1][2]
+    subtoken = token[b:]
+    score = self._scores.get(subtoken, self._ds)
+    return [(subtoken, b, len(token), score, len(subtoken))]
