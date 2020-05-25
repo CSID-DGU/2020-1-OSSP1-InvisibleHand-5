@@ -21,5 +21,5 @@ def noun_extract(df):
                 f = count[w]
                 p = f / count[word[:e - 1]]
                 s = n_score(w)
-                if f != 1 and p == 1.0 and s > 0.8:
-                    print('{}, f={}, p={:.2}, s={:.2}'.format(w, f, p,s))
+
+                #print('{}, f={}, p={:.2}, s={:.2}'.format(w, f, p,s))
