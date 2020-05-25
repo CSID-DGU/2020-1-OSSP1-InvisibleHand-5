@@ -22,8 +22,10 @@ def tokenizer(line):
                 del token_list[i]
                 del token_list[i]
                 token_list.insert(i,('근','MM'))
+    #string = "손에 쥔 피"
 
-    print(token_list)
+    #print(token_list)
+
     return token_list
 
 def _add_inter_subtokens(self, token, result):
@@ -50,3 +52,39 @@ def _add_last_subtoken(self, token, result):
     subtoken = token[b:]
     score = self._scores.get(subtoken, self._ds)
     return [(subtoken, b, len(token), score, len(subtoken))]
+
+def _max_length_l_tokenize(self, token):
+
+    def nouns_to_larray_and_r(token, nouns_):
+        e = sum((len(noun) for noun in nouns_))
+        return nouns_, token[e:]
+
+    nouns = []
+    n = len(token)
+
+    # string match for generating candidats
+    for b in range(n):
+        for e in range(b, n + 1):
+            subword = token[b:e]
+            if subword in self._nouns:
+                # (word, begin, length)
+                nouns.append((subword, b, e - b))
+
+    # sort. fisrt order: begin index, second order: length (desc)
+    nouns = sorted(nouns, key=lambda x: (x[1], -x[2]))
+
+    nouns_ = []
+    e = 0
+
+    while nouns:
+        # pop first element
+        noun, b, len_ = nouns.pop(0)
+        # only concatenate nouns
+        if not (b == e):
+            return nouns_to_larray_and_r(token, nouns_)
+        # append noun and update end index
+        nouns_.append(noun)
+        e = b + len_
+        nouns = [noun for noun in nouns if noun[1] >= e]
+
+    return nouns_to_larray_and_r(token, nouns_)
