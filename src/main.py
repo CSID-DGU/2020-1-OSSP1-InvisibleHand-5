@@ -3,11 +3,11 @@ import preprocess
 import result
 import analyze
 import morphs
+import emotion_word
 import math
 import pandas as pd
 import noun_ex
 from matplotlib import pyplot as plt
-
 
 
 # 파일 입력
@@ -41,7 +41,7 @@ create.create_userdic(numOfCharacter, listOfCharacter)
 df_sentence = create.create_sentence_dataframe(context, listOfEmotion)
 
 # 감정 사전 생성
-emotion_dictionary_lists = create.create_emotion_dictionary()
+emotion_dictionary_lists = emotion_word.create_emotion_dictionary()
 
 # 화자 분석
 df_sentence = analyze.analyze_sentence(df_sentence, listOfCharacter, emotion_dictionary_lists, charOfPage)
@@ -59,5 +59,5 @@ result.display_emotion_graph(df_list_character, listOfCharacter, numOfCharacter)
 # 결과 2. 모든 등장인물의 페이지별 감정 흐름 그래프 생성 및 출력
 #result.display_sentiment_graph(numOfCharacter, listOfCharacter, numOfPage, sentimentVector)
 
-plt.show()
+
 book.close()
