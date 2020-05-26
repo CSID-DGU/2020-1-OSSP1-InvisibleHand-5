@@ -1,8 +1,4 @@
 import re
-import pandas as pd
-
-def emotion_pos_tagging():
-
 
 # 감정 사전 생성
 def create_emotion_dictionary():
