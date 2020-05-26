@@ -24,11 +24,10 @@ def remove_chinese(string):  # 매개변수 = 문자열.(한자 제거)
     ch = '([\uf900-\ufaff]+)'  # 한중일 호환용 한자
     string = re.sub(ch, '', string)
 
-    ch = '([\u20000-\u2a6df]+)'  # 한중일 통합 한자 확장
-    string = re.sub(ch, '', string)
-
-    ch = '([\u2f800-\u2fa1f]+)'  # 한중일 호환용 한자 보충
-    string = re.sub(ch, '', string)
+    #ch = '([\u20000-\u2a6df]+)'  # 한중일 통합 한자 확장
+    #string = re.sub(ch, '', string)
+    #ch = '([\u2f800-\u2fa1f]+)'  # 한중일 호환용 한자 보충
+    #string = re.sub(ch, '', string)
     
     return string
 
