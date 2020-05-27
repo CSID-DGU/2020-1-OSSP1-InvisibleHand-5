@@ -35,22 +35,38 @@ def find_word(df_emotion, token):
         return df_filter['감정'].tolist(), df_filter['점수'].tolist()
     return [-1], [0]  # 단어사전에 없었다면
 
-
-# 문장 성분 분석
-def input_element(df, index, token_list):
+# 주어 목적어 분석 기능을 -> 구문 분석 모듈로 확장 (input_element -> parser)
+# 구문 분석
+def parser(df, index, token_list, listOfCharacter):
     parser = nltk.RegexpParser(grammar.grammar)
     chunks = parser.parse(token_list)
+    print(chunks)
+
+    tlist = ["NNG","NNP","NP","NNB"]
     subject = []
     object = []
+    busa = []
+    kwanhyeong = []
     for sub_tree in chunks.subtrees():
         if sub_tree.label() == "주어":
             subject.append(sub_tree[0][0])
         elif sub_tree.label() == "목적어":
             object.append(sub_tree[0][0])
-    df.at[index, "주어"] = subject
-    df.at[index, "목적어"] = object
-    return df
+            #print(sub_tree[0])
+        elif sub_tree.label() == "부사어":
+            busa.append(sub_tree[0][0])
+        elif sub_tree.label() == "관형어":
+            if(sub_tree[0][1] != "MM"):
+                print("관형어인데 MM아닌거" + sub_tree[0][0])
+                kwanhyeong.append(sub_tree[0][0])
 
+        #df.at[index, "주어"] = subject
+        #df.at[index, "목적어"] = object
+    return subject, object, busa, kwanhyeong
+
+# def input_emotion_word(df, index, emotion_dictionary_lists, token_list):
+#     emo_word = []
+#     for token
 
 # 감정 분석
 def input_emotion_word(df, index_word, df_emotion, token_list):
@@ -78,15 +94,32 @@ def input_emotion_word(df, index_word, df_emotion, token_list):
 
 # 화자 분석
 def input_character(df, index, listOfCharacter, token_list):
+    subject, object, busa, kwanhyeong = parser(df, index, token_list, listOfCharacter)
     count = [0 for i in range(len(listOfCharacter))]  # 문장 당 등장인물의 출현 횟su
-
-    for token in token_list:
+    flag = True
+    nplist = ["그", "그녀",""]
+    for i, token in enumerate(token_list):
+        #print(token)
         if token[0] in listOfCharacter:  # 문장에서 등장인물 등장 체크
             count[listOfCharacter.index(token[0])] += 1
+            if(token[0] in subject):
+                flag = True
+            elif(token[0] in object):
+                flag = False
+            elif(token[0] in busa):
+                flag = True
+            elif(token[0] in kwanhyeong):
+                flag = True
+        if token[1] == "NP":
+            if token[0] in nplist:
+                if(df.at[index-1, "화자"] in listOfCharacter):
+                    df.at[index, "화자"] = token[0] + "(" + df.at[index-1,"화자"] + ")"
+                    print(token[0] + "(" + df.at[index-1,"화자"] + ")")
     for i, c in enumerate(count):
-        if c >= 1:
-            # df.at[index, "화자"] = [listOfCharacter[i], str(c)]
+        if c >= 1 & flag == True:
             df.at[index, "화자"] = listOfCharacter[i]
+            print("------화자"+listOfCharacter[i])
+    print("")
     return df
 
 
@@ -104,10 +137,10 @@ def analyze_sentence(df, listOfCharacter, df_emotion, charOfPage):
         df.at[index_word, "페이지 번호"] = page_num
 
         token_list = morphs.tokenizer(line)
-        df = input_element(df, index_word, token_list)  # df에 주어,목적어 값 입력
-        df = input_emotion_word(df, index_word, df_emotion, token_list)  # df에 감정 단어 및 감정 값 입력
-        df = input_character(df, index_word, listOfCharacter, token_list)  # df에 화자 값 입력
-        index_word = index_word + 1
+        #parser(df, index, token_list,listOfCharacter)  # df에 주어,목적어 값 입력
+        df = input_character(df, index, listOfCharacter, token_list)  # df에 화자 값 입력
+        df = input_emotion_word(df, index, emotion_dictionary_lists, token_list)  # df에 감정 단어 및 감정 값 입력
+        index = index + 1
     return df
 
 
