@@ -1,7 +1,6 @@
 import numpy as np
 import pandas as pd
 import re
-import morphs
 
 
 # 소설 입력
@@ -56,11 +55,6 @@ def create_sentence_list(context):
             conversation_end = False
     connect.append("")
     return sentence, punctuation, kind, connect
-
-# 단 데이터프레임 생성 [영단어, 한단어, 감정 종류, 감정값, 품]
-# def create_word_dataframe(emotion_dictionary_lists):
-#     for emo in emotion_dictionary_lists:
-#         #print(emo.keys())
 
 
 # 문장 데이터프레임 생성 [문장, 구두문자, 문장 종류, 연결 여부, 주어, 목적어, 감정 별 점수]
