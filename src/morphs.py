@@ -80,6 +80,14 @@ def _max_length_l_tokenize(self, token):
 
 def tokenize_(self, sentence, tolerance=0.0, flatten=True, remove_r=False):
 
+    def token_to_lr(token, tolerance=0.0):
+        length = len(token)
+        if length <= 2: return (token, '')
+        candidates = [(token[:e], token[e:]) for e in range(2, length + 1)]
+        candidates = [(self._scores.get(t[0], self._ds), t[0], t[1]) for t in candidates]
+        
+        return (best[1], best[2])
+
     tokens = [token_to_lr(token, tolerance) for token in sentence.split()]
 
     if remove_r:
