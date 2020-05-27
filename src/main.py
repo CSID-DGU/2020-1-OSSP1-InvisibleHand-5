@@ -47,7 +47,7 @@ emotion_dictionary_lists = emotion_word.create_emotion_dictionary()
 df_emotion = emotion_word.open_emotion_dataframe()
 
 # 화자 분석
-df_sentence = analyze.analyze_sentence(df_sentence, listOfCharacter, emotion_dictionary_lists, charOfPage)
+df_sentence = analyze.analyze_sentence(df_sentence, listOfCharacter, df_emotion, charOfPage)
 create.save_df(df_sentence, fileName)
 
 # 등장인물 별 페이지 감정 점수 합산하여 등장인물 데이터프레임 생성
