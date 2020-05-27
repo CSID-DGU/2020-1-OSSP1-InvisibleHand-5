@@ -65,3 +65,33 @@ def _scan_vocabulary(self, sents, min_frequency=5):
         print('\r[Noun Extractor] scanning was done {}'.format(message))
 
     return wordset_l, wordset_r
+
+def detaching_features(nouns, features, logpath=None, logheader=None):
+
+    if not logheader:
+        logheader = '## Ignored noun candidates from detaching features'
+
+    removals = set()
+
+    for word in nouns:
+
+        if len(word) <= 2:
+            continue
+
+        for e in range(2, len(word)):
+
+            l, r = word[:e], word[e:]
+
+            # Skip a syllable word such as 고양이, 이력서
+            if len(r) <= 1:
+                continue
+
+            if (l in nouns) and (r in features):
+                removals.add(word)
+                break
+
+    if logpath:
+        write_log(logpath, logheader, removals)
+
+    nouns_ = _select_true_nouns(nouns, removals)
+    return nouns_, removals
