@@ -1,4 +1,41 @@
 import re
+import create
+import nltk
+import pandas as pd
+
+def open_emotion_dataframe():
+    df = pd.read_excel('../res/dic/감정 단어.xlsx', index_col=0, convert_float=True)
+    return df
+
+def emotion_pos_tagging():
+    tag_target = ['V', 'N', 'J', 'R']
+    tag_list = []
+
+    # 확장 단어 사전 엑셀 파일 입력
+    df_emotion = open_emotion_dataframe()
+
+    # 품사 태깅
+    for word in df_emotion['영어']:
+        tag = nltk.pos_tag([word])
+        tag_first = tag[0][1][0]
+
+        if tag_first in tag_target:
+            if tag_first == 'V':
+                tag_list.append('동사')
+            if tag_first == 'N':
+                tag_list.append('명사')
+            if tag_first == 'J':
+                tag_list.append('형용사')
+            if tag_first == 'R':
+                tag_list.append('부사')
+        else:
+            tag_list.append('')
+    df_emotion['품사'] = tag_list
+
+    # 품사 태깅한 확장 단어 사전 데이터프레임 출력
+    df_emotion.to_excel(f"../res/output/test.xlsx")
+
+
 
 # 감정 사전 생성
 def create_emotion_dictionary():
