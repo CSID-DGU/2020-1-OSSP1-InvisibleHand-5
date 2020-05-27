@@ -57,7 +57,7 @@ df_list_character = analyze.merge_sentence(df_sentence, numOfPage, listOfEmotion
 result.config_graph()
 
 # 결과 1. 각 등장인물의 페이지별 감정 수준 그래프 생성 및 출력
-result.display_emotion_graph(df_list_character, listOfCharacter, numOfCharacter)
+#result.display_emotion_graph(df_list_character, listOfCharacter, numOfCharacter)
 
 # 결과 2. 모든 등장인물의 페이지별 감정 흐름 그래프 생성 및 출력
 #result.display_sentiment_graph(numOfCharacter, listOfCharacter, numOfPage, sentimentVector)
