@@ -23,3 +23,16 @@ def noun_extract(df):
                 s = n_score(w)
 
                 #print('{}, f={}, p={:.2}, s={:.2}'.format(w, f, p,s))
+
+def train_extract(self, sents, min_noun_score=0.5, min_noun_frequency=5,
+                  noun_candidates=None):
+
+    self.train(sents, min_noun_frequency)
+    return self.extract(min_noun_score, min_noun_frequency, noun_candidates)
+
+def train(self, sents, min_noun_frequency=5):
+    check_corpus(sents)
+    wordset_l, wordset_r = self._scan_vocabulary(sents, min_noun_frequency)
+    lrgraph = self._build_lrgraph(sents, wordset_l, wordset_r)
+    self.lrgraph = LRGraph(lrgraph)
+    self.words = wordset_l
