@@ -15,10 +15,10 @@ def find_word(emotion_dictionary_lists, token):
 
 # 주어 목적어 분석 기능을 -> 구문 분석 모듈로 확장 (input_element -> parser)
 # 구문 분석
-def parser(df, index, token_list, listOfCharacter):
+def parser(token_list):
     parser = nltk.RegexpParser(grammar.grammar)
     chunks = parser.parse(token_list)
-    print(chunks)
+    #print(chunks)
 
     tlist = ["NNG","NNP","NP","NNB"]
     subject = []
@@ -35,21 +35,20 @@ def parser(df, index, token_list, listOfCharacter):
             busa.append(sub_tree[0][0])
         elif sub_tree.label() == "관형어":
             if(sub_tree[0][1] != "MM"):
-                print("관형어인데 MM아닌거" + sub_tree[0][0])
+                #print("관형어인데 MM아닌거" + sub_tree[0][0])
                 kwanhyeong.append(sub_tree[0][0])
 
         #df.at[index, "주어"] = subject
         #df.at[index, "목적어"] = object
     return subject, object, busa, kwanhyeong
 
-# def input_emotion_word(df, index, emotion_dictionary_lists, token_list):
-#     emo_word = []
-#     for token
-
 # 감정 분석
 def input_emotion_word(df, index, emotion_dictionary_lists, token_list):
     emo_word = []
+    tlis = ["JC","JKB","JKC","JKG","JKO","JKQ","JKS","JKV","JX","VCP","NP","MM"]
     for token in token_list:
+        if(token[1] not in tlis):
+            print(token)
         word_result = find_word(emotion_dictionary_lists, token)
         if word_result != (-1, 0):  # 문장에서 단어 사전에 있는 단어가 있다면
             emo_word.append(token[0])
@@ -60,7 +59,7 @@ def input_emotion_word(df, index, emotion_dictionary_lists, token_list):
 
 # 화자 분석
 def input_character(df, index, listOfCharacter, token_list):
-    subject, object, busa, kwanhyeong = parser(df, index, token_list, listOfCharacter)
+    subject, object, busa, kwanhyeong = parser(token_list)
     count = [0 for i in range(len(listOfCharacter))]  # 문장 당 등장인물의 출현 횟su
     flag = True
     nplist = ["그", "그녀",""]
@@ -80,12 +79,13 @@ def input_character(df, index, listOfCharacter, token_list):
             if token[0] in nplist:
                 if(df.at[index-1, "화자"] in listOfCharacter):
                     df.at[index, "화자"] = token[0] + "(" + df.at[index-1,"화자"] + ")"
-                    print(token[0] + "(" + df.at[index-1,"화자"] + ")")
+                    #print(token[0] + "(" + df.at[index-1,"화자"] + ")")
     for i, c in enumerate(count):
         if c >= 1 & flag == True:
             df.at[index, "화자"] = listOfCharacter[i]
-            print("------화자"+listOfCharacter[i])
-    print("")
+            #print("------화자"+listOfCharacter[i])
+    #print("")
+
     return df
 
 

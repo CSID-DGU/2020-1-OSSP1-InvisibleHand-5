@@ -22,8 +22,6 @@ def tokenizer(line):
                 del token_list[i]
                 del token_list[i]
                 token_list.insert(i,('근','MM'))
-    #string = "손에 쥔 피"
-
     #print(token_list)
 
     return token_list
