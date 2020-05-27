@@ -43,6 +43,9 @@ df_sentence = create.create_sentence_dataframe(context, listOfEmotion)
 # 감정 사전 생성
 emotion_dictionary_lists = emotion_word.create_emotion_dictionary()
 
+# 구축되어 있는 감정 사전 데이터 프레임 오픈
+df_emotion = emotion_word.open_emotion_dataframe()
+
 # 화자 분석
 df_sentence = analyze.analyze_sentence(df_sentence, listOfCharacter, emotion_dictionary_lists, charOfPage)
 create.save_df(df_sentence, fileName)
