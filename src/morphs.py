@@ -75,16 +75,17 @@ def _max_length_l_tokenize(self, token):
 
     nouns_ = []
     e = 0
-
-    while nouns:
-        # pop first element
-        noun, b, len_ = nouns.pop(0)
-        # only concatenate nouns
-        if not (b == e):
-            return nouns_to_larray_and_r(token, nouns_)
-        # append noun and update end index
-        nouns_.append(noun)
-        e = b + len_
-        nouns = [noun for noun in nouns if noun[1] >= e]
-
     return nouns_to_larray_and_r(token, nouns_)
+
+
+def tokenize_(self, sentence, tolerance=0.0, flatten=True, remove_r=False):
+
+    tokens = [token_to_lr(token, tolerance) for token in sentence.split()]
+
+    if remove_r:
+        tokens = [token[0] for token in tokens]
+
+    if (flatten) and (remove_r == False):
+        tokens = [subtoken for token in tokens for subtoken in token if subtoken]
+
+    return tokens
