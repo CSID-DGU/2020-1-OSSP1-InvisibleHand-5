@@ -36,3 +36,32 @@ def train(self, sents, min_noun_frequency=5):
     lrgraph = self._build_lrgraph(sents, wordset_l, wordset_r)
     self.lrgraph = LRGraph(lrgraph)
     self.words = wordset_l
+
+def _scan_vocabulary(self, sents, min_frequency=5):
+    wordset_l = defaultdict(lambda: 0)
+    wordset_r = defaultdict(lambda: 0)
+
+    for i, sent in enumerate(sents):
+        if not self.ensure_normalized:
+            sent = normalize_sent_for_lrgraph(sent)
+        for token in sent.split(' '):
+            if not token:
+                continue
+            token_len = len(token)
+            for i in range(1, min(self.max_left_length, token_len) + 1):
+                wordset_l[token[:i]] += 1
+            for i in range(1, min(self.max_right_length, token_len)):
+                wordset_r[token[-i:]] += 1
+        if self.verbose and (i % 1000 == 999):
+            message = 'scanning {} / {} sents'.format(i + 1, len(sents))
+            print('\r[Noun Extractor] {}'.format(message), end='')
+
+    self._substring_counter = {w: f for w, f in wordset_l.items() if f >= min_frequency}
+    wordset_l = set(self._substring_counter.keys())
+    wordset_r = {w for w, f in wordset_r.items() if f >= min_frequency}
+
+    if self.verbose:
+        message = '(L,R) has (%d, %d) tokens' % (len(wordset_l), len(wordset_r))
+        print('\r[Noun Extractor] scanning was done {}'.format(message))
+
+    return wordset_l, wordset_r
