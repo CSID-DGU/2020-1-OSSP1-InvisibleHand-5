@@ -21,7 +21,6 @@ def display_emotion_graph(df_list_character, listOfCharacter, numOfCharacter):
         plt.legend(loc='upper right')
         plt.grid(color='gray', dashes=(2, 2))
         plt.show()
-        plt.savefig('savefig_default.png')  # 결과 그래프 이미지로 저장
 
 # 결과 2. 모든 등장인물의 페이지별 감정 흐름
 # 그래프 생성 및 등장인물 별 감정 흐름 값 대입
