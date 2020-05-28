@@ -51,7 +51,7 @@ df_sentence = analyze.analyze_sentence(df_sentence, listOfCharacter, df_emotion,
 create.save_df(df_sentence, fileName)
 
 # 등장인물 별 페이지 감정 점수 합산하여 등장인물 데이터프레임 생성
-df_list_character = analyze.merge_sentence(df_sentence, numOfPage, listOfEmotion, listOfCharacter)
+df_list_character = analyze.merge_character(df_sentence, listOfEmotion, listOfCharacter)
 
 # 그래프 설정
 result.config_graph()
