@@ -8,6 +8,8 @@ import math
 import pandas as pd
 import noun_ex
 from matplotlib import pyplot as plt
+pd.set_option('mode.chained_assignment',  None)
+
 
 
 # 파일 입력
