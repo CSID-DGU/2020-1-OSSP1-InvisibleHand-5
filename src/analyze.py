@@ -185,12 +185,6 @@ def merge_character(df_sentence, listOfEmotion, listOfCharacter):
 
     df_character = df_sentence[listOfEmotion]
     df_list_character = []
-    for character in listOfCharacter:
-        # 화자 필터링
-        character_filter = df_sentence['화자'] == character
-        df_character = df_sentence[character_filter]
-        df_character = df_character[['기쁨', '슬픔', '분노', '공포', '혐오', '놀람']]
-
 
     for character in listOfCharacter:
         # 해당 등장인물이 아닌 문장 감정 값 0으로 초기화
