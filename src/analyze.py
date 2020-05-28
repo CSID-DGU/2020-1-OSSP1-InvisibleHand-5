@@ -127,10 +127,12 @@ def input_character(df, index_word, listOfCharacter, token_list):
     return df
 
 def input_lemma(df, index_word, token_list):
+    lemma = ""
     for token in token_list:
         lemma = morphs.lemmatize(token)
-        df.at[index_word, "lemma"] = lemma
-        print(lemma)
+        if lemma is not None:
+            df.at[index_word, "lemma"] = lemma
+            print(lemma)
     return df
 
 # 메인
@@ -183,14 +185,12 @@ def merge_character(df_sentence, listOfEmotion, listOfCharacter):
 
     df_character = df_sentence[listOfEmotion]
     df_list_character = []
-<<<<<<< HEAD
     for character in listOfCharacter:
         # 화자 필터링
         character_filter = df_sentence['화자'] == character
         df_character = df_sentence[character_filter]
         df_character = df_character[['기쁨', '슬픔', '분노', '공포', '혐오', '놀람']]
-=======
->>>>>>> 4a886282b666241f20145f385a7cd27402b40e44
+
 
     for character in listOfCharacter:
         # 해당 등장인물이 아닌 문장 감정 값 0으로 초기화
