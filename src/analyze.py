@@ -45,6 +45,7 @@ def parser(df, index, token_list, listOfCharacter):
     object = []
     busa = []
     kwanhyeong = []
+    #print(chunks)
     for sub_tree in chunks.subtrees():
         if sub_tree.label() == "주어":
             subject.append(sub_tree[0][0])
@@ -59,11 +60,6 @@ def parser(df, index, token_list, listOfCharacter):
         # df.at[index, "주어"] = subject
         # df.at[index, "목적어"] = object
     return subject, object, busa, kwanhyeong
-
-
-# def input_emotion_word(df, index, emotion_dictionary_lists, token_list):
-#     emo_word = []
-#     for token
 
 # 감정 분석
 def input_emotion_word(df, index_word, df_emotion, token_list):
@@ -104,8 +100,8 @@ def input_emotion_word(df, index_word, df_emotion, token_list):
 
 
 # 화자 분석
-def input_character(df, index, listOfCharacter, token_list):
-    subject, object, busa, kwanhyeong = parser(df, index, token_list, listOfCharacter)
+def input_character(df, index_word, listOfCharacter, token_list):
+    subject, object, busa, kwanhyeong=parser(df, index_word, token_list, listOfCharacter)
     count = [0 for i in range(len(listOfCharacter))]  # 문장 당 등장인물의 출현 횟su
     flag = True
     nplist = ["그", "그녀", ""]
@@ -123,13 +119,21 @@ def input_character(df, index, listOfCharacter, token_list):
                 flag = True
         if token[1] == "NP":
             if token[0] in nplist:
-                if df.at[index - 1, "화자"] in listOfCharacter:
-                    df.at[index, "화자"] = token[0] + "(" + df.at[index - 1, "화자"] + ")"
+                if(df.at[index_word-1, "화자"] in listOfCharacter):
+                    df.at[index_word, "화자"] = token[0] + "(" + df.at[index_word-1,"화자"] + ")"
     for i, c in enumerate(count):
         if c >= 1 & flag == True:
-            df.at[index, "화자"] = listOfCharacter[i]
+            df.at[index_word, "화자"] = listOfCharacter[i]
     return df
 
+def input_lemma(df, index_word, token_list):
+    lemma = ""
+    for token in token_list:
+        lemma = morphs.lemmatize(token)
+        if lemma is not None:
+            df.at[index_word, "lemma"] = lemma
+            print(lemma)
+    return df
 
 # 메인
 def analyze_sentence(df, listOfCharacter, df_emotion, charOfPage):
@@ -148,6 +152,7 @@ def analyze_sentence(df, listOfCharacter, df_emotion, charOfPage):
         token_list = morphs.tokenizer(line)
         # parser(df, index, token_list,listOfCharacter)  # df에 주어,목적어 값 입력
         df = input_character(df, index_word, listOfCharacter, token_list)  # df에 화자 값 입력
+        df = input_lemma(df,index_word, token_list)
         df = input_emotion_word(df, index_word, df_emotion, token_list)  # df에 감정 단어 및 감정 값 입력
         index_word = index_word + 1
     return df
@@ -206,6 +211,5 @@ def merge_character(df_sentence, listOfEmotion, listOfCharacter):
             df_character[emo] = s_emo.values
         df_character.to_excel(writer, sheet_name=f"{character}")
         df_list_character.append(df_character)
-
     writer.save()
     return df_list_character
