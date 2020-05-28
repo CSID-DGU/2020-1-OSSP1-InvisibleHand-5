@@ -195,16 +195,15 @@ def merge_character(df_sentence, listOfEmotion, listOfCharacter):
             index_now = 0
 
             s_emo = df_character[emo]  # 시리즈 추출
-            print(s_emo)
             for v in s_emo.values:  #
                 if v != 0:
                     incl = (score_last - v) / (index_last - index_now)  # x 변화량 / y 변화량 = 기울기
                     for j in range(index_last + 1, index_now):  # 사이 값
                         s_emo[j] = score_last + incl * (j - index_last)  # 기울기* x 변화량 만큼 증감
                     index_last = index_now
+                    score_last = v
                 index_now = index_now + 1
             df_character[emo] = s_emo.values
-            print(s_emo)
         df_character.to_excel(writer, sheet_name=f"{character}")
         df_list_character.append(df_character)
 
