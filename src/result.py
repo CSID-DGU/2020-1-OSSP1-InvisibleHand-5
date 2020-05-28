@@ -16,7 +16,8 @@ def display_emotion_graph(df_list_character, listOfCharacter, numOfCharacter):
     for num in range(0, numOfCharacter):
         df_list_character[0].plot()
         plt.title(f'{listOfCharacter[num]}')
-        plt.xlabel('페이지')
+        # plt.xlabel('페이지')
+        plt.xlabel('문장')
         plt.ylabel('감정 값')
         plt.legend(loc='upper right')
         plt.grid(color='gray', dashes=(2, 2))

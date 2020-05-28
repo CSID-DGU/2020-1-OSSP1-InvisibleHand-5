@@ -14,7 +14,7 @@ def find_word(df_emotion, token):
     tag_verb = ['VV']
     tag_adj = ['VA']
     tag_adv = ['MAG', 'MAJ']
-
+    tag = ""
     if token[1] in tag_all:  # 명사, 동사, 형용사, 부사인지 확인
         if token[1] in tag_noun:
             tag = "명사"
@@ -32,16 +32,14 @@ def find_word(df_emotion, token):
         return [-1], [0]
     else:  # 있으면 감정, 점수 반환
         return df_filter['감정'].tolist(), df_filter['점수'].tolist()
-    return [-1], [0]  # 단어사전에 없었다면
 
 # 주어 목적어 분석 기능을 -> 구문 분석 모듈로 확장 (input_element -> parser)
 # 구문 분석
 def parser(df, index, token_list, listOfCharacter):
     parser = nltk.RegexpParser(grammar.grammar)
     chunks = parser.parse(token_list)
-    print(chunks)
 
-    tlist = ["NNG","NNP","NP","NNB"]
+    tlist = ["NNG", "NNP", "NP", "NNB"]
     subject = []
     object = []
     busa = []
@@ -56,7 +54,6 @@ def parser(df, index, token_list, listOfCharacter):
             busa.append(sub_tree[0][0])
         elif sub_tree.label() == "관형어":
             if(sub_tree[0][1] != "MM"):
-                print("관형어인데 MM아닌거" + sub_tree[0][0])
                 kwanhyeong.append(sub_tree[0][0])
 
         #df.at[index, "주어"] = subject
@@ -110,7 +107,7 @@ def input_character(df, index, listOfCharacter, token_list):
     subject, object, busa, kwanhyeong = parser(df, index, token_list, listOfCharacter)
     count = [0 for i in range(len(listOfCharacter))]  # 문장 당 등장인물의 출현 횟su
     flag = True
-    nplist = ["그", "그녀",""]
+    nplist = ["그", "그녀", ""]
     for i, token in enumerate(token_list):
         #print(token)
         if token[0] in listOfCharacter:  # 문장에서 등장인물 등장 체크
@@ -127,12 +124,9 @@ def input_character(df, index, listOfCharacter, token_list):
             if token[0] in nplist:
                 if(df.at[index-1, "화자"] in listOfCharacter):
                     df.at[index, "화자"] = token[0] + "(" + df.at[index-1,"화자"] + ")"
-                    print(token[0] + "(" + df.at[index-1, "화자"] + ")")
     for i, c in enumerate(count):
         if c >= 1 & flag == True:
             df.at[index, "화자"] = listOfCharacter[i]
-            print("------화자"+listOfCharacter[i])
-    print("")
     return df
 
 
@@ -157,6 +151,7 @@ def analyze_sentence(df, listOfCharacter, df_emotion, charOfPage):
     return df
 
 
+###### 문장 단위로 변경하면서 미사용
 def merge_sentence(df_sentence, numOfPage, listOfEmotion, listOfCharacter):
     writer = pd.ExcelWriter("../res/output/등장인물.xlsx", engine='openpyxl')
 
@@ -165,11 +160,7 @@ def merge_sentence(df_sentence, numOfPage, listOfEmotion, listOfCharacter):
 
     for character in listOfCharacter:
         for num in range(0, numOfPage):
-            '''
-            page_speaker_filter = df_sentence['페이지 번호'].isin([num]) & df_sentence['화자'].isin([character])
-            #speaker_filter = df_sentence['화자'].isin([character])
-            page_filtered_df = df_sentence[page_speaker_filter]  # num 페이지 행들 추출
-'''
+            
             m1 = ((df_sentence['페이지 번호'] == num) & (df_sentence['화자'] == character))
             page_filtered_df = df_sentence.loc[m1]
             page_filtered_df = page_filtered_df.loc[:, ('기쁨', '슬픔', '분노', '공포', '혐오', '놀람')]  # 추출한 행들의 감정 열 추출
@@ -180,3 +171,25 @@ def merge_sentence(df_sentence, numOfPage, listOfEmotion, listOfCharacter):
 
     writer.save()
     return df_list_character
+
+
+# 등장인물만 합산하면서 값이 0인 부분들은 이후 값과 기울기를 따져 계산 문장
+def merge_character(df_sentence, listOfEmotion, listOfCharacter):
+    writer = pd.ExcelWriter("../res/output/등장인물.xlsx", engine='openpyxl')
+
+    df_list_character = []
+    for character in listOfCharacter:
+
+        # 화자 필터링
+        character_filter = df_sentence['화자'] == character
+        df_character = df_sentence[character_filter]
+        df_character = df_character[['기쁨', '슬픔', '분노', '공포', '혐오', '놀람']]
+
+        df_list_character.append(df_character)
+        df_character.to_excel(writer, sheet_name=f"{character}")
+
+        df_list_character.append(df_character)
+
+    writer.save()
+    return df_list_character
+
