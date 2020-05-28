@@ -3,11 +3,11 @@ import preprocess
 import result
 import analyze
 import morphs
+import emotion_word
 import math
 import pandas as pd
 import noun_ex
 from matplotlib import pyplot as plt
-
 
 
 # 파일 입력
@@ -41,14 +41,17 @@ create.create_userdic(numOfCharacter, listOfCharacter)
 df_sentence = create.create_sentence_dataframe(context, listOfEmotion)
 
 # 감정 사전 생성
-emotion_dictionary_lists = create.create_emotion_dictionary()
+emotion_dictionary_lists = emotion_word.create_emotion_dictionary()
+
+# 구축되어 있는 감정 사전 데이터 프레임 오픈
+df_emotion = emotion_word.open_emotion_dataframe()
 
 # 화자 분석
-df_sentence = analyze.analyze_sentence(df_sentence, listOfCharacter, emotion_dictionary_lists, charOfPage)
+df_sentence = analyze.analyze_sentence(df_sentence, listOfCharacter, df_emotion, charOfPage)
 create.save_df(df_sentence, fileName)
 
 # 등장인물 별 페이지 감정 점수 합산하여 등장인물 데이터프레임 생성
-df_list_character = analyze.merge_sentence(df_sentence, numOfPage, listOfEmotion, listOfCharacter)
+df_list_character = analyze.merge_character(df_sentence, listOfEmotion, listOfCharacter)
 
 # 그래프 설정
 result.config_graph()
@@ -59,5 +62,5 @@ result.config_graph()
 # 결과 2. 모든 등장인물의 페이지별 감정 흐름 그래프 생성 및 출력
 #result.display_sentiment_graph(numOfCharacter, listOfCharacter, numOfPage, sentimentVector)
 
-plt.show()
+
 book.close()
