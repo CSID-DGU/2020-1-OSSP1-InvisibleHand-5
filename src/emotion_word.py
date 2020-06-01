@@ -1,24 +1,33 @@
 import re
 import create
 import nltk
+from konlpy.tag import Komoran
+from nltk.tag import StanfordPOSTagger
 import pandas as pd
 
+# 감정 데이터프레임 입력
 def open_emotion_dataframe():
     df = pd.read_excel('../res/dic/감정 단어.xlsx', index_col=0, convert_float=True)
     return df
 
+# 감정 단어 품사 태깅
 def emotion_pos_tagging():
     tag_target = ['V', 'N', 'J', 'R']
     tag_list = []
 
-    # 확장 단어 사전 엑셀 파일 입력
+    # 단어 사전 엑셀 파일 입력
     df_emotion = open_emotion_dataframe()
 
     # 품사 태깅
     for word in df_emotion['영어']:
-        tag = nltk.pos_tag([word])
-        tag_first = tag[0][1][0]
+        STANFORD_POS_MODEL_PATH = "path/english-bidirectional-distsim.tagger"
+        STANFORD_POS_JAR_PATH = "path/stanford-postagger-3.9.2.jar"
 
+        pos_tagger = StanfordPOSTagger(STANFORD_POS_MODEL_PATH, STANFORD_POS_JAR_PATH)
+
+        pos = pos_tagger.tag([word])
+        tag_first = pos[0][1][0]
+        print(pos)
         if tag_first in tag_target:
             if tag_first == 'V':
                 tag_list.append('동사')

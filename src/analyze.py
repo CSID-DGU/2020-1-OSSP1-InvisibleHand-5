@@ -123,8 +123,9 @@ def input_character(df, index, listOfCharacter, token_list):
                 flag = True
         if token[1] == "NP":
             if token[0] in nplist:
-                if df.at[index - 1, "화자"] in listOfCharacter:
-                    df.at[index, "화자"] = token[0] + "(" + df.at[index - 1, "화자"] + ")"
+                if index > 0:
+                    if df.at[index - 1, "화자"] in listOfCharacter:
+                        df.at[index, "화자"] = token[0] + "(" + df.at[index - 1, "화자"] + ")"
     for i, c in enumerate(count):
         if c >= 1 & flag == True:
             df.at[index, "화자"] = listOfCharacter[i]
