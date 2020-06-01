@@ -37,7 +37,7 @@ def find_word(df_emotion, token):
 # 감정 사전에서 단어 찾기(lemma)
 def find_word_lemma(df_emotion, lemma):
     df_filter = df_emotion[(df_emotion['품사'] == '동사') | (df_emotion['품사'] == '형용사')]
-    if len(df_filter) == 0:  # 조건을 만족하는 행이 없으면 -1, 0 반환
+    if len(df_filter) == 0:  # 조건을 만족하는 행이 없으면 -1, 0 반환 
         return [-1], [0]
     for w in df_filter['한글']:
         print(morphs.kom.pos(w))
