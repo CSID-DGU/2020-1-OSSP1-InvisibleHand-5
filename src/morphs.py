@@ -9,7 +9,7 @@ kom = Komoran(userdic='user_dic.txt')  # 사용자 사전 적용
 
 # 형태소 분석
 def tokenizer(line):
-    # test = "김첨지와 학생"
+    # test = "격렬한"
     # print(kom.pos(test))
     token_list = kom.pos(line)
     for i, token in enumerate(token_list):
@@ -29,7 +29,7 @@ def tokenizer(line):
 
 #Lemmatization
 def lemmatize_token(token):
-    if token[1] == 'VA' or token[1] == 'VV': 
+    if token[1] == 'VA' or token[1] == 'VV':
         return token[0] + '다'
 
 def lemmatize_word(word):

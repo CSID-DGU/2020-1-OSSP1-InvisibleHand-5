@@ -29,7 +29,7 @@ def find_word(df_emotion, token):
     else:  # 다른 품사일 경우 -1, 0 반환 ( 감정 단어 사전에 없음 )
         return [-1], [0]
 
-    df_filter = df_emotion[(df_emotion['한글'] == token[0]) & (df_emotion['품사'] == tag)]
+    df_filter = df_emotion[((df_emotion['한글'] == token[0]) & (df_emotion['품사'] == tag))]
     if len(df_filter) == 0:  # 조건을 만족하는 행이 없으면 -1, 0 반환
         return [-1], [0]
     else:  # 있으면 감정, 점수 반환
@@ -37,13 +37,11 @@ def find_word(df_emotion, token):
 
 # 감정 사전에서 단어 찾기(lemma)
 def find_word_lemma(df_emotion, lemma):
-    df_filter = df_emotion[(df_emotion['품사'] == '동사') | (df_emotion['품사'] == '형용사')]
-    if len(df_filter) == 0:  # 조건을 만족하는 행이 없으면 -1, 0 반환 
+    df_filter = df_emotion[(df_emotion['한글'] == lemma) & (df_emotion['품사'] == '동사')]
+    if len(df_filter) == 0:  # 조건을 만족하는 행이 없으면 -1, 0 반환
         return [-1], [0]
-    for w in df_filter['한글']:
-        print(morphs.kom.pos(w))
-    # else:  # 있으면 감정, 점수 반환
-    #     print(df_filter['한글'].tolist(), df_filter['품사'].tolist())
+    else:  # 있으면 감정, 점수 반환
+        return df_filter['감정'].tolist(), df_filter['점수'].tolist()
 
 
 # 주어 목적어 분석 기능을 -> 구문 분석 모듈로 확장 (input_element -> parser)
@@ -84,6 +82,7 @@ def input_emotion_word(df, index_word, df_emotion, token_list):
     fear_flag = False
     disgust_flag = False
     surprise_flag = False
+
     for token in token_list:
         emotion_list, score_list = find_word(df_emotion, token)
         if -1 not in emotion_list:  # 문장에서 단어 사전에 있는 단어가 있다면
@@ -107,9 +106,36 @@ def input_emotion_word(df, index_word, df_emotion, token_list):
                 elif emo == '놀람' and surprise_flag is False:
                     df.at[index_word, '놀람'] += float(score_list[emotion_list.index(emo)])  # 감정과 점수 입력
                     surprise_flag = True
-    for lem in df.at[index_word, 'lemma']:
-        find_word_lemma(df_emotion, lem)
-    #df.at[index_word, "lemma"]
+
+    anger_flag = False
+    joy_flag = False
+    sadness_flag = False
+    fear_flag = False
+    disgust_flag = False
+    surprise_flag = False
+    lem = df.at[index_word, 'lemma']
+    emotion_list, score_list = find_word_lemma(df_emotion, lem)
+    if -1 not in emotion_list:  # 문장에서 단어 사전에 있는 단어가 있다면
+        emo_word.append(lem)  # 단어 란에 입력
+        for emo in emotion_list:
+            if emo == '분노' and anger_flag is False:
+                df.at[index_word, '분노'] += float(score_list[emotion_list.index(emo)])  # 감정과 점수 입력
+                anger_flag = True
+            elif emo == '기쁨' and joy_flag is False:
+                df.at[index_word, '기쁨'] += float(score_list[emotion_list.index(emo)])  # 감정과 점수 입력
+                joy_flag = True
+            elif emo == '슬픔' and sadness_flag is False:
+                df.at[index_word, '슬픔'] += float(score_list[emotion_list.index(emo)])  # 감정과 점수 입력
+                sadness_flag = True
+            elif emo == '공포' and fear_flag is False:
+                df.at[index_word, '공포'] += float(score_list[emotion_list.index(emo)])  # 감정과 점수 입력
+                fear_flag = True
+            elif emo == '혐오' and disgust_flag is False:
+                df.at[index_word, '혐오'] += float(score_list[emotion_list.index(emo)])  # 감정과 점수 입력
+                disgust_flag = True
+            elif emo == '놀람' and surprise_flag is False:
+                df.at[index_word, '놀람'] += float(score_list[emotion_list.index(emo)])  # 감정과 점수 입력
+                surprise_flag = True
 
     df.at[index_word, "감정 단어"] = emo_word
     return df
