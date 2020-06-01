@@ -44,8 +44,6 @@ def emotion_pos_tagging():
     # 품사 태깅한 확장 단어 사전 데이터프레임 출력
     df_emotion.to_excel(f"../res/output/test.xlsx")
 
-
-
 # 감정 사전 생성
 def create_emotion_dictionary():
     lex_file = open('../res/dic/Korean_Lexicon.txt', 'rt', encoding='UTF8')

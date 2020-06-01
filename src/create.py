@@ -65,10 +65,9 @@ def create_sentence_dataframe(context, listOfEmotion):
     df['구두 문자'] = pd.Series(punctuation, index=df.index)
     df['문장 종류'] = pd.Series(kind, index=df.index)
     df['연결 여부'] = pd.Series(connect, index=df.index)
-    df['주어'] = ""
-    df['목적어'] = ""
     df['감정 단어'] = ""
     df['화자'] = ""
+    df['lemma'] = ""
     for emo in listOfEmotion:
         df[f'{emo}'] = 0.0
     return df
