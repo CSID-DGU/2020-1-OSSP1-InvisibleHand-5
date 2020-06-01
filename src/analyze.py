@@ -2,6 +2,7 @@
 import nltk
 import create
 import numpy as np
+import sympy
 import pandas as pd
 import grammar
 import morphs
@@ -72,6 +73,7 @@ def parser(df, index, token_list, listOfCharacter):
         # df.at[index, "목적어"] = object
     return subject, object, busa, kwanhyeong
 
+  
 # 감정 분석
 def input_emotion_word(df, index_word, df_emotion, token_list):
     emo_word = []
@@ -82,28 +84,27 @@ def input_emotion_word(df, index_word, df_emotion, token_list):
     fear_flag = False
     disgust_flag = False
     surprise_flag = False
-
     for token in token_list:
         emotion_list, score_list = find_word(df_emotion, token)
         if -1 not in emotion_list:  # 문장에서 단어 사전에 있는 단어가 있다면
             emo_word.append(token[0])  # 단어 란에 입력
             for emo in emotion_list:
-                if emo == 'anger' and anger_flag is False:
+                if emo == '분노' and anger_flag is False:
                     df.at[index_word, '분노'] += float(score_list[emotion_list.index(emo)])  # 감정과 점수 입력
                     anger_flag = True
-                elif emo == 'joy' and joy_flag is False:
+                elif emo == '기쁨' and joy_flag is False:
                     df.at[index_word, '기쁨'] += float(score_list[emotion_list.index(emo)])  # 감정과 점수 입력
                     joy_flag = True
-                elif emo == 'sadness' and sadness_flag is False:
+                elif emo == '슬픔' and sadness_flag is False:
                     df.at[index_word, '슬픔'] += float(score_list[emotion_list.index(emo)])  # 감정과 점수 입력
                     sadness_flag = True
-                elif emo == 'fear' and fear_flag is False:
+                elif emo == '공포' and fear_flag is False:
                     df.at[index_word, '공포'] += float(score_list[emotion_list.index(emo)])  # 감정과 점수 입력
                     fear_flag = True
-                elif emo == 'disgust' and disgust_flag is False:
+                elif emo == '혐오' and disgust_flag is False:
                     df.at[index_word, '혐오'] += float(score_list[emotion_list.index(emo)])  # 감정과 점수 입력
                     disgust_flag = True
-                elif emo == 'surprise' and surprise_flag is False:
+                elif emo == '놀람' and surprise_flag is False:
                     df.at[index_word, '놀람'] += float(score_list[emotion_list.index(emo)])  # 감정과 점수 입력
                     surprise_flag = True
     for lem in df.at[index_word, 'lemma']:
@@ -182,28 +183,122 @@ def analyze_sentence(df, listOfCharacter, df_emotion, charOfPage):
     return df
 
 
-###### 문장 단위로 변경하면서 미사용
-def merge_sentence(df_sentence, numOfPage, listOfEmotion, listOfCharacter):
+def merge_character(df_sentence, listOfEmotion, listOfCharacter):
     writer = pd.ExcelWriter("../res/output/등장인물.xlsx", engine='openpyxl')
 
     df_list_character = []
-    df_character = pd.DataFrame(index=range(0, numOfPage), columns=[f"{emotion}" for emotion in listOfEmotion])
-
     for character in listOfCharacter:
-        for num in range(0, numOfPage):
-            m1 = ((df_sentence['페이지 번호'] == num) & (df_sentence['화자'] == character))
-            page_filtered_df = df_sentence.loc[m1]
-            page_filtered_df = page_filtered_df.loc[:, ('기쁨', '슬픔', '분노', '공포', '혐오', '놀람')]  # 추출한 행들의 감정 열 추출
-            emotion_sum_df = page_filtered_df.sum(axis=0)  # 감정 별 합 추출
-            df_character.loc[num] = emotion_sum_df  # 등장인물 데이터프레임에 감정 별 합 대입
+        # 화자 필터링
+        character_filter = df_sentence['화자'] == character
+        df_character = df_sentence[character_filter]
+        df_character = df_character[['기쁨', '슬픔', '분노', '공포', '혐오', '놀람']]
+
         df_list_character.append(df_character)
         df_character.to_excel(writer, sheet_name=f"{character}")
+
+        df_list_character.append(df_character)
 
     writer.save()
     return df_list_character
 
 
-# 등장인물만 합산하면서 값이 0인 부분들은 이후 값과 기울기를 따져 계산 문장
+# 가중치 적용 모델
+'''
+def merge_character(df_sentence, listOfEmotion, listOfCharacter):
+    writer = pd.ExcelWriter("../res/output/등장인물.xlsx", engine='openpyxl')
+
+    df_character = df_sentence[listOfEmotion]
+    df_list_character = []
+
+    for character in listOfCharacter:
+        # 해당 등장인물이 아닌 문장 감정 값 0으로 초기화
+        for i in df_sentence.index:
+            # i 행의 '화자' 열
+            if df_sentence.loc[i]['화자'] != character:
+                df_character.loc[i, listOfEmotion] = 0
+
+        # 0 으로 초기화한 값 이전 값의 기울기 적용
+        for emo in listOfEmotion:  # 감정 별로
+
+            index_last = 0
+            score_last = 0
+            index_now = 0
+
+            # 감정값이 0 인 문장 연속 개수
+            # 20문장 이상일 경우 상황이 끝났다고 판단
+            # 문법 분석에서 상황 종료 판단 가능 시 수정
+            non_emotion_count = 1
+            emotion_count = 1
+            acc_value = 0
+            proceeding_flag = False  # 상황 진행임을 알려주는 변수
+
+            s_emo = df_character[emo]  # 시리즈 추출
+            for j in range(len(s_emo)):
+                if proceeding_flag:  # 상황 진행 중이라면
+                    if non_emotion_count < 20:  # 감정이 없는 문장 20 연속으로 나오지 않았을 경우
+                        if s_emo[j] == 0:
+                            non_emotion_count = non_emotion_count + 1
+                            s_emo[j] = s_emo[j] * 0.8
+                        else:
+                            non_emotion_count = 1
+                        acc_value = acc_value + s_emo[j]
+                        emotion_count = emotion_count + 1
+                        s_emo[j] = s_emo[j] + acc_value  # 상황 진행 중의 감정의 평균 값을 가중치로 더함
+                    else:  # 20연속 감정 없는 문장 등장 -> 상황 종료라고 판단
+                        proceeding_flag = False  # 상황 종료
+                        non_emotion_count = 1
+                        emotion_count = 1
+                        acc_value = 0
+                else:  # 상황 종료 중이였다면
+                    if s_emo[j] != 0:  # 감정 문장 등장 -> 상황 시작
+                        proceeding_flag = True
+                        acc_value = s_emo[j]
+                    else:
+                        pass
+
+            df_character[emo] = s_emo.values
+        df_character.to_excel(writer, sheet_name=f"{character}")
+        df_list_character.append(df_character)
+
+    writer.save()
+    return df_list_character
+'''
+
+# 절대값 적용 모델
+'''
+def merge_character(df_sentence, listOfEmotion, listOfCharacter):
+    writer = pd.ExcelWriter("../res/output/등장인물.xlsx", engine='openpyxl')
+
+    df_character = df_sentence[listOfEmotion]
+    df_list_character = []
+
+    for character in listOfCharacter:
+        # 해당 등장인물이 아닌 문장 감정 값 0으로 초기화
+        for i in df_sentence.index:
+            # i 행의 '화자' 열
+            if df_sentence.loc[i]['화자'] != character:
+                df_character.loc[i, listOfEmotion] = 0
+
+        # 0 으로 초기화한 값 이전 값의 기울기 적용
+        for emo in listOfEmotion:  # 감정 별로
+            s_emo = df_character[emo]  # 시리즈 추출
+            for j in range(len(s_emo)):
+                if j != 0:
+                    if s_emo[j] == 0:
+                        s_emo[j] = s_emo[j-1] - 0.01
+                    else:
+                        s_emo[j] = s_emo[j-1] + s_emo[j]
+            df_character[emo] = s_emo.values
+        df_character.to_excel(writer, sheet_name=f"{character}")
+        df_list_character.append(df_character)
+
+    writer.save()
+    return df_list_character
+'''
+
+
+# 기울기 적용 모델
+'''
 def merge_character(df_sentence, listOfEmotion, listOfCharacter):
     writer = pd.ExcelWriter("../res/output/등장인물.xlsx", engine='openpyxl')
 
@@ -237,3 +332,26 @@ def merge_character(df_sentence, listOfEmotion, listOfCharacter):
         df_list_character.append(df_character)
     writer.save()
     return df_list_character
+'''
+
+###### 문장 단위로 변경하면서 미사용
+'''
+def merge_sentence(df_sentence, numOfPage, listOfEmotion, listOfCharacter):
+    writer = pd.ExcelWriter("../res/output/등장인물.xlsx", engine='openpyxl')
+
+    df_list_character = []
+    df_character = pd.DataFrame(index=range(0, numOfPage), columns=[f"{emotion}" for emotion in listOfEmotion])
+
+    for character in listOfCharacter:
+        for num in range(0, numOfPage):
+            m1 = ((df_sentence['페이지 번호'] == num) & (df_sentence['화자'] == character))
+            page_filtered_df = df_sentence.loc[m1]
+            page_filtered_df = page_filtered_df.loc[:, ('기쁨', '슬픔', '분노', '공포', '혐오', '놀람')]  # 추출한 행들의 감정 열 추출
+            emotion_sum_df = page_filtered_df.sum(axis=0)  # 감정 별 합 추출
+            df_character.loc[num] = emotion_sum_df  # 등장인물 데이터프레임에 감정 별 합 대입
+        df_list_character.append(df_character)
+        df_character.to_excel(writer, sheet_name=f"{character}")
+
+    writer.save()
+    return df_list_character
+'''

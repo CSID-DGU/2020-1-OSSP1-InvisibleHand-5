@@ -14,7 +14,7 @@ def config_graph():
 def display_emotion_graph(df_list_character, listOfCharacter, numOfCharacter):
 
     for num in range(0, numOfCharacter):
-        df_list_character[0].plot()
+        df_list_character[num].plot()
         plt.title(f'{listOfCharacter[num]}')
         # plt.xlabel('페이지')
         plt.xlabel('문장')

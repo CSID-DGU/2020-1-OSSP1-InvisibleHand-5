@@ -52,7 +52,8 @@ def create_sentence_list(context):
             else:
                 connect.append("연결")  # 글자라면 연결
             conversation_end = False
-    connect.append("")
+    if len(connect) < len(sentence):  # 마지막 문장 예외처리
+        connect.append("")
     return sentence, punctuation, kind, connect
 
 
