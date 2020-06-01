@@ -5,6 +5,7 @@ import numpy as np
 import pandas as pd
 import grammar
 import morphs
+from collections import defaultdict
 
 
 # 감정 사전에서 단어 찾기
@@ -32,6 +33,16 @@ def find_word(df_emotion, token):
         return [-1], [0]
     else:  # 있으면 감정, 점수 반환
         return df_filter['감정'].tolist(), df_filter['점수'].tolist()
+
+# 감정 사전에서 단어 찾기(lemma)
+def find_word_lemma(df_emotion, lemma):
+    df_filter = df_emotion[(df_emotion['품사'] == '동사') | (df_emotion['품사'] == '형용사')]
+    if len(df_filter) == 0:  # 조건을 만족하는 행이 없으면 -1, 0 반환
+        return [-1], [0]
+    for w in df_filter['한글']:
+        print(morphs.kom.pos(w))
+    # else:  # 있으면 감정, 점수 반환
+    #     print(df_filter['한글'].tolist(), df_filter['품사'].tolist())
 
 
 # 주어 목적어 분석 기능을 -> 구문 분석 모듈로 확장 (input_element -> parser)
@@ -95,9 +106,12 @@ def input_emotion_word(df, index_word, df_emotion, token_list):
                 elif emo == 'surprise' and surprise_flag is False:
                     df.at[index_word, '놀람'] += float(score_list[emotion_list.index(emo)])  # 감정과 점수 입력
                     surprise_flag = True
+    for lem in df.at[index_word, 'lemma']:
+        find_word_lemma(df_emotion, lem)
+    #df.at[index_word, "lemma"]
+
     df.at[index_word, "감정 단어"] = emo_word
     return df
-
 
 # 화자 분석
 def input_character(df, index_word, listOfCharacter, token_list):
@@ -117,9 +131,9 @@ def input_character(df, index_word, listOfCharacter, token_list):
                 flag = True
             elif token[0] in kwanhyeong:
                 flag = True
-        if token[1] == "NP":
+        if token[1] == 'NP':
             if token[0] in nplist:
-                if(df.at[index_word-1, "화자"] in listOfCharacter):
+                if(index_word>0 and df.at[index_word-1, "화자"] in listOfCharacter):
                     df.at[index_word, "화자"] = token[0] + "(" + df.at[index_word-1,"화자"] + ")"
     for i, c in enumerate(count):
         if c >= 1 & flag == True:
@@ -129,11 +143,20 @@ def input_character(df, index_word, listOfCharacter, token_list):
 def input_lemma(df, index_word, token_list):
     lemma = ""
     for token in token_list:
-        lemma = morphs.lemmatize(token)
+        lemma = morphs.lemmatize_token(token)
         if lemma is not None:
             df.at[index_word, "lemma"] = lemma
-            print(lemma)
+            #print(lemma)
     return df
+
+# 단어의 빈도수
+count = defaultdict(lambda: 0)
+def get_frequency(token_list):
+    nList = ['NNP', 'NNG']
+    for word in token_list:
+        if (word[1] in nList):
+            count[word[0]] += 1
+
 
 # 메인
 def analyze_sentence(df, listOfCharacter, df_emotion, charOfPage):
@@ -153,6 +176,7 @@ def analyze_sentence(df, listOfCharacter, df_emotion, charOfPage):
         # parser(df, index, token_list,listOfCharacter)  # df에 주어,목적어 값 입력
         df = input_character(df, index_word, listOfCharacter, token_list)  # df에 화자 값 입력
         df = input_lemma(df,index_word, token_list)
+        get_frequency(token_list)
         df = input_emotion_word(df, index_word, df_emotion, token_list)  # df에 감정 단어 및 감정 값 입력
         index_word = index_word + 1
     return df
