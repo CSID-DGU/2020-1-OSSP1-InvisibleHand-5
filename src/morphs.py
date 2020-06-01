@@ -29,7 +29,7 @@ def tokenizer(line):
 
 #Lemmatization
 def lemmatize_token(token):
-    if token[1] == 'VA' or token[1] == 'VV':
+    if token[1] == 'VA' or token[1] == 'VV': 
         return token[0] + '다'
 
 def lemmatize_word(word):
