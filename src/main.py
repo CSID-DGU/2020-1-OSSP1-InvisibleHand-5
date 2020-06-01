@@ -29,15 +29,15 @@ numOfPage = math.ceil(len(context) / charOfPage)
 numOfCharacter = 1 # 테스트용 #########나중에 수정######################
 listOfCharacter = []
 
+# 사용자 사전 생성
+create.create_userdic(numOfCharacter, listOfCharacter)
+
 # 문장 테이블 생성
 df = create.create_sentence_dataframe(context, listOfEmotion)
 create.save_df(df, fileName)
 
 # 명사 추출
 #noun_ex.noun_extract(df)
-
-# 사용자 사전 생성
-create.create_userdic(numOfCharacter, listOfCharacter)
 
 # 문장 데이터프레임 생성
 df_sentence = create.create_sentence_dataframe(context, listOfEmotion)
