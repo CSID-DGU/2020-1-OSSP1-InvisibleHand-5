@@ -36,7 +36,8 @@ def lemmatize_token(token):
 
 def lemmatize_word(word):
     token = kom.pos(word)
-    if token[1] == 'VA' or token[1] == 'VV':
-        return token[0] + '다'
+    print(token)
+    if token[0][1] == 'VA' or token[0][1] == 'VV':
+        return token[0][0] + '다'
     else:
         return ""
