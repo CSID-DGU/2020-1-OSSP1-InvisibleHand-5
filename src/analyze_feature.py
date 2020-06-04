@@ -23,7 +23,7 @@ def count(context, word_dic, total_count):
     token_list = kom.pos(context)
     for i, token in enumerate(token_list):
         total_count = total_count + 1
-        if 'NNG' in token[1]:   # 대명사
+        if 'NNG' in token[1]:  # 대명사
             if token in word_dic:
                 word_dic[token] = word_dic.get(token, 0) + 1
             else:
@@ -47,54 +47,46 @@ def count(context, word_dic, total_count):
 
 
 # 장르 소설 분석
-def analyze_feature(feature ,genre, fileName, word_dic, total_count):
-    book = open(f'../res/book/{feature}/{genre}/{fileName}.txt', "r", encoding='utf-8', errors='ignore')
-    context = preprocess.remove_etc(book)
-    word_dic, total = count(context, word_dic, total_count)
+def analyze_genre(genre, fileName, book_count):
+    dict_genre = {}
+    total_count = 0
+    for num in range(1, book_count):
+        book = open(f'../res/book/genre/{genre}/{fileName}{num}.txt', "r", encoding='utf-8', errors='ignore')
+        context = preprocess.remove_etc(book)
+        dict_genre, total_count = count(context, dict_genre, total_count)
 
-    print(f'{fileName} 완료')
-    book.close()
-    return word_dic, total
+        print(f'{fileName}{num} 완료')
+        book.close()
 
-'''
-### 장르
-dict_detective = {}
-dict_romance = {}
-feature = "genre"
-total_count = 0
+    # 단어 비율 계산하여 칼럼 추가 후 데이터 프레임으로 변환
+    df = make_dataframe(dict_genre, total_count)
 
-############# 장르
-# 데이터프레임 컬럼: 단어, 등장 횟수, 등장 비율
-
-# 추리 소설 분석 및 데이터프레임으로 저장
-for num in range(1, 69):
-    fileName = f"detective{num}"
-    # 단어 빈도 계산
-    dict_detective, total_count = analyze_feature(feature, "detective", fileName, dict_detective, total_count)
-
-# 단어 비율 계산하여 칼럼 추가 후 데이터 프레임으로 변환
-df_detective = make_dataframe(dict_detective, total_count)
-
-# 데이터 프레임 출력
-create.save_df(df_detective, "detective")
-'''
+    # 데이터 프레임 출력
+    create.save_df(df, f'{genre}')
+    return 0
 
 
-####### 시대
-dict_joseon = {}
-dict_ilje = {}
-dict_modern = {}
-total_count =0
-feature = "generation"
-# 조선시대 소설 분석 및 데이터프레임으로 저장
-for num in range(0, 2432):
-    fileName = f"조선왕조실록{num}"
-    # 단어 빈도 계산
-    dict_joseon, total_count = analyze_feature(feature, "joseon", fileName, dict_joseon, total_count)
+def analyze_generation(generation, fileName, book_count):
+    dict_generation = {}
+    total_count = 0
+    for num in range(1, book_count):
+        book = open(f'../res/book/generation/{generation}/{fileName}{num}.txt', "r", encoding='utf-8', errors='ignore')
+        context = preprocess.remove_etc(book)
+        dict_genre, total_count = count(context, dict_generation, total_count)
 
-# 단어 비율 계산하여 칼럼 추가 후 데이터 프레임으로 변환
-df_joseon = make_dataframe(dict_joseon, total_count)
+        print(f'{fileName}{num} 완료')
+        book.close()
 
-# 데이터 프레임 출력
-create.save_df(df_joseon, "joseon")
+    # 단어 비율 계산하여 칼럼 추가 후 데이터 프레임으로 변환
+    df = make_dataframe(dict_generation, total_count)
 
+    # 데이터 프레임 출력
+    create.save_df(df, f'{generation}')
+    return 0
+
+
+def analyze_feature():
+    #   analyze_genre("detective", "detective", dict_detective, total_count, 69)
+    #   analyze_generation("joseon", "조선왕조실록", dict_detective, total_count, 2432)
+    #   analyze_genre("romance", "romance", 8)
+    pass
