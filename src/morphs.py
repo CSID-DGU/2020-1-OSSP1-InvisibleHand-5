@@ -61,3 +61,24 @@ def lemmatize_word(word):
 #         add_lemma(l_stem, r)
 #         if debug:
 #             debug_message('ㄷ 불규칙 활용', l_stem, r)
+#
+#     # 르 불규칙 활용: 굴 + 러 -> 구르 + 어
+#     if (l_last[2] == 'ㄹ') and (r_first_ == '러' or r_first_ == '라'):
+#         l_stem = l_front + compose(l_last[0], l_last[1], ' ') + '르'
+#         r_canon = compose('ㅇ', r_first[1], r_first[2]) + r_end
+#         add_lemma(l_stem, r_canon)
+#         if debug:
+#             debug_message('르 불규칙 활용', l_stem, r_canon)
+#
+#     # ㅂ 불규칙 활용: 더러 + 워서 -> 더럽 + 어서
+#     if (l_last[2] == ' '):
+#         l_stem = l_front + compose(l_last[0], l_last[1], 'ㅂ')
+#         if (r_first_ == '워' or r_first_ == '와'):
+#             r_canon = compose('ㅇ', 'ㅏ' if r_first_ == '와' else 'ㅓ', r_first[2] if r_first[2] else ' ') + r_end
+#         elif (r_end and r_end[0] =='려'):
+#             r_canon = compose('ㅇ', 'ㅜ', r_first[2] if r_first[2] else ' ') + r_end
+#         else:
+#             r_canon = r
+#         add_lemma(l_stem, r_canon)
+#         if debug:
+#             debug_message('ㅂ 불규칙 활용', l_stem, r_canon)
