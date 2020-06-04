@@ -40,3 +40,24 @@ def lemmatize_word(word):
         return token[0] + '다'
     else:
         return ""
+
+# def lemma_candidate(l, r, predefined=None, debug=False):
+#     def add_lemma(stem, ending):
+#         candidates.add((stem, ending))
+#
+#     candidates = {(l, r)}
+#     word = l + r
+#
+#     l_last = decompose(l[-1])
+#     l_last_ = compose(l_last[0], l_last[1], ' ')
+#     l_front = l[:-1]
+#     r_first = decompose(r[0]) if r else ('', '', '')
+#     r_first_ = compose(r_first[0], r_first[1], ' ') if r else ' '
+#     r_end = r[1:]
+#
+#     # ㄷ 불규칙 활용: 깨달 + 아 -> 깨닫 + 아
+#     if l_last[2] == 'ㄹ' and r_first[0] == 'ㅇ':
+#         l_stem = l_front + compose(l_last[0], l_last[1], 'ㄷ')
+#         add_lemma(l_stem, r)
+#         if debug:
+#             debug_message('ㄷ 불규칙 활용', l_stem, r)
