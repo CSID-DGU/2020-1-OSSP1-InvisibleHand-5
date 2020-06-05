@@ -43,7 +43,7 @@ def emotion_pos_tagging():
     df_emotion['품사'] = tag_list
 
     # 품사 태깅한 확장 단어 사전 데이터프레임 출력
-    df_emotion.to_excel(f"../res/output/test.xlsx")
+    df_emotion.to_excel(f"../res/dic/감정 단어.xlsx")
 
 
 # 감정 단어 lemmatization
@@ -60,7 +60,7 @@ def emotion_lemmatization():
 
     df_emotion['lemma'] = lemma_list
 
-    df_emotion.to_excel(f"../res/output/감정 단어.xlsx")
+    df_emotion.to_excel(f"../res/dic/감정 단어.xlsx")
     return df_emotion
 
 
