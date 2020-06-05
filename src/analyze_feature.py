@@ -1,10 +1,12 @@
-import create
 import preprocess
-import nltk
 import pandas as pd
 from konlpy.tag import Komoran
 
 kom = Komoran()
+
+
+def save_df(df, fileName):
+    df.to_excel(f"../res/feature/{fileName}.xlsx")
 
 
 # 장르 딕셔너리를 데이터프레임으로 변환 및 출력
@@ -62,7 +64,7 @@ def analyze_genre(genre, fileName, book_count):
     df = make_dataframe(dict_genre, total_count)
 
     # 데이터 프레임 출력
-    create.save_df(df, f'{genre}')
+    save_df(df, f'{genre}')
     return 0
 
 
@@ -81,12 +83,15 @@ def analyze_generation(generation, fileName, book_count):
     df = make_dataframe(dict_generation, total_count)
 
     # 데이터 프레임 출력
-    create.save_df(df, f'{generation}')
+    save_df(df, f'{generation}')
     return 0
 
 
 def analyze_feature():
-    #   analyze_genre("detective", "detective", dict_detective, total_count, 69)
-    #   analyze_generation("joseon", "조선왕조실록", dict_detective, total_count, 2432)
-    #   analyze_genre("romance", "romance", 8)
-    pass
+    #   analyze_genre("detective", "detective", 69)  # 추리 소설
+    #   analyze_genre("romance", "romance", 8)  # 로맨스 소설
+
+    #   analyze_generation("joseon", "조선왕조실록", 2432)  # 조선 시대
+    #   analyze_generation("bloom", "bloom", 102)  # 개화기 시대
+
+    return 0
