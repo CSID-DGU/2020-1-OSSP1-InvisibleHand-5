@@ -83,3 +83,24 @@ def lemmatize_word(word):
 #         add_lemma(l_stem, r_canon)
 #         if debug:
 #             debug_message('ㅂ 불규칙 활용', l_stem, r_canon)
+#
+# # 어미의 첫글자가 종성일 경우 (-ㄴ, -ㄹ, -ㅁ-, -ㅂ, -ㅆ)
+#     # 입 + 니다 -> 이 + ㅂ니다
+#     if l_last[2] == 'ㄴ' or l_last[2] == 'ㄹ' or l_last[2] == 'ㅁ' or l_last[2] == 'ㅂ' or l_last[2] == 'ㅆ':
+#         for jongsung in ' ㄹㅂㅎ':
+#             if l_last[2] == jongsung:
+#                 continue
+#             l_stem = l_front + compose(l_last[0], l_last[1], jongsung)
+#             r_canon = l_last[2] + r
+#             add_lemma(l_stem, r_canon)
+#             if debug:
+#                 debug_message('어미의 첫글자가 종성일 경우 (%s)'%jongsung, l_stem, r_canon)
+#
+#     # ㅅ 불규칙 활용: 부 + 어 -> 붓 + 어
+#     # exception : 벗 + 어 -> 벗어
+#     if (l_last[2] == ' ' and l[-1] != '벗') and (r_first[0] == 'ㅇ'):
+#         l_stem = l_front + compose(l_last[0], l_last[1], 'ㅅ')
+#         add_lemma(l_stem, r)
+#         if debug:
+#             debug_message('ㅅ 불규칙 활용', l_stem, r)
+
