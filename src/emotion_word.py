@@ -45,20 +45,23 @@ def emotion_pos_tagging():
     # 품사 태깅한 확장 단어 사전 데이터프레임 출력
     df_emotion.to_excel(f"../res/output/test.xlsx")
 
+
 # 감정 단어 lemmatization
-def emotion_lemmatizatioon():
+def emotion_lemmatization():
     lemma_list = []
     df_emotion = open_emotion_dataframe()
 
-    for word in df_emotion['한글']:
-        token = morphs.kom.pos(word)
-        print(token)
-        #lemma_list.append(morphs.lemmatize_word(word))
+    for row in df_emotion:
+        if row['품사'] == "동사" or row['품사'] == "형용사":
+            word = row['한글']
+            lemma_list.append(morphs.lemmatize_word(word))
+        else:
+            lemma_list.append("")
 
-    #df_emotion['lemma'] = lemma_list
+    df_emotion['lemma'] = lemma_list
 
-    #df_emotion.to_excel(f"../res/output/unotest.xlsx")
-
+    df_emotion.to_excel(f"../res/output/감정 단어.xlsx")
+    return df_emotion
 
 
 # 감정 사전 생성
