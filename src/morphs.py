@@ -102,4 +102,42 @@ def lemmatize_word(word):
 #         add_lemma(l_stem, r)
 #         if debug:
 #             debug_message('ㅅ 불규칙 활용', l_stem, r)
-
+#  # 우 불규칙 활용: 똥퍼 + '' -> 똥푸 + 어
+#     if l_last_ == '퍼':
+#         l_stem = l_front + '푸'
+#         r_canon = compose('ㅇ', l_last[1], l_last[2]) + r
+#         add_lemma(l_stem, r_canon)
+#         if debug:
+#             debug_message('우 불규칙 활용 (퍼)', l_stem, r_canon)
+#
+#     # 우 불규칙 활용: 줬 + 어 -> 주 + 었어
+#     if l_last[1] == 'ㅝ':
+#         l_stem = l_front + compose(l_last[0], 'ㅜ', ' ')
+#         r_canon = compose('ㅇ', 'ㅓ', l_last[2]) + r
+#         add_lemma(l_stem, r_canon)
+#         if debug:
+#             debug_message('우 불규칙 활용', l_stem, r_canon)
+#
+#     # 오 불규칙 활용: 왔 + 어 -> 오 + 았어
+#     if l_last[1] == 'ㅘ':
+#         l_stem = l_front + compose(l_last[0], 'ㅗ', ' ')
+#         r_canon = compose('ㅇ', 'ㅏ', l_last[2]) + r
+#         add_lemma(l_stem, r_canon)
+#         if debug:
+#             debug_message('오 불규칙 활용', l_stem, r_canon)
+#
+#     # ㅡ 탈락 불규칙 활용: 꺼 + '' -> 끄 + 어 / 텄 + 어 -> 트 + 었어
+#     if (l_last[1] == 'ㅓ' or l_last[1] == 'ㅏ'):
+#         l_stem = l_front + compose(l_last[0], 'ㅡ', ' ')
+#         r_canon = compose('ㅇ', l_last[1], l_last[2]) + r
+#         add_lemma(l_stem, r_canon)
+#         if debug:
+#             debug_message('ㅡ 탈락 불규칙 활용 (꺼)', l_stem, r_canon)
+#
+#     # ㅡ 탈락 불규칙 활용: 모 + 았다 -> 모으 + 았다
+#     if l_last[2] == ' ' and r_first[0] == 'ㅇ' and (r_first[1] == 'ㅏ' or r_first[1] == 'ㅓ'):
+#         l_stem = l + '으'
+#         r_canon = r
+#         add_lemma(l_stem, r_canon)
+#         if debug:
+#             debug_message('ㅡ 탈락 불규칙 활용 (모으)', l_stem, r_canon)
