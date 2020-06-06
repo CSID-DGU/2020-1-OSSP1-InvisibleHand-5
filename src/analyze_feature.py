@@ -1,8 +1,70 @@
 import preprocess
 import pandas as pd
 from konlpy.tag import Komoran
+#from google.cloud import translate_v3beta1 as translate
 
 kom = Komoran()
+
+
+# # 구글 번역 api
+# def translate_text(text, project_id="project_id"):
+#     """Translating Text."""
+#
+#     client = translate.TranslationServiceClient()
+#
+#     parent = client.location_path(project_id, "global")
+#
+#     # Detail on supported types can be found here:
+#     # https://cloud.google.com/translate/docs/supported-formats
+#     response = client.translate_text(
+#         parent=parent,
+#         contents=[text],
+#         mime_type="text/plain",  # mime types: text/plain, text/html
+#         source_language_code="en-US",
+#         target_language_code="ko",
+#     )
+#     # Display the translation for each input text provided
+#     for translation in response.translations:
+#         trans = translation.translated_text
+#     return trans
+
+
+# # 개체명(직업) 사전 구축
+# def create_occupation_dataframe:
+#     book = open("filepath", "rt", encoding='UTF8', errors='ignore')
+#
+#     line = book.readline()
+#     total = ""
+#     trans_list = []
+#     occu_list = []
+#     count = 0
+#     while line:
+#         if count > 49:
+#             trans_data = translate_text(total)
+#             print(trans_data.split("\n"))
+#             for trans in trans_data.split("\n"):
+#                 if trans != '':
+#                     trans_list.append(trans)
+#             total = ""
+#             count = 0
+#             print(len(trans_list))
+#         line = line.replace("http://dbpedia.org/resource/", "")
+#         line = line.replace("_", " ")
+#         occu_list.append(line)
+#         total += line
+#         count += 1
+#         line = book.readline()
+#
+#     trans_data = translate_text(total)
+#     print(trans_data.split("\n"))
+#     for trans in trans_data.split("\n"):
+#         if trans != '':
+#             trans_list.append(trans)
+#
+#     df = pd.DataFrame(occu_list, columns=['직업'])
+#     df['번역'] = pd.Series(trans_list, index=df.index)
+#     df.to_excel(f"../res/dic/occupation.xlsx")
+#     return 0
 
 
 def save_df(df, fileName):
