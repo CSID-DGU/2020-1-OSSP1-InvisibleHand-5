@@ -39,7 +39,7 @@ create.save_df(df, fileName)
 # 명사 추출
 #noun_ex.noun_extract(df)
 
-#emotion_word.emotion_lemmatizatioon()
+#emotion_word.emotion_lemmatization()
 
 # 문장 데이터프레임 생성
 df_sentence = create.create_sentence_dataframe(context, listOfEmotion)
