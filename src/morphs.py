@@ -185,3 +185,37 @@ def lemmatize_word(word):
 #             add_lemma(l_stem, r_canon)
 #             if debug:
 #                 debug_message('ㅎ 축약 불규칙 활용', l_stem, r_canon)
+# # 이었 -> 였 규칙활용
+#     # 좋아졌 + 어 -> 좋아지 + 었어, 좋아졋 + 던 -> 좋아지 + 었던, 좋아져 + 서 -> 좋아지 + 어서
+#     # 였 + 어 -> 이 + 었어
+#     # 종성 ㅆ 을 ㅅ 으로 쓰는 경우도 고려 (자주 등장하는 맞춤법 오류)
+#     if ((l_last[2] == 'ㅆ' or l_last[2] == 'ㅅ' or l_last[2] == ' ') and
+#         (l_last[1] == 'ㅕ')):
+#
+#         # except: -었 -> 이 + 었 (x) // -였-> 이 + 었 (o) // -졌 -> 지 + 었 (o) // -젔 -> 지 + 었
+#         if ((l_last[0] == 'ㅇ') and (l_last[1] == 'ㅕ')) or not (l_last[0] == 'ㅇ'):
+#             l_stem = l_front + compose(l_last[0], 'ㅣ', ' ')
+#             r_canon = compose('ㅇ', 'ㅓ', l_last[2])+ r
+#             add_lemma(l_stem, r_canon)
+#             if debug:
+#                 debug_message('이었 -> 였 규칙 활용', l_stem, r_canon)
+#
+#     ## Pre-defined set
+#     if predefined and (l, r) in predefined:
+#         for stem in predefined[(l, r)]:
+#             candidates.add(stem)
+#             if debug:
+#                 debug_message('Predefined', l_stem, r_canon)
+#
+#     # check whether lemma is conjugatable
+#     candidates_ = set()
+#     for stem, eomi in candidates:
+#         if not eomi:
+#             continue
+#         # hard rule
+#         if decompose(eomi[0])[2] == 'ㅎ':
+#             continue
+#         surfaces = conjugate(stem, eomi)
+#         if word in surfaces:
+#             candidates_.add((stem, eomi))
+#     return candidates_
