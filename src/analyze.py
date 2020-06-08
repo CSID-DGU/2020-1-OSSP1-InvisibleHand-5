@@ -167,6 +167,40 @@ def input_character(df, index_word, listOfCharacter, token_list):
             df.at[index_word, "화자"] = listOfCharacter[i]
     return df
 
+# 핵심 문장 분석
+def input_main_sentence(df, index_word, token_list):
+    termination_list = ['EC', 'EF', 'EP', 'ETM', 'ETN']
+    i = 0
+    str = ""
+    flag = 0
+    for i, token in enumerate(token_list):
+        if token[1] == 'EF':
+            #print(token, token_list[i])
+            #print(i, j)
+            for k in reversed(range(i)):
+                if (k == 0):
+                    for p in range(i):
+                        if (token_list[p][1] in termination_list):
+                            print(token_list[p])
+                            flag = 1
+                            break
+                if (flag == 1):
+                    break
+                print(k, token_list[k])
+                if token_list[k][1] == 'EC':
+                    for s in range(k+1, i+1):
+                        str += token_list[s][0] + " "
+                    flag = 1
+                    break
+            if(flag == 1):
+                flag = 0
+                break
+    print(str)
+    # for k in range(j,i):
+    #     print(token_list[k])
+
+    return df
+
 def input_lemma(df, index_word, token_list):
     lemma = ""
     for token in token_list:
@@ -183,6 +217,7 @@ def get_frequency(token_list):
     for word in token_list:
         if (word[1] in nList):
             count[word[0]] += 1
+            #print(word[0] + ":", count[word[0]])
 
 
 # 메인
@@ -203,9 +238,11 @@ def analyze_sentence(df, listOfCharacter, df_emotion, charOfPage):
         # parser(df, index, token_list,listOfCharacter)  # df에 주어,목적어 값 입력
         df = input_character(df, index_word, listOfCharacter, token_list)  # df에 화자 값 입력
         df = input_lemma(df,index_word, token_list)
+        df = input_main_sentence(df, index_word, token_list)
         get_frequency(token_list)
         df = input_emotion_word(df, index_word, df_emotion, token_list)  # df에 감정 단어 및 감정 값 입력
         index_word = index_word + 1
+
     return df
 
 
