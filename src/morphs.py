@@ -142,3 +142,47 @@ def lemmatize_word(word):
 #         add_lemma(l_stem, r_canon)
 #         if debug:
 #             debug_message('ㅡ 탈락 불규칙 활용 (모으)', l_stem, r_canon)
+#
+#     # 거라, 너라 불규칙 활용
+#     # '-거라/-너라'를 어미로 취급하면 규칙 활용
+#     # if (l[-1] == '가') and (r and (r[0] == '라' or r[:2] == '거라')):
+#     #    # TODO
+#
+#     # 러 불규칙 활용: 이르 + 러 -> 이르다
+#     # if (r_first[0] == 'ㄹ' and r_first[1] == 'ㅓ'):
+#     #     if self.is_stem(l):
+#     #         # TODO
+#
+#     # 여 불규칙 활용
+#     # 하 + 였다 -> 하 + 았다 -> 하다: '였다'를 어미로 취급하면 규칙 활용
+#
+#     # 여 불규칙 활용 (2)
+#     # 했 + 다 -> 하 + 았다 / 해 + 라니깐 -> 하 + 아라니깐 / 했 + 었다 -> 하 + 았었다
+#     if l_last[0] == 'ㅎ' and l_last[1] == 'ㅐ':
+#         l_stem = l_front + '하'
+#         r_canon = compose('ㅇ', 'ㅏ', l_last[2]) + r
+#         add_lemma(l_stem, r_canon)
+#         if debug:
+#             debug_message('여 불규칙 활용', l_stem, r_canon)
+#
+#     # ㅎ (탈락) 불규칙 활용
+#     if (l_last[2] == ' ' or l_last[2] == 'ㄴ' or l_last[2] == 'ㄹ' or l_last[2] == 'ㅂ' or l_last[2] == 'ㅆ'):
+#         # 파라 + 면 -> 파랗 + 면
+#         if (l_last[1] == 'ㅏ' or l_last[1] == 'ㅓ'):
+#             l_stem = l_front + compose(l_last[0], l_last[1], 'ㅎ')
+#             r_canon = r if l_last[2] == ' ' else l_last[2] + r
+#             add_lemma(l_stem, r_canon)
+#             if debug:
+#                 debug_message('ㅎ 탈락 불규칙 활용', l_stem, r_canon)
+#         # ㅎ (축약) 불규칙 할용
+#         # 시퍼렜 + 다 -> 시퍼렇 + 었다, 파랬 + 다 -> 파랗 + 았다
+#         if (l_last[1] == 'ㅐ') or (l_last[1] == 'ㅔ'):
+#             # exception : 그렇 + 아 -> 그래
+#             if len(l) >= 2 and l[-2] == '그' and l_last[0] == 'ㄹ':
+#                 l_stem = l_front + '렇'
+#             else:
+#                 l_stem = l_front + compose(l_last[0], 'ㅓ' if l_last[1] == 'ㅔ' else 'ㅏ', 'ㅎ')
+#             r_canon = compose('ㅇ', 'ㅓ' if l_last[1] == 'ㅔ' else 'ㅏ', l_last[2]) + r
+#             add_lemma(l_stem, r_canon)
+#             if debug:
+#                 debug_message('ㅎ 축약 불규칙 활용', l_stem, r_canon)
