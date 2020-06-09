@@ -26,7 +26,7 @@ body {
 
 /* 파일 업로드 및 등장인물 입력*/
 /* 공통 */
-.form {
+.container {
 	top: 100px;
 	position: relative;
 	background: #FFFFFF;
@@ -39,7 +39,7 @@ body {
 
 /* 등장인물 입력 */
 	/* 입력 창 */
-.form input {
+.container input[type="text"] {
 	outline: 0;
 	background: #f2f2f2;
 	width: 100%;
@@ -51,7 +51,7 @@ body {
 	font-size: 14px;
 }
 	/* 분석 버튼 */
-.form button {
+.container button {
 	outline: 0;
 	background: #4CAF50;
 	width: 100%;
@@ -69,7 +69,6 @@ body {
 	height: 60px;
 	margin: 0 0 15px;
 }
-
 	/*입력 창 */
 .file-upload-wrapper:after {
 	content: attr(data-text);
