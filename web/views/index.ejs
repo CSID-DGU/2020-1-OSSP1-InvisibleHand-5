@@ -4,13 +4,6 @@
 <head>
     <title>소설 감정흐름 분석</title>
     <meta charset="utf-8" />
-    <script type="text/javascript">
-        function checkForm() {
-            form = document.form;
-            form.action = "~~.html"
-            form.submit();
-        }
-    </script>
     <!--
     <link rel="stylesheet" href="main.css" />
 -->
@@ -29,20 +22,27 @@
 
     <!------ 텍스트 파일 및 등장인물 입력 ------>
     <div class="container">
-        <form class="form" action="./books/analyze" method="post">
+        <form class="form" action="/books/analyze" method="post" enctype='multipart/form-data'>
             <!-- 텍스트 파일 입력 -->
             <div class="file-upload-wrapper" data-text="">
-                <input id="file" name="book_name" type="file" class="file-upload-field" value="">
+                <input id="file" name="book" type="file" class="file-upload-field" value="">
             </div>
 
             <!-- 등장인물 이름 입력 -->
             <div class="character">
                 <input name="character_name" type="text" placeholder="등장인물 이름 (ex. 김첨지)" />
-                <input type="submit" value="분석">
             </div>
             <button>ANALYZE</button>
         </form>
+
     </div>
+
+    <!------ 결과 그래프 출력 ------>
+    <%if(locals.err){%>
+    <%=err%>
+    <%}else if(locals.success){%>
+    <%-success%>
+    <%}%>
 
 </body>
 

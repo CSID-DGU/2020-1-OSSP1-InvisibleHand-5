@@ -1,32 +1,30 @@
 const model = require('../models/model');
 const express = require('express');
-
 const app = express();
-
 
 exports.analyze = async (req, res, next) => {
 
+    console.log(req.body);
     const {
-        book_name,
-        character_name
+        tmp,
+        character_name,
     } = req.body;
 
-    console.log(book_name);
+    // 텍스트 파일 객체
+    let file = req.file
+    console.log(file.filename)
 
-    if (!book_name || !character_name) {
-        return await res.status(400).send({
-            message: "입력되지 않은 값 존재"
-        });
-    }
-
-    // model 에서 받아와 view로 전송
+    // model.js 호출하고 결과 view에 적용
     try {
-        const { code, json } = await model.analyze(book_name, character_name)
-        return res.status(code).send(json);
+        var data = await model.analyze(file.filename, character_name);
+
+        data = data.join('\n');
+
+        console.log(data);
+        res.render('index', { success: data });
     } catch (err) {
         console.log(err);
-        return await res.status(400).send({
-            message: "test"
-        });
+        return res.render('index', { err: "오류" });
     }
 }
+
