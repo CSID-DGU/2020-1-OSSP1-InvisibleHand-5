@@ -6,7 +6,15 @@
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
 
 .idea/*
+web/server/node_modules/*
 venv/*
+res/book/generation/*
+res/book/genre/*
+res/output/*
+res/feature/*
+res/dbpedia/*
+
+src/user_dic.txt
 
 # User-specific stuff
 .idea/**/workspace.xml
