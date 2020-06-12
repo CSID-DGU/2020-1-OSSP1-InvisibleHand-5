@@ -1,0 +1,185 @@
+/* 배경색 */
+body {
+    background: #ededeb;
+}
+
+/* 제목 */
+.title {
+    width: 600px;
+    margin: 0 auto;
+    text-align: center;
+}
+/* 제목 */
+.title h1 {
+    margin: 30px 0px 0px 0px;
+    font-weight: 400;
+    color: #3d3d3d;
+}
+/* 소제목 */
+.title h2 {
+    margin: 10px 0px 0px 0px;
+    font-size: 18px;
+    color: #8b8b8b;
+    font-weight: 400;
+}
+
+
+/* 파일 업로드 및 등장인물 입력*/
+/* 공통 */
+.container {
+	top: 100px;
+	position: relative;
+	background: #FFFFFF;
+	max-width: 360px;
+	margin: 0 auto 100px;
+	padding: 45px;
+	text-align: center;
+	box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+  }
+
+/* 등장인물 입력 */
+	/* 입력 창 */
+.container input[type="text"] {
+	outline: 0;
+	background: #f2f2f2;
+	width: 100%;
+	border: 0;
+	height: 60px;
+	margin: 0 0 15px;
+	padding: 15px;
+	box-sizing: border-box;
+	font-size: 14px;
+}
+	/* 분석 버튼 */
+.container button {
+	outline: 0;
+	background: #4CAF50;
+	width: 100%;
+	border: 0;
+	padding: 15px;
+	color: #FFFFFF;
+	font-size: 14px;
+	cursor: pointer;
+}
+	
+/* 파일 업로드 */
+.file-upload-wrapper {
+	position: relative;
+	font-size: 14px;
+	height: 60px;
+	margin: 0 0 15px;
+}
+	/*입력 창 */
+.file-upload-wrapper:after {
+	content: attr(data-text);
+	position: absolute;
+	top: 0;
+	left: 0;
+	background: #f2f2f2;
+	display: block;
+	width: calc(100%-40px);
+	height: 40px;
+	line-height: 40px;
+	color: #999;
+}
+	/* 업로드 버튼 */
+.file-upload-wrapper:before {
+	content: '업로드';
+	position: absolute;
+	top: 0;
+	right: 0;
+	display: inline-block;
+	height: 60px;
+	background: #4CAF50;
+	color: #fff;
+	font-weight: 700;
+	z-index: 25;
+	line-height: 60px;
+	padding: 0 15px;
+}
+
+.file input {
+	outline: 0;
+	background: #f2f2f2;
+	width: 100%;
+	border: 0;
+	margin: 0 0 15px;
+	padding: 15px;
+	box-sizing: border-box;
+	font-size: 14px;
+  }
+
+
+/* /////////
+.container {
+	 position: absolute;
+	 top: 0;
+	 right: 0;
+	 bottom: 0;
+	 left: 0;
+}
+ .form {
+	 width: 400px;
+}
+ .file-upload-wrapper {
+	 position: relative;
+	 width: 100%;
+	 height: 60px;
+}
+ .file-upload-wrapper:after {
+	 content: attr(data-text);
+	 font-size: 18px;
+	 position: absolute;
+	 top: 0;
+	 left: 0;
+	 background: #fff;
+	 padding: 10px 15px;
+	 display: block;
+	 width: calc(100% - 40px);
+	 pointer-events: none;
+	 z-index: 20;
+	 height: 40px;
+	 line-height: 40px;
+	 color: #999;
+	 border-radius: 5px 10px 10px 5px;
+	 font-weight: 300;
+}
+ .file-upload-wrapper:before {
+	 content: 'Upload';
+	 position: absolute;
+	 top: 0;
+	 right: 0;
+	 display: inline-block;
+	 height: 60px;
+	 background: #3d8c63;
+	 color: #fff;
+	 font-weight: 700;
+	 z-index: 25;
+	 font-size: 16px;
+	 line-height: 60px;
+	 padding: 0 15px;
+	 text-transform: uppercase;
+	 pointer-events: none;
+	 border-radius: 0 5px 5px 0;
+}
+ .file-upload-wrapper:hover:before {
+	 background: #3d8c63;
+}
+ .file-upload-wrapper input {
+	 opacity: 0;
+	 position: absolute;
+	 top: 0;
+	 right: 0;
+	 bottom: 0;
+	 left: 0;
+	 z-index: 99;
+	 height: 40px;
+	 margin: 0;
+	 padding: 0;
+	 display: block;
+	 cursor: pointer;
+	 width: 100%;
+}
+
+
+ 
