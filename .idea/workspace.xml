@@ -1,25 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="BranchesTreeState">
-    <expand>
-      <path>
-        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
-      </path>
-      <path>
-        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
-      </path>
-      <path>
-        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
-      </path>
-    </expand>
-    <select />
-  </component>
   <component name="ChangeListManager">
-    <list default="true" id="a1c9ac27-5680-47f4-ad88-d5ba0b8104ba" name="Default Changelist" comment="">
+    <list default="true" id="419dd91d-6d9c-4000-bfb4-286949090fce" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -27,17 +9,10 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Python Script" />
-      </list>
-    </option>
-  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectId" id="1bA7NA9o8AxYrhjrDdapBzlB0Xl" />
+  <component name="ProjectId" id="1c9YDrQRnF8gp3HJvedLai08r9A" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -46,33 +21,9 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$USER_HOME$/Documents/2020-1-OSSP1-InvisibleHands-5" />
-    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RunManager" selected="Python.main">
-    <configuration name="FindSpeakerTest" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="SWproject" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/FindSpeakerTest.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="create" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="SWproject" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -80,9 +31,10 @@
       </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src" />
-      <option name="IS_MODULE_SDK" value="true" />
+      <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/create.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -92,61 +44,19 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="komorantest" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="SWproject" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="C:\Users\samsung\PycharmProjects\SWproject\src\komorantest.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="SWproject" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
-      <option name="SDK_HOME" value="" />
+      <option name="SDK_HOME" value="C:\Users\samsung\AppData\Local\Programs\Python\Python38\python.exe" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src" />
-      <option name="IS_MODULE_SDK" value="true" />
+      <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/main.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="syntax" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="SWproject" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/syntax.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -158,10 +68,7 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.main" />
-        <item itemvalue="Python.FindSpeakerTest" />
-        <item itemvalue="Python.syntax" />
         <item itemvalue="Python.create" />
-        <item itemvalue="Python.komorantest" />
       </list>
     </recent_temporary>
   </component>
@@ -170,62 +77,57 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="a1c9ac27-5680-47f4-ad88-d5ba0b8104ba" name="Default Changelist" comment="" />
-      <created>1588063001428</created>
+      <changelist id="419dd91d-6d9c-4000-bfb4-286949090fce" name="Default Changelist" comment="" />
+      <created>1589942160356</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1588063001428</updated>
+      <updated>1589942160356</updated>
     </task>
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="542" y="146" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1588606936047">
+    <state x="602" y="0" key="#create" timestamp="1589650266264">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="542" y="146" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1536.824@0.0.1536.824" timestamp="1588606936047" />
-    <state x="538" y="152" key="FileChooserDialogImpl" timestamp="1588328965620">
+    <state x="602" y="0" key="#create/0.0.1536.824@0.0.1536.824" timestamp="1589650266264" />
+    <state x="602" y="0" key="#main" timestamp="1589649763865">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="538" y="152" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1588328965620" />
-    <state width="1186" height="201" key="GridCell.Tab.0.bottom" timestamp="1589623100454">
+    <state x="602" y="0" key="#main/0.0.1536.824@0.0.1536.824" timestamp="1589649763865" />
+    <state width="1164" height="237" key="GridCell.Tab.0.bottom" timestamp="1589662555159">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1186" height="201" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1589623100454" />
-    <state width="1186" height="201" key="GridCell.Tab.0.center" timestamp="1589623100454">
+    <state width="1164" height="237" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1589662555159" />
+    <state width="1164" height="237" key="GridCell.Tab.0.center" timestamp="1589662555159">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1186" height="201" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1589623100454" />
-    <state width="1186" height="201" key="GridCell.Tab.0.left" timestamp="1589623100453">
+    <state width="1164" height="237" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1589662555159" />
+    <state width="1164" height="237" key="GridCell.Tab.0.left" timestamp="1589662555158">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1186" height="201" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1589623100453" />
-    <state width="1186" height="201" key="GridCell.Tab.0.right" timestamp="1589623100454">
+    <state width="1164" height="237" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1589662555158" />
+    <state width="1164" height="237" key="GridCell.Tab.0.right" timestamp="1589662555159">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1186" height="201" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1589623100454" />
-    <state x="672" y="84" key="RollbackChangesDialog" timestamp="1589568115691">
+    <state width="1164" height="237" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1589662555159" />
+    <state width="1164" height="237" key="GridCell.Tab.1.bottom" timestamp="1589662555159">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="672" y="84" key="RollbackChangesDialog/0.0.1536.824@0.0.1536.824" timestamp="1589568115691" />
-    <state x="422" y="33" key="SettingsEditor" timestamp="1589548664842">
+    <state width="1164" height="237" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1589662555159" />
+    <state width="1164" height="237" key="GridCell.Tab.1.center" timestamp="1589662555159">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="422" y="33" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1589548664842" />
-    <state x="410" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1588077832439">
+    <state width="1164" height="237" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1589662555159" />
+    <state width="1164" height="237" key="GridCell.Tab.1.left" timestamp="1589662555159">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="410" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1588077832439" />
+    <state width="1164" height="237" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1589662555159" />
+    <state width="1164" height="237" key="GridCell.Tab.1.right" timestamp="1589662555159">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1164" height="237" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1589662555159" />
   </component>
 </project>
