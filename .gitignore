@@ -7,6 +7,15 @@
 
 .idea/*
 venv/*
+res/book/generation/*
+res/book/genre/*
+res/output/*
+res/feature/*
+res/dbpedia/*
+web/node_modules/*
+web/source/.idea/*
+
+src/user_dic.txt
 
 # User-specific stuff
 .idea/**/workspace.xml
