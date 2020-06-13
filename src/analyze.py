@@ -37,12 +37,12 @@ def find_word(df_emotion, token):
 
 # 감정 사전에서 단어 찾기(lemma)
 def find_word_lemma(df_emotion, lemma):
-    for lem in lemma:
-        df_filter = df_emotion[(df_emotion['한글'] == lem) & (df_emotion['품사'] == '동사')]
-        if len(df_filter) == 0:  # 조건을 만족하는 행이 없으면 -1, 0 반환
-            return [-1], [0]
-        else:  # 있으면 감정, 점수 반환
-            return df_filter['감정'].tolist(), df_filter['점수'].tolist()
+    #print(lemma)
+    df_filter = df_emotion[(df_emotion['lemma'] == lemma)]
+    if len(df_filter) == 0:  # 조건을 만족하는 행이 없으면 -1, 0 반환
+        return [-1], [0]
+    else:  # 있으면 감정, 점수 반환
+        return df_filter['감정'].tolist(), df_filter['점수'].tolist()
 
 # 주어 목적어 분석 기능을 -> 구문 분석 모듈로 확장 (input_element -> parser)
 # 구문 분석
@@ -158,13 +158,68 @@ def input_character(df, index_word, listOfCharacter, token_list):
                 flag = True
             elif token[0] in kwanhyeong:
                 flag = True
+        if token[0] == '남편': ## 잠시 테스트
+            df.at[index_word, '화자'] = '김첨지'
         if token[1] == 'NP':
             if token[0] in nplist:
                 if(index_word>0 and df.at[index_word-1, "화자"] in listOfCharacter):
                     df.at[index_word, "화자"] = token[0] + "(" + df.at[index_word-1,"화자"] + ")"
+                    if(df.at[index_word-2, '연결 여부'] == '연결'):
+                        df.at[index_word-2, "화자"] = df.at[index_word - 1, "화자"]
     for i, c in enumerate(count):
         if c >= 1 & flag == True:
             df.at[index_word, "화자"] = listOfCharacter[i]
+            if (df.at[index_word-1, '연결 여부'] == '연결'):
+                df.at[index_word-1, "화자"] = listOfCharacter[i]
+    if(df.at[index_word, '대화 진행 여부'] == '시작'):
+        if(df.at[index_word, '화자'] != ""):
+            ch = df.at[index_word, '화자']
+            while(True):
+                if(df.at[index_word + 2, '대화 진행 여부'] == ""):
+                    break
+                index_word += 2
+                df.at[index_word, '화자'] = ch
+
+
+
+
+
+
+    return df
+
+# 대화의 시작과 끝 분석
+def analyze_conversation(df):
+    index_word = 0
+    cnt = 0
+    connect = False
+    conver = False
+    start_index_list = []
+    end_index_list = []
+    for i, con_kind in enumerate(df['문장 종류']):
+        if(con_kind == '대화문'):
+            conver = True
+            cnt += 1
+            # if (df.at[index_word, '연결 여부'] == '연결'):
+            #     connect = True
+            # else:
+            #     connect = False
+        elif(con_kind == '서술문'):
+            if(conver == True):
+                if(cnt >= 2):
+                    df.at[i-cnt, '대화 진행 여부'] = '시작'
+                    for j in range((i-cnt)+1, i-1):
+                        df.at[j, '대화 진행 여부'] = '대화 중'
+                    df.at[i-1, '대화 진행 여부'] = '끝'
+                    cnt = 0
+                else:
+                    conver = False
+                    cnt = 0
+            # if (connect == True):
+            #     connect = False
+            #     conver = True
+            #     cnt += 1
+            # else:
+        index_word += 1
     return df
 
 # 핵심 문장 분석
@@ -209,7 +264,7 @@ def input_lemma(df, index_word, token_list):
         if lemma is not None:
             lemma_list.append(lemma)
 
-    df.at[index_word, "lemma"] = lemma_list
+    df.at[index_word, 'lemma'] = lemma_list
     return df
 
 
@@ -229,6 +284,7 @@ def analyze_sentence(df, listOfCharacter, df_emotion, charOfPage):
     length = 0
     index_word = 0
 
+    df = analyze_conversation(df)
     for line in df["문장"]:
         ### 문장 단위로 변경하면서 미사용
         # if (length > charOfPage):
@@ -258,7 +314,6 @@ def merge_character(df_sentence, listOfEmotion, listOfCharacter):
         character_filter = df_sentence['화자'] == character
         df_character = df_sentence[character_filter]
         df_character = df_character[['기쁨', '슬픔', '분노', '공포', '혐오', '놀람']]
-
         df_list_character.append(df_character)
         df_character.to_excel(writer, sheet_name=f"{character}")
 
