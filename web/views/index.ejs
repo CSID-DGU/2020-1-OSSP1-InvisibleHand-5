@@ -7,6 +7,18 @@
     <!--
     <link rel="stylesheet" href="main.css" />
 -->
+    <script type="text/javascript">
+        function add_character() {
+            var div = document.createElement('div');
+
+            div.innerHTML = document.getElementById('character').innerHTML;
+            document.getElementById('field').appendChild(div);
+        }
+
+        function remove_character(obj) {
+            document.getElementById('field').removeChild(obj.parentNode);
+        }
+    </script>
 </head>
 
 <body>
@@ -29,10 +41,14 @@
             </div>
 
             <!-- 등장인물 이름 입력 -->
-            <div class="character">
+            <input type="button" value="추가" onclick="add_character()">
+            <div class="character" id="character">
                 <input name="character_name" type="text" placeholder="등장인물 이름 (ex. 김첨지)" />
+
+                <input type="button" value="삭제" onclick="remove_character(this)">
             </div>
-            <button>ANALYZE</button>
+            <div id="field"> </div>
+            <button>분석</button>
         </form>
 
     </div>
