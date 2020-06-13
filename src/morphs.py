@@ -35,8 +35,14 @@ def lemmatize_token(token):
         return token[0] + '다'
 
 def lemmatize_word(word):
+    word_len = len(word)
+    if(word[word_len-1] == '다'):
+        return word
+    if(word[word_len-1] == '한'):
+        word = word[:-1] + '하다'
+        return word
     token = kom.pos(word)
-    print(token)
+    #print(token)
     if token[0][1] == 'VA' or token[0][1] == 'VV':
         return token[0][0] + '다'
     else:
