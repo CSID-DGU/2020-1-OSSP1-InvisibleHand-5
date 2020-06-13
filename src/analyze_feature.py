@@ -5,7 +5,6 @@ from konlpy.tag import Komoran
 
 kom = Komoran()
 
-
 # # 구글 번역 api
 # def translate_text(text, project_id="project_id"):
 #     """Translating Text."""
