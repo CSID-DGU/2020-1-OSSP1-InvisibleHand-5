@@ -28,7 +28,7 @@ def emotion_pos_tagging():
 
         pos = pos_tagger.tag([word])
         tag_first = pos[0][1][0]
-        print(pos)
+        #print(pos)
         if tag_first in tag_target:
             if tag_first == 'V':
                 tag_list.append('동사')
@@ -48,19 +48,22 @@ def emotion_pos_tagging():
 
 # 감정 단어 lemmatization
 def emotion_lemmatization():
-    lemma_list = []
+    lemma = ""
     df_emotion = open_emotion_dataframe()
 
-    for row in df_emotion:
-        if row['품사'] == "동사" or row['품사'] == "형용사":
-            word = row['한글']
-            lemma_list.append(morphs.lemmatize_word(word))
+    for i, pos in enumerate(df_emotion['품사']):
+        df_emotion.at[i + 1, 'lemma'] = ""
+        if(pos == '동사' or pos == '형용사'):
+            word = (df_emotion.at[i+1, '한글'])
+            lemma = morphs.lemmatize_word(word)
+            #print(word, lemma)
+            if(lemma == '하다'):
+                continue
+            df_emotion.at[i+1, 'lemma'] = lemma
         else:
-            lemma_list.append("")
-
-    df_emotion['lemma'] = lemma_list
-
+             lemma = ""
     df_emotion.to_excel(f"../res/dic/감정 단어.xlsx")
+
     return df_emotion
 
 
