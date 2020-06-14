@@ -12,6 +12,7 @@ def open_emotion_dataframe():
     return df
 
 # 감정 단어 품사 태깅
+# 웹 미사용
 def emotion_pos_tagging():
     tag_target = ['V', 'N', 'J', 'R']
     tag_list = []
