@@ -10,7 +10,6 @@ import noun_ex
 pd.set_option('mode.chained_assignment',  None)
 
 
-
 # 파일 입력
 #fileName = input("소설명 : ")
 fileName = "운수좋은날"  # 테스트용 #########나중에 수정######################
@@ -20,7 +19,8 @@ book = create.open_book(fileName)
 context = preprocess.remove_etc(book)
 
 # 변수 선언
-charOfPage = 700
+# charOfPage = 700
+charOfPage = len(context)/20
 listOfEmotion = ['기쁨', '슬픔', '분노', '공포', '혐오', '놀람']
 numOfEmotion = len(listOfEmotion)
 numOfPage = math.ceil(len(context) / charOfPage)
