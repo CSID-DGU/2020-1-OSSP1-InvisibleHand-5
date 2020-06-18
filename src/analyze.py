@@ -77,68 +77,105 @@ def parser(df, index, token_list, listOfCharacter):
 # 감정 분석
 def input_emotion_word(df, index_word, df_emotion, token_list):
     emo_word = []
-    # 중복 계산 방지
-    anger_flag = False
-    joy_flag = False
-    sadness_flag = False
-    fear_flag = False
-    disgust_flag = False
-    surprise_flag = False
+    # # 중복 계산 방지
+    # anger_flag = False
+    # joy_flag = False
+    # sadness_flag = False
+    # fear_flag = False
+    # disgust_flag = False
+    # surprise_flag = False
 
     for token in token_list:
         emotion_list, score_list = find_word(df_emotion, token)
         if -1 not in emotion_list:  # 문장에서 단어 사전에 있는 단어가 있다면
             emo_word.append(token[0])  # 단어 란에 입력
             for emo in emotion_list:
-                if emo == '분노' and anger_flag is False:
+                if emo == '분노':
                     df.at[index_word, '분노'] += float(score_list[emotion_list.index(emo)])  # 감정과 점수 입력
-                    anger_flag = True
-                elif emo == '기쁨' and joy_flag is False:
-                    df.at[index_word, '기쁨'] += float(score_list[emotion_list.index(emo)])  # 감정과 점수 입력
-                    joy_flag = True
-                elif emo == '슬픔' and sadness_flag is False:
-                    df.at[index_word, '슬픔'] += float(score_list[emotion_list.index(emo)])  # 감정과 점수 입력
-                    sadness_flag = True
-                elif emo == '공포' and fear_flag is False:
-                    df.at[index_word, '공포'] += float(score_list[emotion_list.index(emo)])  # 감정과 점수 입력
-                    fear_flag = True
-                elif emo == '혐오' and disgust_flag is False:
-                    df.at[index_word, '혐오'] += float(score_list[emotion_list.index(emo)])  # 감정과 점수 입력
-                    disgust_flag = True
-                elif emo == '놀람' and surprise_flag is False:
-                    df.at[index_word, '놀람'] += float(score_list[emotion_list.index(emo)])  # 감정과 점수 입력
-                    surprise_flag = True
 
-    anger_flag = False
-    joy_flag = False
-    sadness_flag = False
-    fear_flag = False
-    disgust_flag = False
-    surprise_flag = False
+                elif emo == '기쁨':
+                    df.at[index_word, '기쁨'] += float(score_list[emotion_list.index(emo)])  # 감정과 점수 입력
+
+                elif emo == '슬픔':
+                    df.at[index_word, '슬픔'] += float(score_list[emotion_list.index(emo)])  # 감정과 점수 입력
+
+                elif emo == '공포':
+                    df.at[index_word, '공포'] += float(score_list[emotion_list.index(emo)])  # 감정과 점수 입력
+
+                elif emo == '혐오':
+                    df.at[index_word, '혐오'] += float(score_list[emotion_list.index(emo)])  # 감정과 점수 입력
+
+                elif emo == '놀람':
+                    df.at[index_word, '놀람'] += float(score_list[emotion_list.index(emo)])  # 감정과 점수 입력
+
+                # if emo == '분노' and anger_flag is False:
+                #     df.at[index_word, '분노'] += float(score_list[emotion_list.index(emo)])  # 감정과 점수 입력
+                #     anger_flag = True
+                # elif emo == '기쁨' and joy_flag is False:
+                #     df.at[index_word, '기쁨'] += float(score_list[emotion_list.index(emo)])  # 감정과 점수 입력
+                #     joy_flag = True
+                # elif emo == '슬픔' and sadness_flag is False:
+                #     df.at[index_word, '슬픔'] += float(score_list[emotion_list.index(emo)])  # 감정과 점수 입력
+                #     sadness_flag = True
+                # elif emo == '공포' and fear_flag is False:
+                #     df.at[index_word, '공포'] += float(score_list[emotion_list.index(emo)])  # 감정과 점수 입력
+                #     fear_flag = True
+                # elif emo == '혐오' and disgust_flag is False:
+                #     df.at[index_word, '혐오'] += float(score_list[emotion_list.index(emo)])  # 감정과 점수 입력
+                #     disgust_flag = True
+                # elif emo == '놀람' and surprise_flag is False:
+                #     df.at[index_word, '놀람'] += float(score_list[emotion_list.index(emo)])  # 감정과 점수 입력
+                #     surprise_flag = True
+    #
+    # anger_flag = False
+    # joy_flag = False
+    # sadness_flag = False
+    # fear_flag = False
+    # disgust_flag = False
+    # surprise_flag = False
     lem_list = df.at[index_word, 'lemma']
     for lem in lem_list:
         emotion_list, score_list = find_word_lemma(df_emotion, lem)
         if -1 not in emotion_list:  # 문장에서 단어 사전에 있는 단어가 있다면
             emo_word.append(lem)  # 단어 란에 입력
             for emo in emotion_list:
-                if emo == '분노' and anger_flag is False:
+                if emo == '분노':
                     df.at[index_word, '분노'] += float(score_list[emotion_list.index(emo)])  # 감정과 점수 입력
                     anger_flag = True
-                elif emo == '기쁨' and joy_flag is False:
+                elif emo == '기쁨':
                     df.at[index_word, '기쁨'] += float(score_list[emotion_list.index(emo)])  # 감정과 점수 입력
                     joy_flag = True
-                elif emo == '슬픔' and sadness_flag is False:
+                elif emo == '슬픔':
                     df.at[index_word, '슬픔'] += float(score_list[emotion_list.index(emo)])  # 감정과 점수 입력
                     sadness_flag = True
-                elif emo == '공포' and fear_flag is False:
+                elif emo == '공포':
                     df.at[index_word, '공포'] += float(score_list[emotion_list.index(emo)])  # 감정과 점수 입력
                     fear_flag = True
-                elif emo == '혐오' and disgust_flag is False:
+                elif emo == '혐오':
                     df.at[index_word, '혐오'] += float(score_list[emotion_list.index(emo)])  # 감정과 점수 입력
                     disgust_flag = True
-                elif emo == '놀람' and surprise_flag is False:
+                elif emo == '놀람':
                     df.at[index_word, '놀람'] += float(score_list[emotion_list.index(emo)])  # 감정과 점수 입력
                     surprise_flag = True
+
+                # if emo == '분노' and anger_flag is False:
+                #     df.at[index_word, '분노'] += float(score_list[emotion_list.index(emo)])  # 감정과 점수 입력
+                #     anger_flag = True
+                # elif emo == '기쁨' and joy_flag is False:
+                #     df.at[index_word, '기쁨'] += float(score_list[emotion_list.index(emo)])  # 감정과 점수 입력
+                #     joy_flag = True
+                # elif emo == '슬픔' and sadness_flag is False:
+                #     df.at[index_word, '슬픔'] += float(score_list[emotion_list.index(emo)])  # 감정과 점수 입력
+                #     sadness_flag = True
+                # elif emo == '공포' and fear_flag is False:
+                #     df.at[index_word, '공포'] += float(score_list[emotion_list.index(emo)])  # 감정과 점수 입력
+                #     fear_flag = True
+                # elif emo == '혐오' and disgust_flag is False:
+                #     df.at[index_word, '혐오'] += float(score_list[emotion_list.index(emo)])  # 감정과 점수 입력
+                #     disgust_flag = True
+                # elif emo == '놀람' and surprise_flag is False:
+                #     df.at[index_word, '놀람'] += float(score_list[emotion_list.index(emo)])  # 감정과 점수 입력
+                #     surprise_flag = True
 
     df.at[index_word, "감정 단어"] = emo_word
     return df
@@ -283,7 +320,7 @@ def get_frequency(token_list):
 
 # 메인
 def analyze_sentence(df, listOfCharacter, df_emotion, charOfPage):
-    page_num = 0
+    page_num = 1
     length = 0
     index_word = 0
 

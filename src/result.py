@@ -1,6 +1,4 @@
 import numpy as np
-import mpld3
-import jinja2
 from matplotlib import pyplot as plt
 from matplotlib import font_manager as fm
 
@@ -25,7 +23,6 @@ def display_emotion_graph(df_list_character, df_list_character_by_page, listOfCh
         for emo in listOfEmotion:
             plt.plot(x, df[f'{emo}'], label=f'{emo}')
         plt.title(f'{listOfCharacter[num]}')
-        # plt.xlabel('페이지')
         plt.xlabel('문장')
         plt.ylabel('감정 값')
         plt.legend(loc='upper right')
