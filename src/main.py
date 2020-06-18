@@ -7,7 +7,6 @@ import emotion_word
 import math
 import pandas as pd
 import noun_ex
-from matplotlib import pyplot as plt
 pd.set_option('mode.chained_assignment',  None)
 
 
@@ -44,8 +43,10 @@ create.save_df(df, fileName)
 # 문장 데이터프레임 생성
 df_sentence = create.create_sentence_dataframe(context, listOfEmotion)
 
+
 # 감정 사전 생성
 emotion_dictionary_lists = emotion_word.create_emotion_dictionary()
+
 
 # 구축되어 있는 감정 사전 데이터 프레임 오픈
 df_emotion = emotion_word.open_emotion_dataframe()
@@ -54,8 +55,10 @@ df_emotion = emotion_word.open_emotion_dataframe()
 df_sentence = analyze.analyze_sentence(df_sentence, listOfCharacter, df_emotion, charOfPage)
 create.save_df(df_sentence, fileName)
 
+
 # 등장인물 별 페이지 감정 점수 합산하여 등장인물 데이터프레임 생성
 df_list_character = analyze.merge_character(df_sentence, listOfEmotion, listOfCharacter)
+df_list_character_by_page = analyze.merge_character_page(df_sentence, numOfPage, listOfEmotion, listOfCharacter)
 
 # 20 문장 당 x축 사이즈 = 1
 # 그래프 설정
@@ -63,10 +66,6 @@ x_size = len(df_sentence.index)/20 + 1
 result.config_graph(x_size)
 
 # 결과 1. 각 등장인물의 페이지별 감정 수준 그래프 생성 및 출력
-result.display_emotion_graph(df_list_character, listOfCharacter, numOfCharacter, listOfEmotion)
-
-# 결과 2. 모든 등장인물의 페이지별 감정 흐름 그래프 생성 및 출력
-#result.display_sentiment_graph(numOfCharacter, listOfCharacter, numOfPage, sentimentVector)
-
+result.display_emotion_graph(df_list_character, df_list_character_by_page, listOfCharacter, numOfCharacter, listOfEmotion)
 
 book.close()
