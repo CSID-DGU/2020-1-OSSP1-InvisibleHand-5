@@ -353,7 +353,6 @@ def analyze_sentence(df, listOfCharacter, df_emotion, charOfPage):
 
     return df
 
-
 def merge_character(df_sentence, listOfEmotion, listOfCharacter):
     writer = pd.ExcelWriter("../res/output/등장인물.xlsx", engine='openpyxl')
 
