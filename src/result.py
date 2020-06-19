@@ -59,7 +59,6 @@ def display_main_emo(df_list_character_by_page, numOfCharacter, listOfEmotion):
 
 
 def display_emo_ratio(df_sentence, listOfCharacter, numOfCharacter, listOfEmotion):
-
     listOfRatio = []
     # 화자 필터링
     for character in listOfCharacter:

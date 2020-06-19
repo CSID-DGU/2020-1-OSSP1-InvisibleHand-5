@@ -572,7 +572,6 @@ def merge_character_page(df_sentence, numOfPage, listOfEmotion, listOfCharacter)
 
 ###### 페이지 단위
 ###### 문장 단위로 변경하면서 미사용
-
 def merge_sentence_page(df_sentence, numOfPage, listOfEmotion, listOfCharacter):
     writer = pd.ExcelWriter("../res/output/등장인물.xlsx", engine='openpyxl')
 
