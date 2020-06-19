@@ -208,7 +208,7 @@ def input_character(df, index_word, listOfCharacter, token_list):
     for i, c in enumerate(count):
         if c >= 1 & flag == True:
             df.at[index_word, "화자"] = listOfCharacter[i]
-            if (df.at[index_word - 1, '연결 여부'] == '연결'):
+            if (index_word > 0 and df.at[index_word - 1, '연결 여부'] == '연결'):
                 df.at[index_word - 1, "화자"] = listOfCharacter[i]
     if (df.at[index_word, '대화 진행 여부'] == '시작'):
         if (df.at[index_word, '화자'] != ""):
@@ -218,6 +218,43 @@ def input_character(df, index_word, listOfCharacter, token_list):
                     break
                 index_word += 2
                 df.at[index_word, '화자'] = ch
+    # subject, object, busa, kwanhyeong = parser(df, index_word, token_list, listOfCharacter)
+    # count = [0 for i in range(len(listOfCharacter))]  # 문장 당 등장인물의 출현 횟su
+    # flag = True
+    # nplist = ["그", "그녀", ""]
+    # for i, token in enumerate(token_list):
+    #     # print(token)
+    #     if token[0] in listOfCharacter:  # 문장에서 등장인물 등장 체크
+    #         count[listOfCharacter.index(token[0])] += 1
+    #         if token[0] in subject:
+    #             flag = True
+    #         elif token[0] in object:
+    #             flag = False
+    #         elif token[0] in busa:
+    #             flag = True
+    #         elif token[0] in kwanhyeong:
+    #             flag = True
+    #     if token[0] == '남편':  ## 잠시 테스트
+    #         df.at[index_word, '화자'] = '김첨지'
+    #     if token[1] == 'NP':
+    #         if token[0] in nplist:
+    #             if (index_word > 0 and df.at[index_word - 1, "화자"] in listOfCharacter):
+    #                 df.at[index_word, "화자"] = token[0] + "(" + df.at[index_word - 1, "화자"] + ")"
+    #                 if (df.at[index_word - 2, '연결 여부'] == '연결'):
+    #                     df.at[index_word - 2, "화자"] = df.at[index_word - 1, "화자"]
+    # for i, c in enumerate(count):
+    #     if c >= 1 & flag == True:
+    #         df.at[index_word, "화자"] = listOfCharacter[i]
+    #         if (index_word > 0 and df.at[index_word - 1, '연결 여부'] == '연결'):
+    #             df.at[index_word - 1, "화자"] = listOfCharacter[i]
+    # if (df.at[index_word, '대화 진행 여부'] == '시작'):
+    #     if (df.at[index_word, '화자'] != ""):
+    #         ch = df.at[index_word, '화자']
+    #         while (True):
+    #             if (df.at[index_word + 2, '대화 진행 여부'] == ""):
+    #                 break
+    #             index_word += 2
+    #             df.at[index_word, '화자'] = ch
     return df
 
 
