@@ -70,7 +70,6 @@ def parser(df, index, token_list, listOfCharacter):
         # df.at[index, "목적어"] = object
     return subject, object, busa, kwanhyeong
 
-
 # 감정 분석
 def input_emotion_word(df, index_word, df_emotion, token_list):
     emo_word = []
