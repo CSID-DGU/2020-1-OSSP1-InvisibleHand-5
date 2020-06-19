@@ -19,8 +19,6 @@ app.listen(port, () => console.log('Example app listening at'));
 
 // 라우터 경로
 app.use('/', require('./routes/index'));
-app.use('/upload', require('./routes/upload'))
-
 app.use('/upload', express.static('uploads'));
 
 // ejs로 뷰 엔진 변경 및 css 사용

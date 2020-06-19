@@ -6,6 +6,7 @@
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
 
 .idea/*
+src/.idea/*
 venv/*
 res/book/generation/*
 res/book/genre/*
@@ -14,7 +15,12 @@ res/feature/*
 res/dbpedia/*
 web/node_modules/*
 web/source/.idea/*
-
+web/res/book/generation/*
+web/res/book/genre/*
+web/res/feature/*
+web/res/output/*
+web/upload/*
+web/user_dic.txt
 src/user_dic.txt
 
 # User-specific stuff
