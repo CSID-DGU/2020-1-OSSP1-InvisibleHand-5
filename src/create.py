@@ -13,7 +13,7 @@ def open_book(fileName):
 def create_userdic(numOfCharacter, listOfCharacter):
     userdic = open("user_dic.txt", "wt", encoding='UTF8')  # userdic 저장 경로 변경
     for n in range(0, numOfCharacter):
-        # name = input(f"등장인물 {n + 1} : ")
+        #name = input(f"등장인물 {n + 1} : ")
         name = "김첨지"  # 테스트용 #########나중에 수정#########################################
         userdic.write(f"{name}\tNNP\n")
         listOfCharacter.append(name)
@@ -61,7 +61,7 @@ def create_sentence_list(context):
 def create_sentence_dataframe(context, listOfEmotion):
     sentence, punctuation, kind, connect = create_sentence_list(context)
     df = pd.DataFrame(sentence, columns=['문장'])
-    #df['페이지 번호'] = 0
+    df['페이지 번호'] = 0
     df['구두 문자'] = pd.Series(punctuation, index=df.index)
     df['문장 종류'] = pd.Series(kind, index=df.index)
     df['대화 진행 여부'] = ""
