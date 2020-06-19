@@ -8,7 +8,6 @@ import grammar
 import morphs
 from collections import defaultdict
 
-
 # 감정 사전에서 단어 찾기
 def find_word(df_emotion, token):
     tag_all = ['NNB', 'NNG', 'NNP', 'NP', 'VV', 'VA', 'MAG', 'MAJ']
@@ -70,7 +69,8 @@ def parser(df, index, token_list, listOfCharacter):
         # df.at[index, "주어"] = subject
         # df.at[index, "목적어"] = object
     return subject, object, busa, kwanhyeong
-  
+
+
 # 감정 분석
 def input_emotion_word(df, index_word, df_emotion, token_list):
     emo_word = []
@@ -140,6 +140,7 @@ def input_emotion_word(df, index_word, df_emotion, token_list):
     df.at[index_word, "감정 단어"] = emo_word
     return df
 
+
 # 화자 분석
 def input_character(df, index_word, listOfCharacter, token_list):
     subject, object, busa, kwanhyeong=parser(df, index_word, token_list, listOfCharacter)
@@ -179,12 +180,6 @@ def input_character(df, index_word, listOfCharacter, token_list):
                     break
                 index_word += 2
                 df.at[index_word, '화자'] = ch
-
-
-
-
-
-
     return df
 
 # 대화의 시작과 끝 분석
@@ -222,6 +217,7 @@ def analyze_conversation(df):
         index_word += 1
     return df
 
+
 # 핵심 문장 분석
 def input_main_sentence(df, index_word, token_list):
     termination_list = ['EC', 'EF', 'EP', 'ETM', 'ETN']
@@ -253,8 +249,61 @@ def input_main_sentence(df, index_word, token_list):
     #print(str)
     # for k in range(j,i):
     #     print(token_list[k])
-
+    #     known_pos_features, ignore_features = None,
+    #     min_noun_score = 0.3, min_noun_frequency = 100,
+    #     min_pos_score = 0.3, min_pos_feature_frequency = 1000,
+    #     min_num_of_unique_lastchar = 4, min_entropy_of_lastchar = 0.5,
+    #     min_noun_entropy = 1.5):
+    #
+    #     nouns = {noun for noun, score in prediction_scores.items()
+    #     if ((score[0] >= min_noun_score)
+    #             and (score[1] >= min_noun_frequency))}
+    #
+    #     if ignore_features is None:
+    #         ignore_features = {}
+    #
+    #     pos_candidates = {}
+    #     for noun in nouns:
+    #         for
+    #     r, count in lrgraph.get_r(noun, -1):
+    #     if (r in known_pos_features) or (r in ignore_features):
+    #         continue
+    #
+    #     pos_candidates[r] = pos_candidates.get(r, 0) + count
+    #
+    #     # 1st. frequency filtering (ignoring L is noun)
+    #     pos_candidates = {r: count for r, count in pos_candidates.items()
+    #                   if count >= min_pos_feature_frequency}
+    #
+    # # add known pos features for unknown feature prediction
+    # domain_pos_features = {r: None for r in known_pos_features}
+    #
+    # # from shorter to longer
+    # for r in sorted(pos_candidates, key=lambda x: len(x)):
+    #
+    #     if (r in known_pos_features) or (r in nouns):
+    #         continue
+    #
+    #     features = _get_noun_feature(r, lrgraph)
+    #     score, freq = predict(r, features, nouns, domain_pos_features,
+    #                           min_pos_score, min_pos_feature_frequency,
+    #                           min_num_of_unique_lastchar, min_entropy_of_lastchar)
+    #
+    #     # noun entropy
+    #     noun_sum = sum((c for l, c in features if l in nouns))
+    #     noun_entropy = [c / noun_sum for l, c in features if l in nouns]
+    #     noun_entropy = sum([-math.log(p) * p for p in noun_entropy])
+    #
+    #     if ((score >= min_pos_score) and
+    #             (freq >= min_pos_feature_frequency) and
+    #             (noun_entropy >= min_noun_entropy)):
+    #         domain_pos_features[r] = (score, freq)
+    #
+    # # remove known features
+    # domain_pos_features = {r: score for r, score in domain_pos_features.items()
+    #                        if not (r in known_pos_features)}
     return df
+
 
 def input_lemma(df, index_word, token_list):
     lemma_list = []
