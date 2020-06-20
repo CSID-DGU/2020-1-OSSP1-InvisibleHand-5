@@ -2,7 +2,6 @@ import numpy as np
 from matplotlib import pyplot as plt
 from matplotlib import font_manager as fm
 
-
 def config_graph(x_size):
     fontprop = fm.FontProperties(fname="../res/fonts/malgun.ttf", size=24).get_name()
     plt.rc('font', family=fontprop)
@@ -60,7 +59,6 @@ def display_main_emo(df_list_character_by_page, numOfCharacter, listOfEmotion):
 
 
 def display_emo_ratio(df_sentence, listOfCharacter, numOfCharacter, listOfEmotion):
-
     listOfRatio = []
     # 화자 필터링
     for character in listOfCharacter:
@@ -83,5 +81,3 @@ def display_emo_ratio(df_sentence, listOfCharacter, numOfCharacter, listOfEmotio
         li.append(count/len(filtered_df.index))
         listOfRatio.append(li)  # 캐릭터 리스트에 추가
     return listOfRatio
-
-

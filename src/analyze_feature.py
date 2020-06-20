@@ -27,7 +27,6 @@ kom = Komoran()
 #         trans = translation.translated_text
 #     return trans
 
-
 # # 개체명(직업) 사전 구축
 # def create_occupation_dataframe:
 #     book = open("filepath", "rt", encoding='UTF8', errors='ignore')
@@ -65,10 +64,8 @@ kom = Komoran()
 #     df.to_excel(f"../res/dic/occupation.xlsx")
 #     return 0
 
-
 def save_df(df, fileName):
     df.to_excel(f"../res/feature/{fileName}.xlsx")
-
 
 # 장르 딕셔너리를 데이터프레임으로 변환 및 출력
 def make_dataframe(word_dic, total):
@@ -79,7 +76,6 @@ def make_dataframe(word_dic, total):
 
     df = df.sort_values(by='count', ascending=False)
     return df
-
 
 # 단어 등장 회수 카운트
 def count(context, word_dic, total_count):
@@ -128,7 +124,6 @@ def analyze_genre(genre, fileName, book_count):
     save_df(df, f'{genre}')
     return 0
 
-
 def analyze_generation(generation, fileName, book_count):
     dict_generation = {}
     total_count = 0
@@ -146,7 +141,6 @@ def analyze_generation(generation, fileName, book_count):
     # 데이터 프레임 출력
     save_df(df, f'{generation}')
     return 0
-
 
 def analyze_feature():
     #   analyze_genre("detective", "detective", 69)  # 추리 소설

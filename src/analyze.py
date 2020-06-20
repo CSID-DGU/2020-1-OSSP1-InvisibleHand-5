@@ -8,7 +8,6 @@ import grammar
 import morphs
 from collections import defaultdict
 
-
 # 감정 사전에서 단어 찾기
 def find_word(df_emotion, token):
     tag_all = ['NNB', 'NNG', 'NNP', 'NP', 'VV', 'VA', 'MAG', 'MAJ']
@@ -72,7 +71,6 @@ def parser(df, index, token_list, listOfCharacter):
         # df.at[index, "주어"] = subject
         # df.at[index, "목적어"] = object
     return subject, object, busa, kwanhyeong
-
 
 # 감정 분석
 def input_emotion_word(df, index_word, df_emotion, token_list):
@@ -210,7 +208,7 @@ def input_character(df, index_word, listOfCharacter, token_list):
     for i, c in enumerate(count):
         if c >= 1 & flag == True:
             df.at[index_word, "화자"] = listOfCharacter[i]
-            if (df.at[index_word - 1, '연결 여부'] == '연결'):
+            if (index_word > 0 and df.at[index_word - 1, '연결 여부'] == '연결'):
                 df.at[index_word - 1, "화자"] = listOfCharacter[i]
     if (df.at[index_word, '대화 진행 여부'] == '시작'):
         if (df.at[index_word, '화자'] != ""):
@@ -220,6 +218,43 @@ def input_character(df, index_word, listOfCharacter, token_list):
                     break
                 index_word += 2
                 df.at[index_word, '화자'] = ch
+    # subject, object, busa, kwanhyeong = parser(df, index_word, token_list, listOfCharacter)
+    # count = [0 for i in range(len(listOfCharacter))]  # 문장 당 등장인물의 출현 횟su
+    # flag = True
+    # nplist = ["그", "그녀", ""]
+    # for i, token in enumerate(token_list):
+    #     # print(token)
+    #     if token[0] in listOfCharacter:  # 문장에서 등장인물 등장 체크
+    #         count[listOfCharacter.index(token[0])] += 1
+    #         if token[0] in subject:
+    #             flag = True
+    #         elif token[0] in object:
+    #             flag = False
+    #         elif token[0] in busa:
+    #             flag = True
+    #         elif token[0] in kwanhyeong:
+    #             flag = True
+    #     if token[0] == '남편':  ## 잠시 테스트
+    #         df.at[index_word, '화자'] = '김첨지'
+    #     if token[1] == 'NP':
+    #         if token[0] in nplist:
+    #             if (index_word > 0 and df.at[index_word - 1, "화자"] in listOfCharacter):
+    #                 df.at[index_word, "화자"] = token[0] + "(" + df.at[index_word - 1, "화자"] + ")"
+    #                 if (df.at[index_word - 2, '연결 여부'] == '연결'):
+    #                     df.at[index_word - 2, "화자"] = df.at[index_word - 1, "화자"]
+    # for i, c in enumerate(count):
+    #     if c >= 1 & flag == True:
+    #         df.at[index_word, "화자"] = listOfCharacter[i]
+    #         if (index_word > 0 and df.at[index_word - 1, '연결 여부'] == '연결'):
+    #             df.at[index_word - 1, "화자"] = listOfCharacter[i]
+    # if (df.at[index_word, '대화 진행 여부'] == '시작'):
+    #     if (df.at[index_word, '화자'] != ""):
+    #         ch = df.at[index_word, '화자']
+    #         while (True):
+    #             if (df.at[index_word + 2, '대화 진행 여부'] == ""):
+    #                 break
+    #             index_word += 2
+    #             df.at[index_word, '화자'] = ch
     return df
 
 
@@ -290,7 +325,59 @@ def input_main_sentence(df, index_word, token_list):
     # print(str)
     # for k in range(j,i):
     #     print(token_list[k])
-
+    #     known_pos_features, ignore_features = None,
+    #     min_noun_score = 0.3, min_noun_frequency = 100,
+    #     min_pos_score = 0.3, min_pos_feature_frequency = 1000,
+    #     min_num_of_unique_lastchar = 4, min_entropy_of_lastchar = 0.5,
+    #     min_noun_entropy = 1.5):
+    #
+    #     nouns = {noun for noun, score in prediction_scores.items()
+    #     if ((score[0] >= min_noun_score)
+    #             and (score[1] >= min_noun_frequency))}
+    #
+    #     if ignore_features is None:
+    #         ignore_features = {}
+    #
+    #     pos_candidates = {}
+    #     for noun in nouns:
+    #         for
+    #     r, count in lrgraph.get_r(noun, -1):
+    #     if (r in known_pos_features) or (r in ignore_features):
+    #         continue
+    #
+    #     pos_candidates[r] = pos_candidates.get(r, 0) + count
+    #
+    #     # 1st. frequency filtering (ignoring L is noun)
+    #     pos_candidates = {r: count for r, count in pos_candidates.items()
+    #                   if count >= min_pos_feature_frequency}
+    #
+    # # add known pos features for unknown feature prediction
+    # domain_pos_features = {r: None for r in known_pos_features}
+    #
+    # # from shorter to longer
+    # for r in sorted(pos_candidates, key=lambda x: len(x)):
+    #
+    #     if (r in known_pos_features) or (r in nouns):
+    #         continue
+    #
+    #     features = _get_noun_feature(r, lrgraph)
+    #     score, freq = predict(r, features, nouns, domain_pos_features,
+    #                           min_pos_score, min_pos_feature_frequency,
+    #                           min_num_of_unique_lastchar, min_entropy_of_lastchar)
+    #
+    #     # noun entropy
+    #     noun_sum = sum((c for l, c in features if l in nouns))
+    #     noun_entropy = [c / noun_sum for l, c in features if l in nouns]
+    #     noun_entropy = sum([-math.log(p) * p for p in noun_entropy])
+    #
+    #     if ((score >= min_pos_score) and
+    #             (freq >= min_pos_feature_frequency) and
+    #             (noun_entropy >= min_noun_entropy)):
+    #         domain_pos_features[r] = (score, freq)
+    #
+    # # remove known features
+    # domain_pos_features = {r: score for r, score in domain_pos_features.items()
+    #                        if not (r in known_pos_features)}
     return df
 
 
@@ -344,8 +431,6 @@ def analyze_sentence(df, listOfCharacter, df_emotion, charOfPage):
 
     return df
 
-
-# original
 def merge_character(df_sentence, listOfEmotion, listOfCharacter):
     writer = pd.ExcelWriter("../res/output/등장인물.xlsx", engine='openpyxl')
 
@@ -524,7 +609,6 @@ def merge_character_page(df_sentence, numOfPage, listOfEmotion, listOfCharacter)
 
 ###### 페이지 단위
 ###### 문장 단위로 변경하면서 미사용
-
 def merge_sentence_page(df_sentence, numOfPage, listOfEmotion, listOfCharacter):
     writer = pd.ExcelWriter("../res/output/등장인물.xlsx", engine='openpyxl')
 
