@@ -11,8 +11,8 @@ import noun_ex
 pd.set_option('mode.chained_assignment', None)
 
 # 파일 입력
-# fileName = input("소설명 : ")
-fileName = "운수좋은날"  # 테스트용 #########나중에 수정######################
+fileName = input("소설명 : ")
+#fileName = "운수좋은날"  # 테스트용 #########나중에 수정######################
 book = create.open_book(fileName)
 
 # 전처리
@@ -25,7 +25,7 @@ listOfEmotion = ['기쁨', '슬픔', '분노', '공포', '혐오', '놀람']
 numOfEmotion = len(listOfEmotion)
 numOfPage = math.ceil(len(context) / charOfPage)
 # numOfCharacter = int(input("등장인물 수 : "))
-numOfCharacter = 1  # 테스트용 #########나중에 수정######################
+numOfCharacter = 2  # 테스트용 #########나중에 수정######################
 listOfCharacter = []
 
 # 사용자 사전 생성

@@ -2,7 +2,6 @@ import numpy as np
 from matplotlib import pyplot as plt
 from matplotlib import font_manager as fm
 
-
 def config_graph(x_size):
     fontprop = fm.FontProperties(fname="../res/fonts/malgun.ttf", size=24).get_name()
     plt.rc('font', family=fontprop)

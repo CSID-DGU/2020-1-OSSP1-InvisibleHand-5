@@ -29,7 +29,6 @@ kom = Komoran()
 #         trans = translation.translated_text
 #     return trans
 
-
 # # 개체명(직업) 사전 구축
 # def create_occupation_dataframe:
 #     book = open("filepath", "rt", encoding='UTF8', errors='ignore')
@@ -82,7 +81,6 @@ def make_dataframe(word_dic, total):
     df = df.sort_values(by='count', ascending=False)
     return df
 
-
 # 단어 등장 회수 카운트
 def count(context, word_dic, total_count):
     token_list = kom.pos(context)
@@ -130,7 +128,6 @@ def analyze_genre(genre, fileName, book_count):
     save_df("genre", df, f'{genre}')
     return 0
 
-
 def analyze_generation(generation, fileName, book_count):
     dict_generation = {}
     total_count = 0
@@ -148,6 +145,7 @@ def analyze_generation(generation, fileName, book_count):
     # 데이터 프레임 출력
     save_df("generation", df, f'{generation}')
     return 0
+
 
 
 # 각 특징 별 공통된 단어 데이터프레임 생성
