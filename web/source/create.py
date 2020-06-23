@@ -59,10 +59,12 @@ def create_sentence_list(context):
 def create_sentence_dataframe(context, listOfEmotion):
     sentence, punctuation, kind, connect = create_sentence_list(context)
     df = pd.DataFrame(sentence, columns=['문장'])
-    #df['페이지 번호'] = 0
+    df['페이지 번호'] = 0
     df['구두 문자'] = pd.Series(punctuation, index=df.index)
     df['문장 종류'] = pd.Series(kind, index=df.index)
+    df['대화 진행 여부'] = ""
     df['연결 여부'] = pd.Series(connect, index=df.index)
+    df['핵심 문장'] = ""
     df['감정 단어'] = ""
     df['화자'] = ""
     df['lemma'] = ""
@@ -70,16 +72,7 @@ def create_sentence_dataframe(context, listOfEmotion):
         df[f'{emo}'] = 0.0
     return df
 
-# <결과 2. 모든 등장인물의 페이지별 감정 흐름>을 표현할
-# [등장인물][페이지] 구조의 2차원 벡터 생성
-
-
-def create_sentiment_vector(numOfCharacter, numOfEmotion, numOfPage):
-    vector = np.zeros(numOfCharacter * numOfPage, dtype=np.float_)
-    sentiment_vector = vector.reshape(numOfCharacter, numOfPage)
-    return sentiment_vector
-
 
 def save_df(df, fileName):
     df.to_excel(f"res/output/{fileName}.xlsx")
-    pass
+
