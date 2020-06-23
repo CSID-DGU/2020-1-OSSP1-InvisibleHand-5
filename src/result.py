@@ -5,14 +5,13 @@ from matplotlib import font_manager as fm
 def config_graph(x_size):
     fontprop = fm.FontProperties(fname="../res/fonts/malgun.ttf", size=24).get_name()
     plt.rc('font', family=fontprop)
-    print(x_size)
     plt.rcParams['figure.figsize'] = (x_size, 6)
     plt.rcParams['axes.unicode_minus'] = False
 
 
 # 결과 1. 각 등장인물의 페이지별 감정 수준
 # 등장인물 별 그래프 생성 및 페이지별 감정 레벨 값 대입
-def display_emotion_graph(df_list_character, df_list_character_by_page, listOfCharacter, numOfCharacter, listOfEmotion):
+def display_emotion_graph(df_list_character, listOfCharacter, numOfCharacter, listOfEmotion):
     for num in range(0, numOfCharacter):
 
         x = np.arange(0, len(df_list_character[num].index))
@@ -28,9 +27,13 @@ def display_emotion_graph(df_list_character, df_list_character_by_page, listOfCh
         plt.grid(color='gray', dashes=(2, 2))
         plt.show()
 
+def display_emotion_graph_page(df_list_character_by_page, listOfCharacter, numOfCharacter, listOfEmotion):
+
+    for num in range(0, numOfCharacter):
         x = np.arange(0, len(df_list_character_by_page[num].index))
+        f = plt.figure()
         df = df_list_character_by_page[num]
-        #
+
         for emo in listOfEmotion:
             plt.plot(x, df[f'{emo}'], label=f'{emo}')
         plt.title(f'{listOfCharacter[num]}')
@@ -41,9 +44,7 @@ def display_emotion_graph(df_list_character, df_list_character_by_page, listOfCh
         plt.show()
 
 
-# 결과 2. 소설 장르, 시대적 배경 파악
-
-# 결과 3. 등장인물의 주요 감정 파악
+# 결과 2. 등장인물의 주요 감정 파악
 def display_main_emo(df_list_character_by_page, numOfCharacter, listOfEmotion):
     main_emo_list = []
     main_emo = ""
@@ -58,6 +59,7 @@ def display_main_emo(df_list_character_by_page, numOfCharacter, listOfEmotion):
         return main_emo_list
 
 
+# 결과 3. 각 등장인물의 감정 비율
 def display_emo_ratio(df_sentence, listOfCharacter, numOfCharacter, listOfEmotion):
     listOfRatio = []
     # 화자 필터링
@@ -72,12 +74,12 @@ def display_emo_ratio(df_sentence, listOfCharacter, numOfCharacter, listOfEmotio
             for v in s_emo.values:
                 if v > 0:
                     count = count + 1
-            li.append(count / len(filtered_df.index))  # 감정 비율 추가
+            li.append(round(count / len(filtered_df.index)*100, 2))  # 감정 비율 추가
         count = 0
         emo_s = filtered_df.sum(axis=1)  # 행 합의 시리즈
         for s in emo_s:
             if s == 0:
                 count = count + 1
-        li.append(count/len(filtered_df.index))
+        li.append(round(count / len(filtered_df.index)*100, 2))
         listOfRatio.append(li)  # 캐릭터 리스트에 추가
     return listOfRatio

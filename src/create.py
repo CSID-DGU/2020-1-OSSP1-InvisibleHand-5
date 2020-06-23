@@ -74,13 +74,6 @@ def create_sentence_dataframe(context, listOfEmotion):
         df[f'{emo}'] = 0.0
     return df
 
-# <결과 2. 모든 등장인물의 페이지별 감정 흐름>을 표현할
-# [등장인물][페이지] 구조의 2차원 벡터 생성
-def create_sentiment_vector(numOfCharacter, numOfEmotion, numOfPage):
-    vector = np.zeros(numOfCharacter * numOfPage, dtype=np.float_)
-    sentiment_vector = vector.reshape(numOfCharacter, numOfPage)
-    return sentiment_vector
-
 
 def save_df(df, fileName):
     df.to_excel(f"../res/output/{fileName}.xlsx")

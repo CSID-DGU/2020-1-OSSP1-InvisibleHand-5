@@ -1,9 +1,11 @@
 import preprocess
 import pandas as pd
 from konlpy.tag import Komoran
-#from google.cloud import translate_v3beta1 as translate
+
+# from google.cloud import translate_v3beta1 as translate
 
 kom = Komoran()
+
 
 # # 구글 번역 api
 # def translate_text(text, project_id="project_id"):
@@ -64,13 +66,15 @@ kom = Komoran()
 #     df.to_excel(f"../res/dic/occupation.xlsx")
 #     return 0
 
-def save_df(df, fileName):
-    df.to_excel(f"../res/feature/{fileName}.xlsx")
+
+def save_df(feature, df, fileName):
+    df.to_excel(f"../res/feature/{feature}/{fileName}.xlsx")
+
 
 # 장르 딕셔너리를 데이터프레임으로 변환 및 출력
 def make_dataframe(word_dic, total):
     df = pd.DataFrame.from_dict(word_dic, orient='index', columns=['count'])
-
+    df.index.names = ['word']
     # 등장 비율 칼럼 추가
     df['percentage'] = df['count'] / total
 
@@ -121,7 +125,7 @@ def analyze_genre(genre, fileName, book_count):
     df = make_dataframe(dict_genre, total_count)
 
     # 데이터 프레임 출력
-    save_df(df, f'{genre}')
+    save_df("genre", df, f'{genre}')
     return 0
 
 def analyze_generation(generation, fileName, book_count):
@@ -139,8 +143,56 @@ def analyze_generation(generation, fileName, book_count):
     df = make_dataframe(dict_generation, total_count)
 
     # 데이터 프레임 출력
-    save_df(df, f'{generation}')
+    save_df("generation", df, f'{generation}')
     return 0
+
+
+
+# 각 특징 별 공통된 단어 데이터프레임 생성
+def analyze_common():
+    # 장르
+    detective_df = pd.read_excel('../res/feature/genre/detective.xlsx')  # 추리
+    romance_df = pd.read_excel('../res/feature/genre/romance.xlsx')  # 로맨스
+
+    # 시대
+    joseon_df = pd.read_excel('../res/feature/generation/joseon.xlsx')  # 조선시대
+    bloom_df = pd.read_excel('../res/feature/generation/bloom.xlsx')  # 개화기
+    # bloom_df = pd.read_excel('../res/feature/generation/bloom.xlsx')  # 일제 강점기
+
+    genre_common_df = pd.merge(detective_df, romance_df, how='inner', on=['word'])
+    generation_common_df = pd.merge(joseon_df, bloom_df, how='inner', on=['word'])
+
+    save_df("genre", genre_common_df, 'common')
+    save_df("generation", generation_common_df, 'common')
+
+
+# 원 데이터 프레임에서 공통된 데이터 프레임 sub
+def exclude_common():
+    # 장르
+    common_genre_df = pd.read_excel('../res/feature/genre/common.xlsx')  # 장르 공통
+    detective_df = pd.read_excel('../res/feature/genre/detective.xlsx')  # 추리
+    romance_df = pd.read_excel('../res/feature/genre/romance.xlsx')  # 로맨스
+
+    # 시대
+    common_generation_df = pd.read_excel('../res/feature/generation/common.xlsx')  # 시대 공통
+    joseon_df = pd.read_excel('../res/feature/generation/joseon.xlsx')  # 조선시대
+    bloom_df = pd.read_excel('../res/feature/generation/bloom.xlsx')  # 개화기
+    # ilje_df = pd.read_excel('../res/feature/generation/ilje.xlsx')  # 일제 강점기
+
+    # 장르 공통 제외
+    detective_only_df = detective_df[~detective_df['word'].isin(common_genre_df['word'])]
+    romance_only_df = romance_df[~romance_df['word'].isin(common_genre_df['word'])]
+
+    bloom_only_df = bloom_df[~bloom_df['word'].isin(common_generation_df['word'])]
+    joseon_only_df = joseon_df[~joseon_df['word'].isin(common_generation_df['word'])]
+
+    # 출력
+    save_df("genre", detective_only_df, 'detective_only')
+    save_df("genre", romance_only_df, 'romance_only')
+
+    save_df("generation", bloom_only_df, 'bloom_only')
+    save_df("generation", joseon_only_df, 'joseon_only')
+
 
 def analyze_feature():
     #   analyze_genre("detective", "detective", 69)  # 추리 소설
@@ -148,5 +200,8 @@ def analyze_feature():
 
     #   analyze_generation("joseon", "조선왕조실록", 2432)  # 조선 시대
     #   analyze_generation("bloom", "bloom", 102)  # 개화기 시대
-
+    #   analyze_generation("ilje", "ilje", 15)  # 일제 시대
     return 0
+
+# analyze_common()
+# exclude_common()
