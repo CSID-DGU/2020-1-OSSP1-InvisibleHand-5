@@ -13,7 +13,7 @@ def open_book(fileName):
 def create_userdic(numOfCharacter, listOfCharacter):
     userdic = open("user_dic.txt", "wt", encoding='UTF8')  # userdic 저장 경로 변경
     for n in range(0, numOfCharacter):
-        #name = input(f"등장인물 {n + 1} : ")
+        # name = input(f"등장인물 {n + 1} : ")
         name = "김첨지"  # 테스트용 #########나중에 수정#########################################
         userdic.write(f"{name}\tNNP\n")
         listOfCharacter.append(name)
@@ -73,13 +73,6 @@ def create_sentence_dataframe(context, listOfEmotion):
     for emo in listOfEmotion:
         df[f'{emo}'] = 0.0
     return df
-
-# <결과 2. 모든 등장인물의 페이지별 감정 흐름>을 표현할
-# [등장인물][페이지] 구조의 2차원 벡터 생성
-def create_sentiment_vector(numOfCharacter, numOfEmotion, numOfPage):
-    vector = np.zeros(numOfCharacter * numOfPage, dtype=np.float_)
-    sentiment_vector = vector.reshape(numOfCharacter, numOfPage)
-    return sentiment_vector
 
 
 def save_df(df, fileName):

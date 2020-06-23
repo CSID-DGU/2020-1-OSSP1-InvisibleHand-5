@@ -11,6 +11,24 @@ from collections import defaultdict
 
 # 감정 사전에서 단어 찾기
 def find_word(df_emotion, token):
+    # # 장르
+    # detective_df = pd.read_excel('../res/feature/genre/detective_only.xlsx')  # 추리
+    # romance_df = pd.read_excel('../res/feature/genre/romance_only.xlsx')  # 로맨스
+    #
+    # # 시대
+    # joseon_df = pd.read_excel('../res/feature/generation/joseon_only.xlsx')  # 조선시대
+    # bloom_df = pd.read_excel('../res/feature/generation/bloom_only.xlsx')  # 개화기
+    # # 시대, 장르 단어 찾기
+    #
+    # if token in detective_df['word']:
+    #     feature_count_list[0] = feature_count_list[0] + 1
+    # if token in romance_df['word']:
+    #     feature_count_list[1] = feature_count_list[1] + 1
+    # if token in joseon_df['word']:
+    #     feature_count_list[2] = feature_count_list[2] + 1
+    # if token in bloom_df['word']:
+    #     feature_count_list[3] = feature_count_list[3] + 1
+
     tag_all = ['NNB', 'NNG', 'NNP', 'NP', 'VV', 'VA', 'MAG', 'MAJ']
     tag_noun = ['NNB', 'NNG', 'NNP', 'NP']
     tag_verb = ['VV']
@@ -203,20 +221,20 @@ def input_character(df, index_word, listOfCharacter, token_list):
             df.at[index_word, '화자'] = '김첨지'
         if token[1] == 'NP':
             if token[0] in nplist:
-                if (index_word > 0 and df.at[index_word - 1, "화자"] in listOfCharacter):
+                if index_word > 0 and df.at[index_word - 1, "화자"] in listOfCharacter:
                     df.at[index_word, "화자"] = token[0] + "(" + df.at[index_word - 1, "화자"] + ")"
-                    if (df.at[index_word - 2, '연결 여부'] == '연결'):
+                    if df.at[index_word - 2, '연결 여부'] == '연결':
                         df.at[index_word - 2, "화자"] = df.at[index_word - 1, "화자"]
     for i, c in enumerate(count):
         if c >= 1 & flag == True:
             df.at[index_word, "화자"] = listOfCharacter[i]
-            if (df.at[index_word - 1, '연결 여부'] == '연결'):
+            if df.at[index_word - 1, '연결 여부'] == '연결':
                 df.at[index_word - 1, "화자"] = listOfCharacter[i]
-    if (df.at[index_word, '대화 진행 여부'] == '시작'):
-        if (df.at[index_word, '화자'] != ""):
+    if df.at[index_word, '대화 진행 여부'] == '시작':
+        if df.at[index_word, '화자'] != "":
             ch = df.at[index_word, '화자']
             while (True):
-                if (df.at[index_word + 2, '대화 진행 여부'] == ""):
+                if df.at[index_word + 2, '대화 진행 여부'] == "":
                     break
                 index_word += 2
                 df.at[index_word, '화자'] = ch
@@ -232,15 +250,15 @@ def analyze_conversation(df):
     start_index_list = []
     end_index_list = []
     for i, con_kind in enumerate(df['문장 종류']):
-        if (con_kind == '대화문'):
+        if con_kind == '대화문':
             conver = True
             cnt += 1
             # if (df.at[index_word, '연결 여부'] == '연결'):
             #     connect = True
             # else:
             #     connect = False
-        elif (con_kind == '서술문'):
-            if (conver == True):
+        elif con_kind == '서술문':
+            if conver == True:
                 if (cnt >= 2):
                     df.at[i - cnt, '대화 진행 여부'] = '시작'
                     for j in range((i - cnt) + 1, i - 1):
@@ -270,13 +288,13 @@ def input_main_sentence(df, index_word, token_list):
             # print(token, token_list[i])
             # print(i, j)
             for k in reversed(range(i)):
-                if (k == 0):
+                if k == 0:
                     for p in range(i):
-                        if (token_list[p][1] in termination_list):
+                        if token_list[p][1] in termination_list:
                             # print(token_list[p])
                             flag = 1
                             break
-                if (flag == 1):
+                if flag == 1:
                     break
                 # print(k, token_list[k])
                 if token_list[k][1] == 'EC':
@@ -284,7 +302,7 @@ def input_main_sentence(df, index_word, token_list):
                         str += token_list[s][0] + " "
                     flag = 1
                     break
-            if (flag == 1):
+            if flag == 1:
                 flag = 0
                 break
     # print(str)
@@ -313,7 +331,7 @@ count = defaultdict(lambda: 0)
 def get_frequency(token_list):
     nList = ['NNP', 'NNG']
     for word in token_list:
-        if (word[1] in nList):
+        if word[1] in nList:
             count[word[0]] += 1
             # print(word[0] + ":", count[word[0]])
 
@@ -326,7 +344,7 @@ def analyze_sentence(df, listOfCharacter, df_emotion, charOfPage):
 
     df = analyze_conversation(df)
     for line in df["문장"]:
-        ## 문장 단위로 변경하면서 미사용
+        # 문장 단위로 변경하면서 미사용
         if length > charOfPage:
             page_num = page_num + 1
             length = 0
@@ -521,10 +539,7 @@ def merge_character_page(df_sentence, numOfPage, listOfEmotion, listOfCharacter)
 #     writer.save()
 #     return df_list_character
 
-
-###### 페이지 단위
-###### 문장 단위로 변경하면서 미사용
-
+# 페이지 단위
 def merge_sentence_page(df_sentence, numOfPage, listOfEmotion, listOfCharacter):
     writer = pd.ExcelWriter("../res/output/등장인물.xlsx", engine='openpyxl')
 
