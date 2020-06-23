@@ -393,9 +393,9 @@ def merge_character_page(df_sentence, numOfPage, listOfEmotion, listOfCharacter)
     writer = pd.ExcelWriter("../res/output/등장인물_페이지.xlsx", engine='openpyxl')
 
     df_list_character = []
-    df_character = pd.DataFrame(index=range(0, numOfPage), columns=[f"{emotion}" for emotion in listOfEmotion])
 
     for character in listOfCharacter:
+        df_character = pd.DataFrame(index=range(0, numOfPage), columns=[f"{emotion}" for emotion in listOfEmotion])
         for num in range(0, numOfPage):
             m1 = ((df_sentence['페이지 번호'] == num) & (df_sentence['화자'] == character))
             page_filtered_df = df_sentence.loc[m1]

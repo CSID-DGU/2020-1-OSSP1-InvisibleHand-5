@@ -5,6 +5,7 @@ import result
 import analyze
 import morphs
 import emotion_word
+import web_render
 import math
 import pandas as pd
 import noun_ex
@@ -81,10 +82,11 @@ def main(fileName, name):
     ratio_list = result.display_emo_ratio(df_sentence, listOfCharacter, numOfCharacter, listOfEmotion)
 
 
+
     # 결과 소설 정보, 등장인물 정보 및 html 출력하여 콜백
     # 1. 등장인물의 주요 감정 및 감정 비율
     for num in range(0, numOfCharacter):
-        print(f'{listOfCharacter[num]}의 감정 비율 : {ratio_list[num]}')
+        print(web_render.bio(listOfCharacter[num], ratio_list[num]))
 
     # 2. 등장인물 데이터프레임 및 감정 그래프 출력
     for num in range(0, numOfCharacter):

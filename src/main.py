@@ -59,8 +59,8 @@ x_size = len(df_sentence.index) / 20 + 1
 result.config_graph(x_size)
 
 # 결과 1. 각 등장인물의 페이지별 감정 수준 그래프 생성 및 출력
-result.display_emotion_graph(df_list_character, df_list_character_by_page, listOfCharacter, numOfCharacter,
-                             listOfEmotion)
+result.display_emotion_graph(df_list_character, listOfCharacter, numOfCharacter, listOfEmotion)
+result.display_emotion_graph_page(df_list_character_by_page, listOfCharacter, numOfCharacter, listOfEmotion)
 
 # 결과 2. 각 등장인물의 주요 감정
 emo_list = result.display_main_emo(df_list_character_by_page, numOfCharacter, listOfEmotion)
