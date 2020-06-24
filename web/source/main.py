@@ -61,12 +61,10 @@ def main(fileName, name):
     # 등장인물 별 페이지 감정 점수 합산하여 등장인물 데이터프레임 생성
     df_list_character = analyze.merge_character(
         df_sentence, listOfEmotion, listOfCharacter)
-    df_list_character_by_page = analyze.merge_character_page(df_sentence, numOfPage, listOfEmotion, listOfCharacter)
+    df_list_character_by_page = analyze.merge_character_page(
+        df_sentence, numOfPage, listOfEmotion, listOfCharacter)
 
-    # 20 문장 당 x축 사이즈 = 1
-    # 그래프 설정
-    x_size = len(df_sentence.index) / 20 + 1
-    result.config_graph(x_size)
+    result.config_graph()
 
     # 결과 1. 각 등장인물의 페이지별 감정 수준 그래프 생성 및 출력
     fig_html_list = result.display_emotion_graph(
@@ -76,21 +74,21 @@ def main(fileName, name):
         df_list_character_by_page, listOfCharacter, numOfCharacter, listOfEmotion)
 
     # 결과 2. 각 등장인물의 주요 감정
-    emo_list = result.display_main_emo(df_list_character_by_page, numOfCharacter, listOfEmotion)
+    emo_list = result.display_main_emo(
+        df_list_character_by_page, numOfCharacter, listOfEmotion)
 
     # 결과 3. 각 등장인물의 감정 비율
-    ratio_list = result.display_emo_ratio(df_sentence, listOfCharacter, numOfCharacter, listOfEmotion)
-
-
+    ratio_list = result.display_emo_ratio(
+        df_sentence, listOfCharacter, numOfCharacter, listOfEmotion)
 
     # 결과 소설 정보, 등장인물 정보 및 html 출력하여 콜백
     # 1. 등장인물의 주요 감정 및 감정 비율
     for num in range(0, numOfCharacter):
-        print(web_render.bio(listOfCharacter[num], ratio_list[num]))
+        print(web_render.bio(
+            listOfCharacter[num], ratio_list[num], emo_list[num]))
 
     # 2. 등장인물 데이터프레임 및 감정 그래프 출력
     for num in range(0, numOfCharacter):
-        print(df_list_character[num].to_html(justify='center'))
         print(fig_html_list[num])
         print(fig_html_page_list[num])
 

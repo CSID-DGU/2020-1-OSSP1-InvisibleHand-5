@@ -38,7 +38,6 @@ body {
 	max-width: 360px;
 	margin: 0 auto 100px;
 	padding: 45px;
-	text-align: center;
 	box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
   }
 
@@ -66,12 +65,52 @@ body {
 	font-size: 14px;
 	cursor: pointer;
 }
-	
+
+ /* 추가 삭제 버튼 */
+ .button{
+	outline: 0;
+	height: 40px;
+	background: #4CAF50;
+	width: 20%;
+	border: 0;
+	padding: 10px 0px 10px 0px;
+	margin-bottom: 10px;
+	color: #FFFFFF;
+	font-size: 14px;
+	cursor: pointer;
+}
+
+.happy{
+	color: #1f7784;
+}
+
+.sad{
+	color: #ff7f0e;
+}
+
+.anger{
+	color: #2ca02c;
+}
+
+.fear{
+	color: #d62728;
+}
+
+.disgust{
+	color: #9467bd;
+}
+
+.surprise{
+	color: #8c564b;
+}
+
+
+
 /* 파일 업로드 */
 .file-upload-wrapper {
 	position: relative;
 	font-size: 14px;
-	height: 60px;
+	height: 40px;
 	margin: 0 0 15px;
 }
 	/*입력 창 */
@@ -89,13 +128,13 @@ body {
 }
 	/* 업로드 버튼 */
 .file-upload-wrapper:before {
-	content: '업로드';
+	content: '';
 	position: absolute;
 	top: 0;
 	right: 0;
 	display: inline-block;
 	height: 60px;
-	background: #4CAF50;
+	background: white;
 	color: #fff;
 	font-weight: 700;
 	z-index: 25;

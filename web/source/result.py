@@ -3,12 +3,15 @@ import mpld3
 import jinja2
 from matplotlib import pyplot as plt
 from matplotlib import font_manager as fm
+import matplotlib
+matplotlib.use('Agg')
 
 
-def config_graph(x_size):
-    fontprop = fm.FontProperties(fname="res/fonts/malgun.ttf", size=24).get_name()
+def config_graph():
+    fontprop = fm.FontProperties(
+        fname="res/fonts/malgun.ttf", size=24).get_name()
     plt.rc('font', family=fontprop)
-    plt.rcParams['figure.figsize'] = (x_size, 6)
+    plt.rcParams['figure.figsize'] = (10, 6)
     plt.rcParams['axes.unicode_minus'] = False
 
 
@@ -42,7 +45,7 @@ def display_emotion_graph_page(df_list_character_by_page, listOfCharacter, numOf
     fig_page_list = []
 
     for num in range(0, numOfCharacter):
-        x = np.arange(0, len(df_list_character_by_page[num].index))
+        x = np.arange(0, len(df_list_character_by_page[num].index+1))
         f = plt.figure()
         df = df_list_character_by_page[num]
 
@@ -55,7 +58,8 @@ def display_emotion_graph_page(df_list_character_by_page, listOfCharacter, numOf
         plt.grid(color='gray', dashes=(2, 2))
         # html 결과 출력부
         # print 내용 콜백
-        fig_page_list.append(mpld3.fig_to_html(f, figid=f"character{num}_page"))
+        fig_page_list.append(mpld3.fig_to_html(
+            f, figid=f"character{num}_page"))
 
     return fig_page_list
 
@@ -64,15 +68,16 @@ def display_emotion_graph_page(df_list_character_by_page, listOfCharacter, numOf
 def display_main_emo(df_list_character_by_page, numOfCharacter, listOfEmotion):
     main_emo_list = []
     main_emo = ""
-    i = -1
+
     for num in range(0, numOfCharacter):
+        i = -1
         df = df_list_character_by_page[num]
         for emo in listOfEmotion:
             if df[f'{emo}'].sum() > i:
                 main_emo = emo
                 i = df[f'{emo}'].sum()
         main_emo_list.append(main_emo)
-        return main_emo_list
+    return main_emo_list
 
 
 # 결과 3. 각 등장인물의 감정 비율
@@ -83,14 +88,16 @@ def display_emo_ratio(df_sentence, listOfCharacter, numOfCharacter, listOfEmotio
         li = []
         m1 = df_sentence['화자'] == character
         filtered_df = df_sentence.loc[m1]
-        filtered_df = filtered_df.loc[:, ('기쁨', '슬픔', '분노', '공포', '혐오', '놀람')]  # 추출한 행들의 감정 열 추출
+        # 추출한 행들의 감정 열 추출
+        filtered_df = filtered_df.loc[:, ('기쁨', '슬픔', '분노', '공포', '혐오', '놀람')]
         for emo in listOfEmotion:
             count = 0
             s_emo = filtered_df[emo]  # 시리즈 추출
             for v in s_emo.values:
                 if v > 0:
                     count = count + 1
-            li.append(round(count / len(filtered_df.index) * 100, 2))  # 감정 비율 추가
+            # 감정 비율 추가
+            li.append(round(count / len(filtered_df.index) * 100, 2))
         count = 0
         emo_s = filtered_df.sum(axis=1)  # 행 합의 시리즈
         for s in emo_s:

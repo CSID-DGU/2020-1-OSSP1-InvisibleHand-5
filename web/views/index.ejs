@@ -20,9 +20,6 @@
 
 <body>
 
-
-
-
     <body>
         <!------ 제목  ------>
         <div class="title">
@@ -36,6 +33,7 @@
 
         <!------ 텍스트 파일 및 등장인물 입력 ------>
         <div class="container">
+
             <form class="form" action="/books/analyze" method="post" enctype='multipart/form-data'>
                 <!-- 텍스트 파일 입력 -->
                 <div class="file-upload-wrapper" data-text="">
@@ -43,17 +41,17 @@
                 </div>
 
                 <!-- 등장인물 이름 입력 -->
-                <input type="button" value="추가" onclick="add_character()">
+                <input class="button" type="button" value="추가" onclick="add_character()">
                 <div class="character" id="character">
                     <input name="character_name" type="text" placeholder="등장인물 이름" />
 
-                    <input type="button" value="삭제" onclick="remove_character(this)">
+                    <input class="button" type="button" value="삭제" onclick="remove_character(this)">
                 </div>
                 <div id="field"> </div>
                 <button>분석</button>
             </form>
-
         </div>
+
 
 
         <!------ 결과 그래프 출력 ------>
