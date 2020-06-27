@@ -1,11 +1,10 @@
 # 2020-1-OSSP1-InvisibleHand-5
 공개SW프로젝트01 5조 보않손
 팀원 : 김우용, 박종근, 최윤호, 김도훈
-개발 환경: Python, Node.js
-
+개발 환경: Python, Node.js <br/>
 
 ## 주제
- NLTK 및 konlpy를 활용한 국문 소설 등장인물의 감정 분석 및 흐름 파악
+ NLTK 및 konlpy를 활용한 국문 소설 등장인물의 감정 분석 및 흐름 파악 <br/>
 
 
 ## 사용 오픈소스 라이브러리
