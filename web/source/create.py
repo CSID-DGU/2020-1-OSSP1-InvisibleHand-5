@@ -1,13 +1,4 @@
-import numpy as np
 import pandas as pd
-
-
-# 소설 입력
-
-# def open_book(fileName):
-#     fileName = fileName + ".txt"
-#     book = open(f'../res/book/{fileName}', "rt", encoding='UTF8', errors='ignore')
-#     return book
 
 
 # 사용자 입력받아서 사전에 등장인물 고유명사로 추가
@@ -64,7 +55,7 @@ def create_sentence_dataframe(context, listOfEmotion):
     df['문장 종류'] = pd.Series(kind, index=df.index)
     df['대화 진행 여부'] = ""
     df['연결 여부'] = pd.Series(connect, index=df.index)
-    df['핵심 문장'] = ""
+    #df['핵심 문장'] = ""
     df['감정 단어'] = ""
     df['화자'] = ""
     df['lemma'] = ""
@@ -75,4 +66,3 @@ def create_sentence_dataframe(context, listOfEmotion):
 
 def save_df(df, fileName):
     df.to_excel(f"res/output/{fileName}.xlsx")
-

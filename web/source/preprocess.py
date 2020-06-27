@@ -24,19 +24,8 @@ def remove_chinese(string):  # 매개변수 = 문자열.(한자 제거)
     ch = '([\uf900-\ufaff]+)'  # 한중일 호환용 한자
     string = re.sub(ch, '', string)
 
-    #ch = '([\u20000-\u2a6df]+)'  # 한중일 통합 한자 확장
-    #string = re.sub(ch, '', string)
-    #ch = '([\u2f800-\u2fa1f]+)'  # 한중일 호환용 한자 보충
-    #string = re.sub(ch, '', string)
-    
     return string
 
-
-def only_korean(string):
-    ch = re.compile('[^ \u3131-\u3163\uac00-\ud7a3]+')  # 위와 동일
-    string = re.sub(ch, '', string)
-
-    return string
 
 def change_etc(string):
     ch = '[\u201c-\u201d]'
@@ -51,5 +40,4 @@ def remove_etc(book):
     context = change_to_qm(context)
     context = remove_chinese(context)
     context = change_etc(context)
-    #context = only_korean(context)
     return context

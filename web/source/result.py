@@ -90,6 +90,8 @@ def display_emo_ratio(df_sentence, listOfCharacter, numOfCharacter, listOfEmotio
         filtered_df = df_sentence.loc[m1]
         # 추출한 행들의 감정 열 추출
         filtered_df = filtered_df.loc[:, ('기쁨', '슬픔', '분노', '공포', '혐오', '놀람')]
+        len_sentence = len(filtered_df.index)
+
         for emo in listOfEmotion:
             count = 0
             s_emo = filtered_df[emo]  # 시리즈 추출
@@ -97,12 +99,7 @@ def display_emo_ratio(df_sentence, listOfCharacter, numOfCharacter, listOfEmotio
                 if v > 0:
                     count = count + 1
             # 감정 비율 추가
-            li.append(round(count / len(filtered_df.index) * 100, 2))
-        count = 0
-        emo_s = filtered_df.sum(axis=1)  # 행 합의 시리즈
-        for s in emo_s:
-            if s == 0:
-                count = count + 1
-        li.append(round(count / len(filtered_df.index) * 100, 2))
+            if len_sentence > 0:
+                li.append(round(count / len_sentence * 100, 2))  # 감정 비율 추가
         listOfRatio.append(li)  # 캐릭터 리스트에 추가
     return listOfRatio
