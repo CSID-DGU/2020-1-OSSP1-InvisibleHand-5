@@ -1,7 +1,7 @@
 # 2020-1-OSSP1-InvisibleHand-5
 - 공개SW프로젝트01 5조 보않손
 - 팀원 : 김우용, 박종근, 최윤호, 김도훈
-- 개발 환경: Python, Node.js
+
 
 ## 주제
  NLTK 및 konlpy를 활용한 국문 소설 등장인물의 감정 분석 및 흐름 파악
@@ -18,6 +18,8 @@
 - [NRC LEXICON EMOTION ](http://saifmohammad.com/WebPages/NRC-Emotion-Lexicon.htm) - 감정 사전
 
 
+## 개발 환경
+Develop Tool : Python, Node.js
 
 ## 기능
 분석하고싶은 소설 텍스트 파일과 등장인물 이름을 입력 
@@ -37,6 +39,7 @@
 
 - 흐름을 보기 용이하게 일정 단위로 묶은 감정 분석 결과 그래프 
 <img src="https://user-images.githubusercontent.com/53558710/85925945-b789e080-b8d6-11ea-8f0b-dcb4f4e3bd05.png"  width="600">
+
 
 
 ## 문의
