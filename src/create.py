@@ -77,7 +77,7 @@ def create_sentence_dataframe(context, listOfEmotion):
     df['문장 종류'] = pd.Series(kind, index=df.index)
     df['대화 진행 여부'] = ""
     df['연결 여부'] = pd.Series(connect, index=df.index)
-    df['핵심 문장'] = ""
+    #df['핵심 문장'] = ""
     df['감정 단어'] = ""
     df['화자'] = ""
     df['lemma'] = ""

@@ -295,7 +295,7 @@ def analyze_sentence(df, listOfCharacter, df_emotion, charOfPage):
         token_list = morphs.tokenizer(line)
         df = input_character(df, index_word, listOfCharacter, token_list)  # df에 화자 값 입력
         df = input_lemma(df, index_word, token_list)
-        df = input_main_sentence(df, index_word, token_list)
+        #df = input_main_sentence(df, index_word, token_list)
         get_frequency(token_list)
         df = input_emotion_word(df, index_word, df_emotion, token_list)  # df에 감정 단어 및 감정 값 입력
         index_word = index_word + 1
