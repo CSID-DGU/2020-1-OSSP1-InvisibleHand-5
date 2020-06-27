@@ -1,3 +1,4 @@
+import os
 import numpy as np
 import pandas as pd
 
@@ -9,15 +10,25 @@ def open_book(fileName):
     return book
 
 
+# 결과 출력용 디렉토리 생성
+def create_folder(directory):
+    try:
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+    except OSError:
+        print("디렉토리 생성에 실패했습니다." + directory)
+
+
 # 사용자 입력받아서 사전에 등장인물 고유명사로 추가
-def create_userdic(numOfCharacter, listOfCharacter):
+def create_userdic(numOfCharacter):
+    listOfCharacter = []
     userdic = open("user_dic.txt", "wt", encoding='UTF8')  # userdic 저장 경로 변경
     for n in range(0, numOfCharacter):
         name = input(f"등장인물 {n + 1} : ")
-        #name = "김첨지"  # 테스트용 #########나중에 수정#########################################
         userdic.write(f"{name}\tNNP\n")
         listOfCharacter.append(name)
     userdic.close()
+    return listOfCharacter
 
 
 # 문장 리스트 생성
@@ -66,7 +77,7 @@ def create_sentence_dataframe(context, listOfEmotion):
     df['문장 종류'] = pd.Series(kind, index=df.index)
     df['대화 진행 여부'] = ""
     df['연결 여부'] = pd.Series(connect, index=df.index)
-    df['핵심 문장'] = ""
+    #df['핵심 문장'] = ""
     df['감정 단어'] = ""
     df['화자'] = ""
     df['lemma'] = ""
@@ -75,5 +86,5 @@ def create_sentence_dataframe(context, listOfEmotion):
     return df
 
 
-def save_df(df, fileName):
-    df.to_excel(f"../res/output/{fileName}.xlsx")
+def save_df(df, storyName, fileName):
+    df.to_excel(f"../res/output/{storyName}/{fileName}.xlsx")
