@@ -8,26 +8,9 @@ import grammar
 import morphs
 from collections import defaultdict
 
+
 # 감정 사전에서 단어 찾기
 def find_word(df_emotion, token):
-    # # 장르
-    # detective_df = pd.read_excel('../res/feature/genre/detective_only.xlsx')  # 추리
-    # romance_df = pd.read_excel('../res/feature/genre/romance_only.xlsx')  # 로맨스
-    #
-    # # 시대
-    # joseon_df = pd.read_excel('../res/feature/generation/joseon_only.xlsx')  # 조선시대
-    # bloom_df = pd.read_excel('../res/feature/generation/bloom_only.xlsx')  # 개화기
-    # # 시대, 장르 단어 찾기
-    #
-    # if token in detective_df['word']:
-    #     feature_count_list[0] = feature_count_list[0] + 1
-    # if token in romance_df['word']:
-    #     feature_count_list[1] = feature_count_list[1] + 1
-    # if token in joseon_df['word']:
-    #     feature_count_list[2] = feature_count_list[2] + 1
-    # if token in bloom_df['word']:
-    #     feature_count_list[3] = feature_count_list[3] + 1
-
     tag_all = ['NNB', 'NNG', 'NNP', 'NP', 'VV', 'VA', 'MAG', 'MAJ']
     tag_noun = ['NNB', 'NNG', 'NNP', 'NP']
     tag_verb = ['VV']
@@ -55,7 +38,6 @@ def find_word(df_emotion, token):
 
 # 감정 사전에서 단어 찾기(lemma)
 def find_word_lemma(df_emotion, lemma):
-    # print(lemma)
     df_filter = df_emotion[(df_emotion['lemma'] == lemma)]
     if len(df_filter) == 0:  # 조건을 만족하는 행이 없으면 -1, 0 반환
         return [-1], [0]
@@ -86,20 +68,12 @@ def parser(df, index, token_list, listOfCharacter):
             if sub_tree[0][1] != "MM":
                 kwanhyeong.append(sub_tree[0][0])
 
-        # df.at[index, "주어"] = subject
-        # df.at[index, "목적어"] = object
     return subject, object, busa, kwanhyeong
+
 
 # 감정 분석
 def input_emotion_word(df, index_word, df_emotion, token_list):
     emo_word = []
-    # # 중복 계산 방지
-    # anger_flag = False
-    # joy_flag = False
-    # sadness_flag = False
-    # fear_flag = False
-    # disgust_flag = False
-    # surprise_flag = False
 
     for token in token_list:
         emotion_list, score_list = find_word(df_emotion, token)
@@ -108,47 +82,16 @@ def input_emotion_word(df, index_word, df_emotion, token_list):
             for emo in emotion_list:
                 if emo == '분노':
                     df.at[index_word, '분노'] += float(score_list[emotion_list.index(emo)])  # 감정과 점수 입력
-
                 elif emo == '기쁨':
                     df.at[index_word, '기쁨'] += float(score_list[emotion_list.index(emo)])  # 감정과 점수 입력
-
                 elif emo == '슬픔':
                     df.at[index_word, '슬픔'] += float(score_list[emotion_list.index(emo)])  # 감정과 점수 입력
-
                 elif emo == '공포':
                     df.at[index_word, '공포'] += float(score_list[emotion_list.index(emo)])  # 감정과 점수 입력
-
                 elif emo == '혐오':
                     df.at[index_word, '혐오'] += float(score_list[emotion_list.index(emo)])  # 감정과 점수 입력
-
                 elif emo == '놀람':
                     df.at[index_word, '놀람'] += float(score_list[emotion_list.index(emo)])  # 감정과 점수 입력
-
-                # if emo == '분노' and anger_flag is False:
-                #     df.at[index_word, '분노'] += float(score_list[emotion_list.index(emo)])  # 감정과 점수 입력
-                #     anger_flag = True
-                # elif emo == '기쁨' and joy_flag is False:
-                #     df.at[index_word, '기쁨'] += float(score_list[emotion_list.index(emo)])  # 감정과 점수 입력
-                #     joy_flag = True
-                # elif emo == '슬픔' and sadness_flag is False:
-                #     df.at[index_word, '슬픔'] += float(score_list[emotion_list.index(emo)])  # 감정과 점수 입력
-                #     sadness_flag = True
-                # elif emo == '공포' and fear_flag is False:
-                #     df.at[index_word, '공포'] += float(score_list[emotion_list.index(emo)])  # 감정과 점수 입력
-                #     fear_flag = True
-                # elif emo == '혐오' and disgust_flag is False:
-                #     df.at[index_word, '혐오'] += float(score_list[emotion_list.index(emo)])  # 감정과 점수 입력
-                #     disgust_flag = True
-                # elif emo == '놀람' and surprise_flag is False:
-                #     df.at[index_word, '놀람'] += float(score_list[emotion_list.index(emo)])  # 감정과 점수 입력
-                #     surprise_flag = True
-    #
-    # anger_flag = False
-    # joy_flag = False
-    # sadness_flag = False
-    # fear_flag = False
-    # disgust_flag = False
-    # surprise_flag = False
     lem_list = df.at[index_word, 'lemma']
     for lem in lem_list:
         emotion_list, score_list = find_word_lemma(df_emotion, lem)
@@ -157,42 +100,16 @@ def input_emotion_word(df, index_word, df_emotion, token_list):
             for emo in emotion_list:
                 if emo == '분노':
                     df.at[index_word, '분노'] += float(score_list[emotion_list.index(emo)])  # 감정과 점수 입력
-                    anger_flag = True
                 elif emo == '기쁨':
                     df.at[index_word, '기쁨'] += float(score_list[emotion_list.index(emo)])  # 감정과 점수 입력
-                    joy_flag = True
                 elif emo == '슬픔':
                     df.at[index_word, '슬픔'] += float(score_list[emotion_list.index(emo)])  # 감정과 점수 입력
-                    sadness_flag = True
                 elif emo == '공포':
                     df.at[index_word, '공포'] += float(score_list[emotion_list.index(emo)])  # 감정과 점수 입력
-                    fear_flag = True
                 elif emo == '혐오':
                     df.at[index_word, '혐오'] += float(score_list[emotion_list.index(emo)])  # 감정과 점수 입력
-                    disgust_flag = True
                 elif emo == '놀람':
                     df.at[index_word, '놀람'] += float(score_list[emotion_list.index(emo)])  # 감정과 점수 입력
-                    surprise_flag = True
-
-                # if emo == '분노' and anger_flag is False:
-                #     df.at[index_word, '분노'] += float(score_list[emotion_list.index(emo)])  # 감정과 점수 입력
-                #     anger_flag = True
-                # elif emo == '기쁨' and joy_flag is False:
-                #     df.at[index_word, '기쁨'] += float(score_list[emotion_list.index(emo)])  # 감정과 점수 입력
-                #     joy_flag = True
-                # elif emo == '슬픔' and sadness_flag is False:
-                #     df.at[index_word, '슬픔'] += float(score_list[emotion_list.index(emo)])  # 감정과 점수 입력
-                #     sadness_flag = True
-                # elif emo == '공포' and fear_flag is False:
-                #     df.at[index_word, '공포'] += float(score_list[emotion_list.index(emo)])  # 감정과 점수 입력
-                #     fear_flag = True
-                # elif emo == '혐오' and disgust_flag is False:
-                #     df.at[index_word, '혐오'] += float(score_list[emotion_list.index(emo)])  # 감정과 점수 입력
-                #     disgust_flag = True
-                # elif emo == '놀람' and surprise_flag is False:
-                #     df.at[index_word, '놀람'] += float(score_list[emotion_list.index(emo)])  # 감정과 점수 입력
-                #     surprise_flag = True
-
     df.at[index_word, "감정 단어"] = emo_word
     return df
 
@@ -200,11 +117,10 @@ def input_emotion_word(df, index_word, df_emotion, token_list):
 # 화자 분석
 def input_character(df, index_word, listOfCharacter, token_list):
     subject, object, busa, kwanhyeong = parser(df, index_word, token_list, listOfCharacter)
-    count = [0 for i in range(len(listOfCharacter))]  # 문장 당 등장인물의 출현 횟su
+    count = [0 for i in range(len(listOfCharacter))]  # 문장 당 등장인물의 출현 횟수
     flag = True
     nplist = ["그", "그녀", ""]
     for i, token in enumerate(token_list):
-        # print(token)
         if token[0] in listOfCharacter:  # 문장에서 등장인물 등장 체크
             count[listOfCharacter.index(token[0])] += 1
             if token[0] in subject:
@@ -215,8 +131,6 @@ def input_character(df, index_word, listOfCharacter, token_list):
                 flag = True
             elif token[0] in kwanhyeong:
                 flag = True
-        if token[0] == '남편':  ## 잠시 테스트
-            df.at[index_word, '화자'] = '김첨지'
         if token[1] == 'NP':
             if token[0] in nplist:
                 if index_word > 0 and df.at[index_word - 1, "화자"] in listOfCharacter:
@@ -236,43 +150,6 @@ def input_character(df, index_word, listOfCharacter, token_list):
                     break
                 index_word += 2
                 df.at[index_word, '화자'] = ch
-    # subject, object, busa, kwanhyeong = parser(df, index_word, token_list, listOfCharacter)
-    # count = [0 for i in range(len(listOfCharacter))]  # 문장 당 등장인물의 출현 횟su
-    # flag = True
-    # nplist = ["그", "그녀", ""]
-    # for i, token in enumerate(token_list):
-    #     # print(token)
-    #     if token[0] in listOfCharacter:  # 문장에서 등장인물 등장 체크
-    #         count[listOfCharacter.index(token[0])] += 1
-    #         if token[0] in subject:
-    #             flag = True
-    #         elif token[0] in object:
-    #             flag = False
-    #         elif token[0] in busa:
-    #             flag = True
-    #         elif token[0] in kwanhyeong:
-    #             flag = True
-    #     if token[0] == '남편':  ## 잠시 테스트
-    #         df.at[index_word, '화자'] = '김첨지'
-    #     if token[1] == 'NP':
-    #         if token[0] in nplist:
-    #             if (index_word > 0 and df.at[index_word - 1, "화자"] in listOfCharacter):
-    #                 df.at[index_word, "화자"] = token[0] + "(" + df.at[index_word - 1, "화자"] + ")"
-    #                 if (df.at[index_word - 2, '연결 여부'] == '연결'):
-    #                     df.at[index_word - 2, "화자"] = df.at[index_word - 1, "화자"]
-    # for i, c in enumerate(count):
-    #     if c >= 1 & flag == True:
-    #         df.at[index_word, "화자"] = listOfCharacter[i]
-    #         if (index_word > 0 and df.at[index_word - 1, '연결 여부'] == '연결'):
-    #             df.at[index_word - 1, "화자"] = listOfCharacter[i]
-    # if (df.at[index_word, '대화 진행 여부'] == '시작'):
-    #     if (df.at[index_word, '화자'] != ""):
-    #         ch = df.at[index_word, '화자']
-    #         while (True):
-    #             if (df.at[index_word + 2, '대화 진행 여부'] == ""):
-    #                 break
-    #             index_word += 2
-    #             df.at[index_word, '화자'] = ch
     return df
 
 
@@ -288,10 +165,6 @@ def analyze_conversation(df):
         if con_kind == '대화문':
             conver = True
             cnt += 1
-            # if (df.at[index_word, '연결 여부'] == '연결'):
-            #     connect = True
-            # else:
-            #     connect = False
         elif con_kind == '서술문':
             if conver == True:
                 if (cnt >= 2):
@@ -303,11 +176,6 @@ def analyze_conversation(df):
                 else:
                     conver = False
                     cnt = 0
-            # if (connect == True):
-            #     connect = False
-            #     conver = True
-            #     cnt += 1
-            # else:
         index_word += 1
     return df
 
@@ -320,18 +188,14 @@ def input_main_sentence(df, index_word, token_list):
     flag = 0
     for i, token in enumerate(token_list):
         if token[1] == 'EF':
-            # print(token, token_list[i])
-            # print(i, j)
             for k in reversed(range(i)):
                 if k == 0:
                     for p in range(i):
                         if token_list[p][1] in termination_list:
-                            # print(token_list[p])
                             flag = 1
                             break
                 if flag == 1:
                     break
-                # print(k, token_list[k])
                 if token_list[k][1] == 'EC':
                     for s in range(k + 1, i + 1):
                         str += token_list[s][0] + " "
@@ -340,62 +204,6 @@ def input_main_sentence(df, index_word, token_list):
             if flag == 1:
                 flag = 0
                 break
-    # print(str)
-    # for k in range(j,i):
-    #     print(token_list[k])
-    #     known_pos_features, ignore_features = None,
-    #     min_noun_score = 0.3, min_noun_frequency = 100,
-    #     min_pos_score = 0.3, min_pos_feature_frequency = 1000,
-    #     min_num_of_unique_lastchar = 4, min_entropy_of_lastchar = 0.5,
-    #     min_noun_entropy = 1.5):
-    #
-    #     nouns = {noun for noun, score in prediction_scores.items()
-    #     if ((score[0] >= min_noun_score)
-    #             and (score[1] >= min_noun_frequency))}
-    #
-    #     if ignore_features is None:
-    #         ignore_features = {}
-    #
-    #     pos_candidates = {}
-    #     for noun in nouns:
-    #         for
-    #     r, count in lrgraph.get_r(noun, -1):
-    #     if (r in known_pos_features) or (r in ignore_features):
-    #         continue
-    #
-    #     pos_candidates[r] = pos_candidates.get(r, 0) + count
-    #
-    #     # 1st. frequency filtering (ignoring L is noun)
-    #     pos_candidates = {r: count for r, count in pos_candidates.items()
-    #                   if count >= min_pos_feature_frequency}
-    #
-    # # add known pos features for unknown feature prediction
-    # domain_pos_features = {r: None for r in known_pos_features}
-    #
-    # # from shorter to longer
-    # for r in sorted(pos_candidates, key=lambda x: len(x)):
-    #
-    #     if (r in known_pos_features) or (r in nouns):
-    #         continue
-    #
-    #     features = _get_noun_feature(r, lrgraph)
-    #     score, freq = predict(r, features, nouns, domain_pos_features,
-    #                           min_pos_score, min_pos_feature_frequency,
-    #                           min_num_of_unique_lastchar, min_entropy_of_lastchar)
-    #
-    #     # noun entropy
-    #     noun_sum = sum((c for l, c in features if l in nouns))
-    #     noun_entropy = [c / noun_sum for l, c in features if l in nouns]
-    #     noun_entropy = sum([-math.log(p) * p for p in noun_entropy])
-    #
-    #     if ((score >= min_pos_score) and
-    #             (freq >= min_pos_feature_frequency) and
-    #             (noun_entropy >= min_noun_entropy)):
-    #         domain_pos_features[r] = (score, freq)
-    #
-    # # remove known features
-    # domain_pos_features = {r: score for r, score in domain_pos_features.items()
-    #                        if not (r in known_pos_features)}
     return df
 
 
@@ -420,37 +228,11 @@ def get_frequency(token_list):
     for word in token_list:
         if word[1] in nList:
             count[word[0]] += 1
-            # print(word[0] + ":", count[word[0]])
 
 
-# 메인
-def analyze_sentence(df, listOfCharacter, df_emotion, charOfPage):
-    page_num = 1
-    length = 0
-    index_word = 0
-
-    df = analyze_conversation(df)
-    for line in df["문장"]:
-        # 문장 단위로 변경하면서 미사용
-        if length > charOfPage:
-            page_num = page_num + 1
-            length = 0
-        length = length + len(line)  #
-        df.at[index_word, "페이지 번호"] = page_num
-
-        token_list = morphs.tokenizer(line)
-        # parser(df, index, token_list,listOfCharacter)  # df에 주어,목적어 값 입력
-        df = input_character(df, index_word, listOfCharacter, token_list)  # df에 화자 값 입력
-        df = input_lemma(df, index_word, token_list)
-        df = input_main_sentence(df, index_word, token_list)
-        get_frequency(token_list)
-        df = input_emotion_word(df, index_word, df_emotion, token_list)  # df에 감정 단어 및 감정 값 입력
-        index_word = index_word + 1
-
-    return df
-
-def merge_character(df_sentence, listOfEmotion, listOfCharacter):
-    writer = pd.ExcelWriter("../res/output/등장인물.xlsx", engine='openpyxl')
+# 각 등장인물 문장 별 감정 값 데이터프레임 생성
+def merge_character(storyName, df_sentence, listOfEmotion, listOfCharacter):
+    writer = pd.ExcelWriter(f"../res/output/{storyName}/등장인물_문장.xlsx", engine='openpyxl')
 
     df_list_character = []
 
@@ -474,8 +256,9 @@ def merge_character(df_sentence, listOfEmotion, listOfCharacter):
     return df_list_character
 
 
-def merge_character_page(df_sentence, numOfPage, listOfEmotion, listOfCharacter):
-    writer = pd.ExcelWriter("../res/output/등장인물_페이지.xlsx", engine='openpyxl')
+# 각 등장인물 페이지 별 감정 값 합산 데이터프레임 생성
+def merge_character_page(storyName, df_sentence, numOfPage, listOfEmotion, listOfCharacter):
+    writer = pd.ExcelWriter(f"../res/output/{storyName}/등장인물_페이지.xlsx", engine='openpyxl')
 
     df_list_character = []
 
@@ -494,152 +277,27 @@ def merge_character_page(df_sentence, numOfPage, listOfEmotion, listOfCharacter)
     return df_list_character
 
 
-#### 단순 가중치 적용 모델
+# 문장 분석
+def analyze_sentence(df, listOfCharacter, df_emotion, charOfPage):
+    page_num = 0
+    length = 0
+    index_word = 0
 
-# def merge_character(df_sentence, listOfEmotion, listOfCharacter):
-#     writer = pd.ExcelWriter("../res/output/등장인물.xlsx", engine='openpyxl')
-#
-#     df_character = df_sentence[listOfEmotion]
-#     df_list_character = []
-#
-#     for character in listOfCharacter:
-#         # 해당 등장인물이 아닌 문장 감정 값 0으로 초기화
-#         for i in df_sentence.index:
-#             # i 행의 '화자' 열
-#             if df_sentence.loc[i]['화자'] != character:
-#                 df_character.loc[i, listOfEmotion] = 0
-#
-#         # 0 으로 초기화한 값 이전 값의 기울기 적용
-#         for emo in listOfEmotion:  # 감정 별로
-#
-#             index_last = 0
-#             score_last = 0
-#             index_now = 0
-#
-#             # 감정값이 0 인 문장 연속 개수
-#             # 20문장 이상일 경우 상황이 끝났다고 판단
-#             # 문법 분석에서 상황 종료 판단 가능 시 수정
-#             non_emotion_count = 1
-#             emotion_count = 1
-#             acc_value = 0
-#             proceeding_flag = False  # 상황 진행임을 알려주는 변수
-#
-#             s_emo = df_character[emo]  # 시리즈 추출
-#             for j in range(len(s_emo)):
-#                 if proceeding_flag:  # 상황 진행 중이라면
-#                     if non_emotion_count < 20:  # 감정이 없는 문장 20 연속으로 나오지 않았을 경우
-#                         if s_emo[j] == 0:
-#                             non_emotion_count = non_emotion_count + 1
-#                             s_emo[j] = s_emo[j] * 0.8
-#                         else:
-#                             non_emotion_count = 1
-#                         acc_value = acc_value + s_emo[j]
-#                         emotion_count = emotion_count + 1
-#                         s_emo[j] = s_emo[j] + acc_value  # 상황 진행 중의 감정의 평균 값을 가중치로 더함
-#                     else:  # 20연속 감정 없는 문장 등장 -> 상황 종료라고 판단
-#                         proceeding_flag = False  # 상황 종료
-#                         non_emotion_count = 1
-#                         emotion_count = 1
-#                         acc_value = 0
-#                 else:  # 상황 종료 중이였다면
-#                     if s_emo[j] != 0:  # 감정 문장 등장 -> 상황 시작
-#                         proceeding_flag = True
-#                         acc_value = s_emo[j]
-#                     else:
-#                         pass
-#
-#             df_character[emo] = s_emo.values
-#         df_character.to_excel(writer, sheet_name=f"{character}")
-#         df_list_character.append(df_character)
-#
-#     writer.save()
-#     return df_list_character
+    df = analyze_conversation(df)
+    for line in df["문장"]:
+        # 문장 단위로 변경하면서 미사용
+        if length > charOfPage:
+            page_num = page_num + 1
+            length = 0
+        length = length + len(line)  #
+        df.at[index_word, "페이지 번호"] = page_num
 
+        token_list = morphs.tokenizer(line)
+        df = input_character(df, index_word, listOfCharacter, token_list)  # df에 화자 값 입력
+        df = input_lemma(df, index_word, token_list)
+        df = input_main_sentence(df, index_word, token_list)
+        get_frequency(token_list)
+        df = input_emotion_word(df, index_word, df_emotion, token_list)  # df에 감정 단어 및 감정 값 입력
+        index_word = index_word + 1
 
-### 단순 절대값 적용 모델
-#
-# def merge_character(df_sentence, listOfEmotion, listOfCharacter):
-#     writer = pd.ExcelWriter("../res/output/등장인물.xlsx", engine='openpyxl')
-#
-#     df_character = df_sentence[listOfEmotion]
-#     df_list_character = []
-#
-#     for character in listOfCharacter:
-#         # 해당 등장인물이 아닌 문장 감정 값 0으로 초기화
-#         for i in df_sentence.index:
-#             # i 행의 '화자' 열
-#             if df_sentence.loc[i]['화자'] != character:
-#                 df_character.loc[i, listOfEmotion] = 0
-#
-#         # 0 으로 초기화한 값 이전 값의 기울기 적용
-#         for emo in listOfEmotion:  # 감정 별로
-#             s_emo = df_character[emo]  # 시리즈 추출
-#             for j in range(len(s_emo)):
-#                 if j != 0:
-#                     if s_emo[j] == 0:
-#                         s_emo[j] = s_emo[j-1] - 0.01
-#                     else:
-#                         s_emo[j] = s_emo[j-1] + s_emo[j]
-#             df_character[emo] = s_emo.values
-#         df_character.to_excel(writer, sheet_name=f"{character}")
-#         df_list_character.append(df_character)
-#
-#     writer.save()
-#     return df_list_character
-
-
-# 단순 기울기 적용 모델
-#
-# def merge_character(df_sentence, listOfEmotion, listOfCharacter):
-#     writer = pd.ExcelWriter("../res/output/등장인물.xlsx", engine='openpyxl')
-#
-#     df_character = df_sentence[listOfEmotion]
-#     df_list_character = []
-#
-#     for character in listOfCharacter:
-#         # 해당 등장인물이 아닌 문장 감정 값 0으로 초기화
-#         for i in df_sentence.index:
-#             # i 행의 '화자' 열
-#             if df_sentence.loc[i]['화자'] != character:
-#                 df_character.loc[i, listOfEmotion] = 0
-#
-#         # 0 으로 초기화한 값 이전 값의 기울기 적용
-#         for emo in listOfEmotion:  # 감정 별로
-#             index_last = 0
-#             score_last = 0
-#             index_now = 0
-#
-#             s_emo = df_character[emo]  # 시리즈 추출
-#             for v in s_emo.values:  #
-#                 if v != 0:
-#                     incl = (score_last - v) / (index_last - index_now)  # x 변화량 / y 변화량 = 기울기
-#                     for j in range(index_last + 1, index_now):  # 사이 값
-#                         s_emo[j] = score_last + incl * (j - index_last)  # 기울기* x 변화량 만큼 증감
-#                     index_last = index_now
-#                     score_last = v
-#                 index_now = index_now + 1
-#             df_character[emo] = s_emo.values
-#         df_character.to_excel(writer, sheet_name=f"{character}")
-#         df_list_character.append(df_character)
-#     writer.save()
-#     return df_list_character
-
-# 페이지 단위
-def merge_sentence_page(df_sentence, numOfPage, listOfEmotion, listOfCharacter):
-    writer = pd.ExcelWriter("../res/output/등장인물.xlsx", engine='openpyxl')
-
-    df_list_character = []
-    df_character = pd.DataFrame(index=range(0, numOfPage), columns=[f"{emotion}" for emotion in listOfEmotion])
-
-    for character in listOfCharacter:
-        for num in range(0, numOfPage):
-            m1 = ((df_sentence['페이지 번호'] == num) & (df_sentence['화자'] == character))
-            page_filtered_df = df_sentence.loc[m1]
-            page_filtered_df = page_filtered_df.loc[:, ('기쁨', '슬픔', '분노', '공포', '혐오', '놀람')]  # 추출한 행들의 감정 열 추출
-            emotion_sum_df = page_filtered_df.sum(axis=0)  # 감정 별 합 추출
-            df_character.loc[num] = emotion_sum_df  # 등장인물 데이터프레임에 감정 별 합 대입
-        df_list_character.append(df_character)
-        df_character.to_excel(writer, sheet_name=f"{character}")
-
-    writer.save()
-    return df_list_character
+    return df, page_num + 1

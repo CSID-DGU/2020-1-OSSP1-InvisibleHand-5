@@ -28,7 +28,6 @@ def emotion_pos_tagging():
 
         pos = pos_tagger.tag([word])
         tag_first = pos[0][1][0]
-        #print(pos)
         if tag_first in tag_target:
             if tag_first == 'V':
                 tag_list.append('동사')
