@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>소설 감정흐름 분석</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="main.css" type="text/css" />
+    <script type="text/javascript">
+        function add_character() {
+            var div = document.createElement('div');
+
+            div.innerHTML = document.getElementById('character').innerHTML;
+            document.getElementById('field').appendChild(div);
+        }
+
+        function remove_character(obj) {
+            document.getElementById('field').removeChild(obj.parentNode);
+        }
+    </script>
+
+<body>
+
+    <body>
+        <!------ 제목  ------>
+        <div class="title">
+            <h1>
+                소설 감정흐름 분석
+            </h1>
+            <h2>
+                소설 텍스트 파일과 분석할 등장인물을 입력해주세요.
+            </h2>
+        </div>
+
+        <!------ 텍스트 파일 및 등장인물 입력 ------>
+        <div class="container">
+
+            <form class="form" action="/books/analyze" method="post" enctype='multipart/form-data'>
+                <!-- 텍스트 파일 입력 -->
+                <div class="file-upload-wrapper" data-text="">
+                    <input id="file" name="book" type="file" class="file-upload-field" value="">
+                </div>
+
+                <!-- 등장인물 이름 입력 -->
+                <input class="button" type="button" value="추가" onclick="add_character()">
+                <div class="character" id="character">
+                    <input name="character_name" type="text" placeholder="등장인물 이름" />
+
+                    <input class="button" type="button" value="삭제" onclick="remove_character(this)">
+                </div>
+                <div id="field"> </div>
+                <button>분석</button>
+            </form>
+        </div>
+
+
+
+        <!------ 결과 그래프 출력 ------>
+        <%if(locals.err){%>
+        <%=err%>
+        <%}else if(locals.success){%>
+        <%-success%>
+        <%}%>
+
+</body>
+
+</html>
